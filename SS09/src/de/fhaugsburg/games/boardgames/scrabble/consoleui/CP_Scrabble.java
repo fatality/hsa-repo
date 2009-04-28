@@ -9,6 +9,7 @@ import de.fhaugsburg.games.boardgames.connect4.consoleui.Command;
 import de.fhaugsburg.games.boardgames.scrabble.BoardView;
 import de.fhaugsburg.games.boardgames.scrabble.ScrabbleEngine;
 //import exceptions.GameOver;
+import de.fhaugsburg.games.boardgames.scrabble.application.ScrabbleLauncher;
 
 public class CP_Scrabble {
 	
@@ -20,7 +21,12 @@ public class CP_Scrabble {
 	ScrabbleEngine scrabbleengine = new ScrabbleEngine();
 	private BoardView boardview = new BoardView();
 	
+
 	
+	/**
+	 * 
+	 * @throws IOException
+	 */
 	public void scrabble() throws IOException {
 		while(true) {
 			command = null;
@@ -29,12 +35,13 @@ public class CP_Scrabble {
 			this.commandInput = read.readLine();
 		
 			String[] inputRefine = commandInput.split(" ");
+			
 			command = Command.valueOf(inputRefine[0].toUpperCase());
 
 			switch(command) {
 			case ADD:
 				try {
-					scrabbleengine.setPiece(Integer.parseInt(inputRefine[1])-1, Integer.parseInt(inputRefine[2])-1, LetterPiece.valueOf(inputRefine[3]));
+					scrabbleengine.setPiece(Integer.parseInt(inputRefine[1])-1, (Integer.parseInt(inputRefine[2])-1), LetterPiece.valueOf(inputRefine[3]));
 					boardview.render(scrabbleengine.board);
 				} catch (NumberFormatException e) {
 					System.out.println("Falsche Eingabe! Bitte nochmal probieren");
@@ -47,8 +54,20 @@ public class CP_Scrabble {
 				System.out.println("Good bye!");
 				System.exit(0);
 				break;
+			case NEWGAME:
+				ScrabbleLauncher.main(inputRefine);
+				break;
+			case HELP:
+				System.out.println("Eingabehilfe:");
+				System.out.println("ADD, ColumnNumber, RowLetter, StoneLetter");
+				System.out.println("Bitte immer ein Leerzeichen zwischen den Eingaben machen!");
+				System.out.println("COMMIT: Gibt den Punktestand des abgefragten Wortes aus!");
+				System.out.println("NEWGAME: Fängt ein neues Spiel an!");
+				System.out.println("EXIT: Spiel verlassen!");
+				break;
 			}
+			
 		}
 	}
-	
+
 }

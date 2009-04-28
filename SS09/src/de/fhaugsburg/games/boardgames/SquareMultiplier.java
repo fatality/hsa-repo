@@ -1,5 +1,9 @@
 package de.fhaugsburg.games.boardgames;
-
+/**
+ * 
+ * @author P-chanxxx
+ *
+ */
 public enum SquareMultiplier {
 	
 	// Anlegung der Konstanten
@@ -11,12 +15,18 @@ public enum SquareMultiplier {
 
 	private int multiplier;
 	
-	
+	/**
+	 * 
+	 * @param multiplier
+	 */
 	SquareMultiplier(int multiplier) {
 		this.multiplier = multiplier;
 	}
 	
-	
+	/**
+	 * 
+	 * @return
+	 */
 	public int getMultiplier() {
 		return multiplier;
 	}

@@ -13,10 +13,15 @@ public class ScrabbleEngine {
 	public ScrabbleBoard board = new ScrabbleBoard(15,15);
 	private Player player1 = new Player("player1");
 	private Player player2 = new Player("player2");
-	private Player currentPlayer = player1;
+	public Player currentPlayer = player1;
 	private int amountPoints = 0;
 	private int WordMultiplier = 1;
-	
+	/**
+	 * 
+	 * @param columns
+	 * @param rows
+	 * @param toSet
+	 */
 	public void setPiece(int columns, int rows, LetterPiece toSet) {
 		board.putPiece(columns, rows, toSet);
 		
@@ -29,7 +34,9 @@ public class ScrabbleEngine {
 		
 	}
 	
-	
+	/**
+	 * 
+	 */
 	public void finishedWord() {
 		currentPlayer.addPoints(amountPoints * WordMultiplier);
 		WordMultiplier = 1;
@@ -43,5 +50,7 @@ public class ScrabbleEngine {
 		}
 		
 	}
+
+
 	
 }

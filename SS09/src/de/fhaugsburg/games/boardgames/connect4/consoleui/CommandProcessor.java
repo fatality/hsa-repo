@@ -14,7 +14,10 @@ public class CommandProcessor {
 	private String commandInput;
 	private Command command;
 	
-
+/**
+ * 
+ * @throws IOException
+ */
 	public void game() throws IOException {
 		
 		while(true) {
