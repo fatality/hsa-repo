@@ -7,7 +7,7 @@ public class ScrabbleSquareDetails<D> {
 	
 	
 	public int getWordMultiplier() {
-		return SquareMultiplier.WORDMULTIPLIER.getWordMultiplier();
+		return SquareMultiplier.WordMultiplier_2.getMultiplier();
 	}
 	
 	
@@ -17,7 +17,7 @@ public class ScrabbleSquareDetails<D> {
 	
 	
 	public int getLetterMultiplier() {
-		return SquareMultiplier.LETTERMULTIPLIER.getLetterMultiplier();
+		return SquareMultiplier.LetterMultiplier_2.getMultiplier();
 	}
 	
 	
