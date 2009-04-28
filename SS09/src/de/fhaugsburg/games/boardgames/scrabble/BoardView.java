@@ -22,7 +22,7 @@ public class BoardView  {
 		
 		System.out.println();
 		
-		for (int s = rows-1, i = 65; s >= 0; s--, i++) {
+		for (int s = 0, i = 65; s < rows; s++, i++) {
 			System.out.print((char)i);
 			for (int z = 0; z < columns; z++) {
 				if(whatRender.getSquare(z, s).getPiece() == null) {
