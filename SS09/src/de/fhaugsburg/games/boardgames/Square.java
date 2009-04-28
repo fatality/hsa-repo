@@ -5,6 +5,8 @@ public class Square<T> {
 	private T currentPiece;
 	
 	public SquareMultiplier multi;
+	
+	@SuppressWarnings("unused")
 	private IPiece piece;
 	
 	

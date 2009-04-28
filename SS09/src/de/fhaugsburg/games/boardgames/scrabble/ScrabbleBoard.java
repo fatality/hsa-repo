@@ -1,14 +1,15 @@
 package de.fhaugsburg.games.boardgames.scrabble;
 
 import de.fhaugsburg.games.boardgames.Board;
-import de.fhaugsburg.games.boardgames.IPiece;
+//import de.fhaugsburg.games.boardgames.IPiece;
 import de.fhaugsburg.games.boardgames.LetterPiece;
-import de.fhaugsburg.games.boardgames.OutsideBoardException;
+//import de.fhaugsburg.games.boardgames.OutsideBoardException;
 import de.fhaugsburg.games.boardgames.Square;
 import de.fhaugsburg.games.boardgames.SquareMultiplier;
-import exceptions.FullException;
-import exceptions.GameOver;
+//import exceptions.FullException;
+//import exceptions.GameOver;
 
+@SuppressWarnings("unchecked")
 public class ScrabbleBoard extends Board  {
 	
 	public ScrabbleBoard(int columns, int rows) {
@@ -62,7 +63,9 @@ public class ScrabbleBoard extends Board  {
 	}
 	
 	
+	@SuppressWarnings("unused")
 	private final int availableTurns = 110;
+	
 	private int count = 0;
 	
 	

@@ -4,6 +4,8 @@ public class Board <P extends IPiece, D> {
 	
 	public int rows;
 	public int columns;
+	
+	@SuppressWarnings("unchecked")
 	public Square[][] sq;
 	
 	
@@ -18,11 +20,13 @@ public class Board <P extends IPiece, D> {
 	}
 	
 	
+	@SuppressWarnings("unchecked")
 	public Square getSquare(int columns, int row) {
 		return sq[columns][row];
 	}
 	
 	
+	@SuppressWarnings("unchecked")
 	public void putPiece(Square square, int columns, int row) {
 		sq[columns][row] = square;
 	}

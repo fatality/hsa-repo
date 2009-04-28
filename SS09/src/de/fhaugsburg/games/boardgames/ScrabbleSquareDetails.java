@@ -2,7 +2,10 @@ package de.fhaugsburg.games.boardgames;
 
 public class ScrabbleSquareDetails<D> {
 	
+	@SuppressWarnings("unused")
 	private SquareMultiplier letterMultiplier;
+	
+	@SuppressWarnings("unused")
 	private SquareMultiplier wordMultiplier;
 	
 	

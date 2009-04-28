@@ -1,8 +1,8 @@
 package de.fhaugsburg.games.boardgames.scrabble;
 
-import de.fhaugsburg.games.boardgames.Board;
+//import de.fhaugsburg.games.boardgames.Board;
 import de.fhaugsburg.games.boardgames.LetterPiece;
-import de.fhaugsburg.games.boardgames.Square;
+//import de.fhaugsburg.games.boardgames.Square;
 
 public class BoardView {
 	

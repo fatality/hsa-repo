@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import de.fhaugsburg.games.boardgames.OutsideBoardException;
 import de.fhaugsburg.games.boardgames.connect4.Connect4Engine;
-import exceptions.FullException;
+//import exceptions.FullException;
 import exceptions.GameOver;
 
 public class CommandProcessor {

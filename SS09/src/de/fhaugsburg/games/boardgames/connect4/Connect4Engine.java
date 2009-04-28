@@ -1,12 +1,12 @@
 package de.fhaugsburg.games.boardgames.connect4;
 
-import de.fhaugsburg.games.boardgames.OutsideBoardException;
-import de.fhaugsburg.games.boardgames.Board;
+//import de.fhaugsburg.games.boardgames.OutsideBoardException;
+//import de.fhaugsburg.games.boardgames.Board;
 import de.fhaugsburg.games.boardgames.Piece;
 import de.fhaugsburg.games.boardgames.PlayerMode;
 import de.fhaugsburg.games.boardgames.Square;
 import de.fhaugsburg.games.boardgames.connect4.strategy.RandomRobot;
-import exceptions.GameOver;
+//import exceptions.GameOver;
 
 public class Connect4Engine {
 	
@@ -16,7 +16,10 @@ public class Connect4Engine {
 	public Connect4Board set = new Connect4Board(7, 6);
 	private PlayerMode currentMode = PlayerMode.SINGLE;
 	RandomRobot rb = new RandomRobot();
+	
+	@SuppressWarnings("unchecked")
 	Square[][] sq = new Square[columns][rows];
+	
 	int currentRow;
 	
 	
@@ -29,6 +32,7 @@ public class Connect4Engine {
 	}
 	
 	
+	@SuppressWarnings("unchecked")
 	private void singlePlayer(int column) {	
 		currentRow = set.putPiece(new Square(currentPiece), column);
 		checkerChanger(column, currentRow);
@@ -39,6 +43,7 @@ public class Connect4Engine {
 	}
 	
 
+	@SuppressWarnings("unchecked")
 	public void doToggle(int columns) {
 		switch(currentPiece) {
 		case X:
@@ -47,7 +52,7 @@ public class Connect4Engine {
 			currentPiece = Piece.O;
 			break;
 		case O:
-			currentRow = set.putPiece(new Square(currentPiece), columns); //er fhrt die Methode aus und speichert den Rckgabewert F in der currentRow
+			currentRow = set.putPiece(new Square(currentPiece), columns); //er führt die Methode aus und speichert den Rückgabewert F in der currentRow
 			checkerChanger(columns, currentRow);
 			currentPiece = Piece.X;
 			break;

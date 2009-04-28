@@ -7,6 +7,7 @@ import de.fhaugsburg.games.boardgames.connect4.consoleui.ColumnOverrunException;
 import exceptions.FullException;
 import exceptions.GameOver;
 
+@SuppressWarnings("unchecked")
 public class Connect4Board extends Board {
 	
 	public Connect4Board(int columns, int rows) {

@@ -7,7 +7,9 @@ import de.fhaugsburg.games.boardgames.SquareMultiplier;
 
 public class ScrabbleEngine {
 	
+	@SuppressWarnings("unused")
 	private IPiece ipiece;
+	
 	public ScrabbleBoard board = new ScrabbleBoard(15,15);
 	private Player player1 = new Player("player1");
 	private Player player2 = new Player("player2");

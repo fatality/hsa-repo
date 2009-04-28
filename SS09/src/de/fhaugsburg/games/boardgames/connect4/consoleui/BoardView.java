@@ -1,9 +1,9 @@
 package de.fhaugsburg.games.boardgames.connect4.consoleui;
 
-import de.fhaugsburg.games.boardgames.Board;
-import de.fhaugsburg.games.boardgames.Square;
+//import de.fhaugsburg.games.boardgames.Board;
+//import de.fhaugsburg.games.boardgames.Square;
 import de.fhaugsburg.games.boardgames.connect4.Connect4Board;
-import exceptions.GameOver;
+//import exceptions.GameOver;
 
 public class BoardView {
 	

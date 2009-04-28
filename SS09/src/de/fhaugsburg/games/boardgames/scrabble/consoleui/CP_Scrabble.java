@@ -4,15 +4,17 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import de.fhaugsburg.games.boardgames.LetterPiece;
-import de.fhaugsburg.games.boardgames.OutsideBoardException;
+//import de.fhaugsburg.games.boardgames.OutsideBoardException;
 import de.fhaugsburg.games.boardgames.connect4.consoleui.Command;
 import de.fhaugsburg.games.boardgames.scrabble.BoardView;
 import de.fhaugsburg.games.boardgames.scrabble.ScrabbleEngine;
-import exceptions.GameOver;
+//import exceptions.GameOver;
 
 public class CP_Scrabble {
 	
+	@SuppressWarnings("unused")
 	private BoardView render = new BoardView();
+	
 	private String commandInput;
 	private Command command;
 	ScrabbleEngine scrabbleengine = new ScrabbleEngine();
