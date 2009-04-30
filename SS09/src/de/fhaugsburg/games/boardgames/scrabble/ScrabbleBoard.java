@@ -8,13 +8,11 @@ import de.fhaugsburg.games.boardgames.Square;
 import de.fhaugsburg.games.boardgames.SquareMultiplier;
 //import exceptions.FullException;
 //import exceptions.GameOver;
-/**
- * 
- */
+
 @SuppressWarnings("unchecked")
 public class ScrabbleBoard extends Board  {
 	/**
-	 * 
+	 * Erstellt das spezielle ScrabbleBoard
 	 * @param columns
 	 * @param rows
 	 */
@@ -74,9 +72,6 @@ public class ScrabbleBoard extends Board  {
 	
 	private int count = 0;
 	
-	/*
-	 * 
-	 */
 	public void putPiece(int columns, int rows, LetterPiece piece) {
 		count++;
 		sq[columns][rows].put(piece);

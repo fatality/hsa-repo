@@ -6,7 +6,7 @@ import de.fhaugsburg.games.boardgames.scrabble.consoleui.CP_Scrabble;
 
 public class ScrabbleLauncher {
 	/**
-	 * 
+	 * Startet das ScrabbleSpiel
 	 * @param args
 	 * @throws IOException
 	 */

@@ -1,7 +1,5 @@
 package de.fhaugsburg.games.boardgames;
 /**
- * 
- * @author P-chanxxx
  *
  * @param <T>
  */
@@ -48,7 +46,7 @@ public class Square<T> {
 	
 	/**
 	 * 
-	 * @return
+	 * @return currentPiece
 	 */
 	public T removePiece() {
 		this.currentPiece = null;
@@ -57,7 +55,7 @@ public class Square<T> {
 	
 	/**
 	 * 
-	 * @return
+	 * @return multi.getMultiplier
 	 */
 	public int getMultiplier() {
 		return multi.getMultiplier();

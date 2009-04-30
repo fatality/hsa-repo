@@ -24,8 +24,8 @@ public class CP_Scrabble {
 
 	
 	/**
-	 * 
-	 * @throws IOException
+	 * CommandProzessor für Scrabblespiel
+	 * @throws IOException NumberFormatException
 	 */
 	public void scrabble() throws IOException {
 		while(true) {

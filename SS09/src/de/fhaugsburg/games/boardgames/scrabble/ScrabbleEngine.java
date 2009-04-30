@@ -17,7 +17,7 @@ public class ScrabbleEngine {
 	private int amountPoints = 0;
 	private int WordMultiplier = 1;
 	/**
-	 * 
+	 * Setzt den Spielstein
 	 * @param columns
 	 * @param rows
 	 * @param toSet
@@ -35,7 +35,7 @@ public class ScrabbleEngine {
 	}
 	
 	/**
-	 * 
+	 * Zählt die Punkte des Wortes zusammen
 	 */
 	public void finishedWord() {
 		currentPlayer.addPoints(amountPoints * WordMultiplier);

@@ -2,14 +2,10 @@ package de.fhaugsburg.games.boardgames.scrabble;
 
 import de.fhaugsburg.games.boardgames.LetterPiece;
 import de.fhaugsburg.games.boardgames.SquareMultiplier;
-/**
- * 
- * @author P-chanxxx
- *
- */
+
 public class BoardView  {
 	/**
-	 * 
+	 * Gibt das Spielfeld aus
 	 * @param whatRender
 	 */
 	public void render(ScrabbleBoard whatRender) {

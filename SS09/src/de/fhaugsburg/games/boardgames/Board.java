@@ -9,7 +9,7 @@ public class Board <P extends IPiece, D> {
 	public Square[][] sq;
 	
 	/**
-	 * Konstruktor der Klasse Board.
+	 * Konstruktor der Klasse Board. Zum erstellen des Boards.
 	 * @param columns
 	 * @param rows
 	 */
@@ -18,9 +18,7 @@ public class Board <P extends IPiece, D> {
 		this.columns = columns;
 		sq = new Square[columns][rows];
 	}
-	/**
-	 * 
-	 */
+	
 	public void reset() {
 		sq = new Square[columns][rows];
 	}
@@ -48,7 +46,7 @@ public class Board <P extends IPiece, D> {
 	}
 	
 	/**
-	 * 
+	 * Zum bewegen eines Spielsteins
 	 * @param fromRow
 	 * @param fromColumn
 	 * @param toRow
@@ -60,7 +58,7 @@ public class Board <P extends IPiece, D> {
 	}
 	
 	/**
-	 * 
+	 * Entfernen eines Spielsteins
 	 * @param row
 	 * @param column
 	 */
@@ -69,7 +67,7 @@ public class Board <P extends IPiece, D> {
 	}
 	
 	/**
-	 * 
+	 * Testen ob ein Spielstein auf dem Speilfeld gesetzt ist
 	 * @param columns
 	 * @param rows
 	 * @return
@@ -83,7 +81,7 @@ public class Board <P extends IPiece, D> {
 	}
 	
 	/**
-	 * 
+	 * Testet, ob Spielfeld leer ist
 	 * @param columns
 	 * @param rows
 	 * @return
@@ -97,7 +95,7 @@ public class Board <P extends IPiece, D> {
 	}
 	
 	/**
-	 * 
+	 * Gibt die Höhe des Spielfelds zurück
 	 * @return
 	 */
 	public int getHeight()  {
@@ -105,7 +103,7 @@ public class Board <P extends IPiece, D> {
 	}
 	
 	/**
-	 * 
+	 * Gibt die Breite des Spielfelds zurück
 	 * @return
 	 */
 	public int getWidth() {

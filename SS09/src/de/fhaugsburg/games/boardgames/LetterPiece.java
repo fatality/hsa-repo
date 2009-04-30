@@ -1,10 +1,5 @@
 package de.fhaugsburg.games.boardgames;
 
-/**
- * 
- * @author P-chanxxx
- *
- */
 public enum LetterPiece implements IPiece {
 	
 	 A(1), D(1), E(1), I(1), N(1), R(1), S(1), T(1), U(1),
@@ -19,23 +14,18 @@ public enum LetterPiece implements IPiece {
 	 private int count;
 	 private int points;
 	 /**
-	  * 
+	  * Übergibt den Wert des Letters
 	  * @param var
 	  */
 	 LetterPiece(int var) {
 		 points = var;
 	 }
-	 
-	 /**
-	  * 
-	  */
+	
 	 public int getPoints() {
 		 return points;
 	 }
 	 
-	 /**
-	  * 
-	  */
+
 	 public int getCount() {
 		 return count;
 	 }

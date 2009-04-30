@@ -1,7 +1,5 @@
 package de.fhaugsburg.games.boardgames;
 /**
- * 
- * @author P-chanxxx
  *
  * @param <D>
  */
