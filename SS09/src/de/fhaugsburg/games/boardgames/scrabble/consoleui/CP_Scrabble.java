@@ -41,11 +41,11 @@ public class CP_Scrabble {
 			switch(command) {
 			case ADD:
 				try {
-					scrabbleengine.setPiece(Integer.parseInt(inputRefine[1])-1, (Integer.parseInt(inputRefine[2])-1), LetterPiece.valueOf(inputRefine[3]));
+					scrabbleengine.setPiece(Integer.parseInt(inputRefine[1])-1, (Integer.parseInt(inputRefine[2])-1), LetterPiece.valueOf(inputRefine[3].toUpperCase()));
 					boardview.render(scrabbleengine.board);
 				} catch (NumberFormatException e) {
 					System.out.println("Falsche Eingabe! Bitte nochmal probieren");
-				}
+				} 
 				break;
 			case COMMIT:
 				scrabbleengine.finishedWord();
