@@ -1,7 +1,7 @@
 package de.fhaugsburg.games.boardgames;
 
 public class Board <P extends IPiece, D> {
-	
+	// blöddd
 	public int rows;
 	public int columns;
 	
