@@ -1,0 +1,10 @@
+de.fhaugsburg.games.boardgames
+de.fhaugsburg.games.boardgames.connect4
+de.fhaugsburg.games.boardgames.connect4.application
+de.fhaugsburg.games.boardgames.connect4.consoleui
+de.fhaugsburg.games.boardgames.connect4.strategy
+de.fhaugsburg.games.boardgames.scrabble
+de.fhaugsburg.games.boardgames.scrabble.application
+de.fhaugsburg.games.boardgames.scrabble.consoleui
+de.fhaugsburg.games.boardgames.scrabble.management
+exceptions
