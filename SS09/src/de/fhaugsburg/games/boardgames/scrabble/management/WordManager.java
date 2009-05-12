@@ -1,6 +1,8 @@
 package de.fhaugsburg.games.boardgames.scrabble.management;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.Vector;
@@ -33,13 +35,21 @@ public class WordManager {
 	@SuppressWarnings("unchecked")
 	private SortedSet placedGPs;
 	private int column, row;
-	
+	private boolean middle = false;
 	@SuppressWarnings("unchecked")
 	public void addPiece(LetterPiece piece, GridPoint point){
-		if(point.isManhattenColinearWith(placedGPs)) {
+	if (middle == false) {
+		if(point.column == 7 && point.row == 7){
 			board.putPiece(column, row, piece);
-			placedGPs.add(point);
+			middle = true;
+		} else{
+			throw new IllegalPieceOperationException();
 		}
+	}
+	if (point.isManhattenColinearWith(placedGPs)){
+		board.putPiece(column, row, piece);
+		placedGPs.add(point);
+	}
 	}
 	
 	/**
@@ -57,14 +67,17 @@ public class WordManager {
 	 * Liefert alle jemals gesetzten, akzeptierten Wörter zurück.
 	 * @return
 	 */
-	public List<String> getProducedWords() {
-		List<String> words = new Vector<String>();
-		
-		for (@SuppressWarnings("unused") String gpList : getProducedWords()) {
-			
-		}
-		return words;
-	}
+	private GridPoint startPoint;
+	
+	Set<String> set = new TreeSet<String>();//collection
+	Iterator<GridPoint> itr = board.iterator(startPoint, manhattenDirection.gridPoint, true);
+//	public List<String> getProducedWords() {
+//
+//		//alle gelegten Zeichen in die Collection einfügen
+//		while(itr.hasNext()){
+//		set.addAll(placedGPs);
+//		}
+//	}
 	
 	public void commitLetterSequence(boolean first) {
 		
