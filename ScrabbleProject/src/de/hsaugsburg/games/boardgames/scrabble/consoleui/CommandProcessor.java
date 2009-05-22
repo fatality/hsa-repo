@@ -4,8 +4,8 @@ import de.hsaugsburg.games.boardgames.ICommand;
 import de.hsaugsburg.games.boardgames.exceptions.IllegalPieceOperationException;
 import de.hsaugsburg.games.boardgames.exceptions.InvalidStateException;
 import de.hsaugsburg.games.boardgames.exceptions.OutsideBoardException;
+import de.hsaugsburg.games.boardgames.scrabble.IScrabbleEngine;
 import de.hsaugsburg.games.boardgames.scrabble.LetterPiece;
-import de.hsaugsburg.games.boardgames.scrabble.ScrabbleEngine;
 import de.hsaugsburg.games.boardgames.scrabble.ScrabbleEngine.State;
 
 /**
@@ -13,10 +13,10 @@ import de.hsaugsburg.games.boardgames.scrabble.ScrabbleEngine.State;
  */
 public class CommandProcessor {
 	
-	private ScrabbleEngine engine;
+	private IScrabbleEngine engine;
 	private BoardView view;
 	
-	public CommandProcessor(ScrabbleEngine engine, BoardView view) {
+	public CommandProcessor(IScrabbleEngine engine, BoardView view) {
 		this.engine = engine;
 		this.view = view;
 	}

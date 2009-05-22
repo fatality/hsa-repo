@@ -6,7 +6,7 @@ import de.hsaugsburg.games.boardgames.exceptions.IllegalPieceOperationException;
 import de.hsaugsburg.games.boardgames.exceptions.InvalidStateException;
 import de.hsaugsburg.games.boardgames.exceptions.OutsideBoardException;
 
-public class ScrabbleEngine {
+public class ScrabbleEngine implements IScrabbleEngine {
 	
 	private RandomPool<LetterPiece> pool;
 	private WordManager manager;
@@ -25,6 +25,9 @@ public class ScrabbleEngine {
 		this.view = view;
 	}
 	
+	/* (non-Javadoc)
+	 * @see de.hsaugsburg.games.boardgames.scrabble.IScrabbleEngine#engageState(de.hsaugsburg.games.boardgames.scrabble.ScrabbleEngine.State)
+	 */
 	public void engageState(State newState) throws InvalidStateException, IllegalPieceOperationException, OutsideBoardException {
 		State currentState = newState;
 		boolean running = true;
@@ -97,16 +100,25 @@ public class ScrabbleEngine {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see de.hsaugsburg.games.boardgames.scrabble.IScrabbleEngine#givePieces()
+	 */
 	public void givePieces() {
 		for (int i = manager.getPlayer().getMyPieces().size(); i < 7 && !pool.empty(); i++) {
 			manager.getPlayer().receive(pool.take());
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see de.hsaugsburg.games.boardgames.scrabble.IScrabbleEngine#addPiece(de.hsaugsburg.games.boardgames.scrabble.LetterPiece, int, int)
+	 */
 	public void addPiece(LetterPiece piece, int row, int column) throws IllegalPieceOperationException, OutsideBoardException {
 		manager.addPiece(piece, new GridPoint(row, column));
 	}
 	
+	/* (non-Javadoc)
+	 * @see de.hsaugsburg.games.boardgames.scrabble.IScrabbleEngine#removePiece(int, int)
+	 */
 	public void removePiece(int row, int column) throws IllegalPieceOperationException, OutsideBoardException {
 		manager.removePiece(new GridPoint(row, column));
 	}
