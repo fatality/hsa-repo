@@ -19,9 +19,14 @@ public class ScrabbleLauncher {
 		final ScrabbleBoard board = new ScrabbleBoard();
 		final BoardView view = new BoardView(board);
 		final IScrabbleEngine engine = new ScrabbleEngine(board, view);
-		final CommandProcessor processor = new CommandProcessor(engine, view);
+		final IScrabbleEngine proxy = (IScrabbleEngine) Proxy.newProxyInstance(
+				IScrabbleEngine.class.getClassLoader(),
+					new Class[] { IScrabbleEngine.class },
+					new EventLogger(engine));
+		final CommandProcessor processor = new CommandProcessor(proxy, view);
 		view.printHelp();
 		processor.process();
+		
 
 
 		
