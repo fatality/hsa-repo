@@ -4,16 +4,15 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-public class EventLogger implements InvocationHandler{
+public class EventLogger implements InvocationHandler {
 
 	private IScrabbleEngine ise;
 	
-	public EventLogger(IScrabbleEngine ise){
+	public EventLogger(IScrabbleEngine ise) {
 		this.ise = ise;
 	}
-	@Override
-	public Object invoke(Object poxy, Method method, Object[] args)
-			throws Throwable {
+	
+	public Object invoke(Object poxy, Method method, Object[] args) throws Throwable {
 		 System.out.print("* calling method " + method + " with params ");
 	        for (int i = 0; i < args.length; i++) 
 	            System.out.print(" " + args[i]);
