@@ -14,8 +14,12 @@ public class EventLogger implements InvocationHandler {
 	
 	public Object invoke(Object poxy, Method method, Object[] args) throws Throwable {
 		System.out.print("* calling method " + method + " with params ");
-		for (int i = 0; i < args.length; i++)
-			System.out.print(" " + args[i]);
+		StringBuffer sb = new StringBuffer(300);
+		if(args != null) {
+	        for (int i = 0; i < args.length; i++) {
+	            sb.append(" " + args[i]);
+	        }
+		} 
 		System.out.println();
 		Object result = null;
 		try {

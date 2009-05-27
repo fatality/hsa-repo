@@ -24,11 +24,11 @@ public class ScrabbleLauncher {
 //		catch (IOException e) {
 //			
 //		}
-		final ScrabbleBoard board = new ScrabbleBoard();
-		final BoardView view = new BoardView(board);
+		ScrabbleBoard board = new ScrabbleBoard();
+		BoardView view = new BoardView(board);
 		IScrabbleEngine engine = new ScrabbleEngine(board, new RandomPool<LetterPiece>());
-		final IScrabbleEngine proxy = (IScrabbleEngine) Proxy.newProxyInstance(IScrabbleEngine.class.getClassLoader(),new Class[] { IScrabbleEngine.class },new EventLogger(engine));
-		final CommandProcessor processor = new CommandProcessor(proxy, view);
+		IScrabbleEngine proxy = (IScrabbleEngine) Proxy.newProxyInstance(IScrabbleEngine.class.getClassLoader(),new Class[] { IScrabbleEngine.class },new EventLogger(engine));
+		CommandProcessor processor = new CommandProcessor(proxy, view);
 		view.printHelp();
 		processor.process();
 	}
