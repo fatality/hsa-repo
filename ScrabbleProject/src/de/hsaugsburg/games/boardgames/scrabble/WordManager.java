@@ -7,7 +7,6 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.logging.ConsoleHandler;
 import de.hsaugsburg.games.boardgames.GridPoint;
 import de.hsaugsburg.games.boardgames.ManhattanDirection;
 import de.hsaugsburg.games.boardgames.exceptions.IllegalPieceOperationException;

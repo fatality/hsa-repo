@@ -1,8 +1,6 @@
 package de.hsaugsburg.games.boardgames.scrabble.application;
 
-import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Proxy;
-
 import de.hsaugsburg.games.boardgames.scrabble.EventLogger;
 import de.hsaugsburg.games.boardgames.scrabble.IScrabbleEngine;
 import de.hsaugsburg.games.boardgames.scrabble.ScrabbleBoard;
