@@ -16,6 +16,7 @@ public class ConnectFourBoard extends Board<BinaryPiece, Object> {
 	 * @param column 	Column position of the last piece that was set.
 	 */
 	
+	private static final long serialVersionUID = -8693819979936325758L;
 	public BinaryPiece piece;
 	private int row;
 	private int column;
@@ -63,7 +64,6 @@ public class ConnectFourBoard extends Board<BinaryPiece, Object> {
 	/**
 	 * This method tries to put a piece at the first free square on the connect4 board counting from the bottom
 	 * in the specified column.
-	 * 
 	 * @param piece requires an object of the enumerator type <code>Piece</code>.
 	 * @param column a integer value which is in range of the board width.
 	 * @throws OutsideBoardException thrown from lower in the hierarchy.
@@ -76,7 +76,6 @@ public class ConnectFourBoard extends Board<BinaryPiece, Object> {
 	
 	/**
 	 * This Method gets the row where the piece has to be dropped
-	 * 
 	 * @param column
 	 * @return
 	 * @throws OutsideBoardException
@@ -84,9 +83,9 @@ public class ConnectFourBoard extends Board<BinaryPiece, Object> {
 	 */
 	public int getRowForColumn(int column) throws OutsideBoardException, ColumnFullException{
 		for (int row = getHeight()-1; row >= 0; row--) {
-			if (isEmpty(row, column)) {
+			if (isEmpty(row, column)){
 				return row;
-			}
+			} 
 		}
 		throw new ColumnFullException("Column full!");
 	}
@@ -101,7 +100,8 @@ public class ConnectFourBoard extends Board<BinaryPiece, Object> {
 		int numberOfEqualPieces = 0;
 
 		Iterator<GridPoint> it = iterator(new GridPoint(row, column), new GridPoint(i, j), false);
-		while(it.hasNext()) {
+		
+		while (it.hasNext()) {
 			GridPoint gp = it.next();
 			if (getPiece(gp) != null && getPiece(gp).equals(getPiece(row, column))) {
 				numberOfEqualPieces++;
@@ -115,7 +115,6 @@ public class ConnectFourBoard extends Board<BinaryPiece, Object> {
 	/**
 	 * Please read the description of <code>nextDropAllowed()</code> to understand what this method does.
 	 * <code>nextDropAllowed()</code> is contained in <code>de.hsaugsburg.games.boardgames.connectfour.ConnectFourEngine</code>.
-	 * 
 	 * @param i is the first coordinate of a vector
 	 * @param j	is the second coordinate of a vector
 	 * @return	<code>true</code> if the last dropped piece is in a row of four equal pieces 
@@ -123,8 +122,7 @@ public class ConnectFourBoard extends Board<BinaryPiece, Object> {
 	 * and converts is to a user friendly message: "Please start a new game first!".
 	 */
 	public boolean countEqualPiecesInOffDirections(BinaryPiece piece, int i, int j) {
-		if ((countEqualPiecesInOneDirection(piece, i, j) +
-			countEqualPiecesInOneDirection(piece, -i, -j)) > 2) {
+		if ((countEqualPiecesInOneDirection(piece, i, j) + countEqualPiecesInOneDirection(piece, -i, -j)) > 2) {
 			return true;
 		}
 		return false;
@@ -146,14 +144,13 @@ public class ConnectFourBoard extends Board<BinaryPiece, Object> {
 			countEqualPiecesInOffDirections(piece, 1, -1)) {
 			return false;
 		}
-		return true; 
+		return true;
 	}
 	
 	/**
 	 * Switch Piece is now completely defined in this class and not in the super-class!
 	 * 
-	 * @throws SwitchNotAllowedException		If the game is already finished a Exception is thrown if you try
-	 * 											to add another piece to the board.
+	 * @throws SwitchNotAllowedException		If the game is already finished a Exception is thrown if you try to add another piece to the board.
 	 * @throws BoardNotInitializedException 
 	 * @throws BoardNotInitializedException		is thrown from a class lower in the hierarchy
 	 */
@@ -170,5 +167,4 @@ public class ConnectFourBoard extends Board<BinaryPiece, Object> {
 			break;
 		}
 	}
-	
 }

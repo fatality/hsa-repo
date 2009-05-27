@@ -4,12 +4,14 @@ import de.hsaugsburg.games.boardgames.Board;
 
 public class ScrabbleBoard extends Board<LetterPiece, ScrabbleSquareDetails> {
 	
+	private static final long serialVersionUID = -4236101529894246793L;
+	private boolean initialized = false;
+	
 	/**
 	 *Calls super class {@link Board} with a standard size of 15 x 15.
      */
 	public ScrabbleBoard() {
 		super(15, 15);
-//		reset(); //needed here if not initially reseted in CommandProcessor - NEWGAME
 	}
 	
 	public void reset() {
@@ -39,6 +41,8 @@ public class ScrabbleBoard extends Board<LetterPiece, ScrabbleSquareDetails> {
 		intitializeScrabbleBoard(14, 0);
 		intitializeScrabbleBoard(0, 14);
 		intitializeScrabbleBoard(14, 14);
+		
+		initialized = true;
 	}
 	
 	private void intitializeScrabbleBoard(int a, int b) {
@@ -47,6 +51,55 @@ public class ScrabbleBoard extends Board<LetterPiece, ScrabbleSquareDetails> {
 				getDetails(Math.abs(a-column), Math.abs(b-row)).setMultiplier(getDetails(row, column).getMultiplier());
 			}
 		}
+	}
+	
+	public boolean isInitialized() {
+		return initialized;
+	}
+	
+	@Override
+	public String toString() {
+		StringBuffer buffer = new StringBuffer(10000);
+		printNumbers(buffer);
+		for (int row = 0; row < getWidth(); row++) {
+			buffer.append((char)(row + 'A'));
+			for (int column = 0; column < getHeight(); column++) {
+				if (getPiece(row, column) != null) {
+					if (getDetails(row, column).isFixed()) {
+						buffer.append("[" + getPiece(row, column) + "]");
+					} else {
+						buffer.append(" " + getPiece(row, column)+ " ");
+					}
+				} else if (row == 7 && column == 7) {
+					buffer.append(" * ");
+				} else if (getDetails(row, column).getWordMultiplier() == 2) {
+					buffer.append(" __");
+				} else if(getDetails(row, column).getWordMultiplier() == 3) {
+					buffer.append("___");
+				} else if(getDetails(row, column).getLetterMultiplier() == 1) {
+					buffer.append(" . ");
+				} else if(getDetails(row, column).getLetterMultiplier() == 2) {
+					buffer.append(" ..");
+				} else if(getDetails(row, column).getLetterMultiplier() == 3) {
+					buffer.append("...");
+				}
+			}
+			buffer.append((char)(row + 'A'));
+			buffer.append("\n");
+		}
+		printNumbers(buffer);
+		return buffer.toString();
+	}
+	
+	private void printNumbers(StringBuffer buffer) {
+		buffer.append(" ");
+		for (int row = 1; row < 10; row++) {
+			buffer.append(" " + row + " ");
+		}
+		for (int row = 10; row <= getWidth(); row++) {
+			buffer.append(row + " ");
+		}
+		buffer.append("\n");
 	}
 	
 }

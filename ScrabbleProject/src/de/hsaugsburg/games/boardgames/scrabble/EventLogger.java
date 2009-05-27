@@ -13,24 +13,21 @@ public class EventLogger implements InvocationHandler {
 	}
 	
 	public Object invoke(Object poxy, Method method, Object[] args) throws Throwable {
-		 System.out.print("* calling method " + method + " with params ");
-	        for (int i = 0; i < args.length; i++) 
-	            System.out.print(" " + args[i]);
-	        System.out.println();
-	        
-	        Object result = null;
-	        try  {
-	            result = method.invoke(ise, args);
-	        } catch(IllegalAccessException ex)  {
-	            ex.printStackTrace();
-	        } catch(InvocationTargetException ex)  {
-	            System.out.println("* exception:" + ex.getTargetException());
-	            throw ex.getTargetException();
-	        }
-
-	        System.out.println("* result:" + result);
-	        return result;
-		
+		System.out.print("* calling method " + method + " with params ");
+		for (int i = 0; i < args.length; i++)
+			System.out.print(" " + args[i]);
+		System.out.println();
+		Object result = null;
+		try {
+			result = method.invoke(ise, args);
+		} catch(IllegalAccessException ex)  {
+			ex.printStackTrace();
+		} catch(InvocationTargetException ex)  {
+			System.out.println("* exception:" + ex.getTargetException());
+			throw ex.getTargetException();
+		}
+		System.out.println("* result:" + result);
+		return result;
 	}
 
 }

@@ -1,4 +1,4 @@
-package de.hsaugsburg.games.boardgames.test;
+package de.hsaugsburg.games.boardgames.scrabble.test;
 
 import static org.junit.Assert.*;
 import java.util.List;
@@ -38,7 +38,7 @@ public class CircularListTest {
 		list.add(p2);
 		list.add(p3);
 		list.add(p4);
-		assertTrue(list.next().equals(p2));
+		assertEquals(list.next().getName(),"Bob");
 		assertTrue(list.next().equals(p3));
 		assertTrue(list.next().equals(p4));
 		assertTrue(list.next().equals(p1));
@@ -52,7 +52,7 @@ public class CircularListTest {
 		list.add(p3);
 		list.add(p4);
 		list.next();
-		assertTrue(list.previous().equals(p1));
+		assertEquals(list.previous(), p1);
 		assertTrue(list.previous().equals(p4));
 		assertTrue(list.previous().equals(p3));
 		assertTrue(list.previous().equals(p2));

@@ -1,13 +1,19 @@
 package de.hsaugsburg.games.boardgames.scrabble;
 
+import java.io.Serializable;
 import java.util.Random;
 import java.util.List;
 import java.util.Vector;
 
-public class RandomPool<T> {
-	
-	private Random random = new Random();
+public class RandomPool<T> implements Serializable {
+
+	private static final long serialVersionUID = -6535521232391105636L;
+	protected Random random = new Random();
 	private List<T> collection = new Vector<T>();
+	
+	public RandomPool() {
+		
+	}
 	
 	public void put(T o) {
 		collection.add(o);

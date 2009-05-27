@@ -1,97 +1,145 @@
 package de.hsaugsburg.games.boardgames.scrabble;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.util.List;
+import java.util.Vector;
 import de.hsaugsburg.games.boardgames.GridPoint;
-import de.hsaugsburg.games.boardgames.scrabble.consoleui.BoardView;
+import de.hsaugsburg.games.boardgames.PlayerMode;
+import de.hsaugsburg.games.boardgames.exceptions.GameException;
 import de.hsaugsburg.games.boardgames.exceptions.IllegalPieceOperationException;
 import de.hsaugsburg.games.boardgames.exceptions.InvalidStateException;
 import de.hsaugsburg.games.boardgames.exceptions.OutsideBoardException;
+import de.hsaugsburg.games.boardgames.exceptions.UnknownCommandException;
+import de.hsaugsburg.games.boardgames.scrabble.consoleui.CommandProcessor.Command;
+import de.hsaugsburg.games.boardgames.scrabble.strategy.GreedyScrabbleBot;
 
 public class ScrabbleEngine implements IScrabbleEngine {
 	
+	private static final long serialVersionUID = 8578243619510263660L;
 	private RandomPool<LetterPiece> pool;
 	private WordManager manager;
-	private CircularList<ScrabblePlayer> list;
+	private CircularList<ScrabblePlayer> players;
 	private ScrabbleBoard board;
-	private BoardView view;
-	private boolean notInitialized = true;
-	private boolean first = true;
-	private boolean agreement = false;
+	private State currentState;
+	private PlayerMode mode;
 	
-	public ScrabbleEngine(ScrabbleBoard board, BoardView view) {
-		list = new CircularList<ScrabblePlayer>();
-		pool = new RandomPool<LetterPiece>();
+	public ScrabbleEngine(ScrabbleBoard board, RandomPool<LetterPiece> pool) {
+		players = new CircularList<ScrabblePlayer>();
+		this.pool = pool;
 		manager = new WordManager(board);
 		this.board = board;
-		this.view = view;
+		this.mode = PlayerMode.SINGLE;
 	}
 	
-	/* (non-Javadoc)
-	 * @see de.hsaugsburg.games.boardgames.scrabble.IScrabbleEngine#engageState(de.hsaugsburg.games.boardgames.scrabble.ScrabbleEngine.State)
-	 */
-	public void engageState(State newState) throws InvalidStateException, IllegalPieceOperationException, OutsideBoardException {
-		State currentState = newState;
-		boolean running = true;
-		if (notInitialized && currentState != State.INITIAL) {
+	public ScrabbleBoard getBoard() {
+		return board;
+	}
+	
+	public Object next() throws GameException {
+		if (players.getAll().isEmpty()) {
+			return new CommandScanner(Command.values()).next();
+		}
+		return players.current().next();
+	}
+	
+	public void engageState(State newState) throws InvalidStateException {	
+		if (!board.isInitialized() && newState != State.INITIAL && newState != State.PLAYER) {
 			throw new InvalidStateException("Start a new game first.");
 		}
-		if (agreement && (currentState != State.AGREEING && currentState != State.REJECTING)) {
+		if (isAgreeing() && (newState != State.AGREEING && newState != State.REJECTING)) {
 			throw new InvalidStateException("Please agree or reject...");
 		}
-		if (!agreement && (currentState == State.AGREEING || currentState == State.REJECTING)) {
+		if (!isAgreeing() && (newState == State.AGREEING || newState == State.REJECTING)) {
 			throw new InvalidStateException("Can't agree or reject before commit...");
 		}
-		while(running) {
-			switch(currentState) {
-				case INITIAL:
-					notInitialized = false;
-					agreement = false;
-					first = true;
-					list.reset();
-					board.reset();
-					list.add(new ScrabblePlayer("Marc"));
-					list.add(new ScrabblePlayer("Anja"));
-					fillPool();
-					list.previous();
-					manager.setPlayer(list.next());
-					view.setPlayer(manager.getPlayer());
-					givePieces();
-					running = false;
-					break;
-				case DROPPING:
-					running = false;
-					break;
-				case REMOVING:
-					running = false;
-					break;
-				case COMMITED:
-					manager.commitLetterSequence(first);
-					view.printAgreementLine(manager.getPorducedWords());
-					agreement = true;
-					running = false;
-					break;
-				case REJECTING:
-					manager.removePreliminaryPieces();
-					agreement = false;
-					running = false;
-					break;
-				case AGREEING:		
-					manager.calcScore();
-					manager.changePreliminaryStatus();
-					view.printPoints(manager.getPoints());
-					view.printPoints(manager.getPlayer());
-					manager.setPlayer(list.next());
-					view.setPlayer(manager.getPlayer());
-					givePieces();
-					view.printPlayer();
-					agreement = false;
-					first = false;
-					running = false;
-					break;
+		this.currentState = newState;
+	}
+	
+	public void reset() {
+		pool.getCollection().clear();
+		for (ScrabblePlayer player : players.getAll()) {
+			player.getMyPieces().clear();
+		}
+		board.reset();
+	}
+	
+	public CircularList<ScrabblePlayer> getList() {
+		return players;
+	}
+
+	public boolean isFirst() {
+		return !board.getDetails(new GridPoint(7, 7)).isFixed();
+	}
+
+	public boolean isAgreeing() {
+		return !manager.getProducedWords().isEmpty();
+	}
+	
+	public WordManager getManager() {
+		return manager;
+	}
+	
+	public Integer getCurrentTerminalId() {
+		if (players.current().isTerminal()) {
+			return players.current().getId(); 
+		}
+		return null;
+	}
+	
+	public List<Integer> getTerminalIds() {
+		List<Integer> ids = new Vector<Integer>(4);
+		for (ScrabblePlayer player : players.getAll()) {
+			if (player.isTerminal()) {
+				ids.add(player.getId());
+			}
+		}
+		return ids;
+	}
+	
+	public void addPlayer(String name) {	
+		players.add(new ScrabblePlayer(name, new CommandScanner(Command.values())));
+	}
+	
+	public void setMode(String mode) throws UnknownCommandException {
+		if ("SP".equals(mode)) {
+			this.mode = PlayerMode.SINGLE;
+		} else if ("MP".equals(mode)) {
+			this.mode = PlayerMode.MULTI;
+		} else if ("CP".equals(mode)) {
+			this.mode = PlayerMode.COMP;
+		} else {
+			if (mode != null) {
+				throw new UnknownCommandException("Invalid param: " + mode);
 			}
 		}
 	}
 	
-	private void fillPool() {
+	/**
+	 * Adds players (Player1... Player#) by default if player <code>list</code> is empty at game start.
+	 * @param number integer value defines number of players to be added.
+	 */
+	public void addDefaultPlayers(int number) {
+		if (currentState == State.INITIAL && players.getAll().isEmpty()) {
+			for (int i = 1; i <= number; i++) {
+				if(i == number && mode == PlayerMode.SINGLE) {
+					players.add(new ScrabblePlayer("GreedyScrabbleBot", new GreedyScrabbleBot(this, board)));
+				} else if (mode == PlayerMode.COMP){
+					players.add(new ScrabblePlayer("GreedyScrabbleBot" + i, new GreedyScrabbleBot(this, board)));
+				} else {
+					players.add(new ScrabblePlayer("Player" + i, new CommandScanner(Command.values(),true)));
+				}
+			}
+		} 
+	}
+	
+	public void fillPool() {
 		LetterPiece[] pieces = LetterPiece.values();
 		for (int i = 0; i < pieces.length; i++) {
 			for (int j = 0; j < pieces[i].getCount(); j++) {
@@ -99,32 +147,59 @@ public class ScrabbleEngine implements IScrabbleEngine {
 			}
 		}
 	}
-	
-	/* (non-Javadoc)
-	 * @see de.hsaugsburg.games.boardgames.scrabble.IScrabbleEngine#givePieces()
-	 */
+
 	public void givePieces() {
 		for (int i = manager.getPlayer().getMyPieces().size(); i < 7 && !pool.empty(); i++) {
 			manager.getPlayer().receive(pool.take());
-		}
+		}	
 	}
 	
-	/* (non-Javadoc)
-	 * @see de.hsaugsburg.games.boardgames.scrabble.IScrabbleEngine#addPiece(de.hsaugsburg.games.boardgames.scrabble.LetterPiece, int, int)
-	 */
+	public void addPiece(LetterPiece piece, GridPoint gp) throws IllegalPieceOperationException, OutsideBoardException {
+		addPiece(piece, gp.getRow(), gp.getColumn());
+	}
+
 	public void addPiece(LetterPiece piece, int row, int column) throws IllegalPieceOperationException, OutsideBoardException {
 		manager.addPiece(piece, new GridPoint(row, column));
 	}
 	
-	/* (non-Javadoc)
-	 * @see de.hsaugsburg.games.boardgames.scrabble.IScrabbleEngine#removePiece(int, int)
-	 */
+	public void removePiece(GridPoint gp) throws IllegalPieceOperationException, OutsideBoardException {
+		removePiece(gp.getRow(), gp.getColumn());
+	}
+	
 	public void removePiece(int row, int column) throws IllegalPieceOperationException, OutsideBoardException {
 		manager.removePiece(new GridPoint(row, column));
 	}
 	
-	public enum State {
-		INITIAL, DROPPING, REMOVING, COMMITED, REJECTING, AGREEING;
+	public void save() throws GameException {
+		try {
+			ObjectOutputStream out = new ObjectOutputStream(
+					new FileOutputStream(new File("scrabble.sav")));
+			out.writeObject(this);
+			out.flush();
+			out.close();
+		} catch (IOException e) {
+			throw new GameException("Error while saving: " + e.getCause());
+		}
+	}
+	
+	public IScrabbleEngine load() throws GameException {
+		IScrabbleEngine engine;
+		try {
+			ObjectInputStream in = new ObjectInputStream(new FileInputStream(new File("scrabble.sav")));
+			engine = (IScrabbleEngine) in.readObject();
+			in.close();
+			return engine;
+		} catch (ClassNotFoundException e) {
+			throw new GameException("Error while loading: " + e.getCause());
+		} catch (FileNotFoundException e) {
+			throw new GameException("Error while loading: " + e.getCause());
+		} catch (IOException e) {
+			throw new GameException("Error while loading: " + e.getCause());
+		}
+	}
+	
+	public enum State implements Serializable {
+		INITIAL, PLAYER, DROPPING, REMOVING, COMMITED, REJECTING, AGREEING, PASSING;
 	}
 	
 }

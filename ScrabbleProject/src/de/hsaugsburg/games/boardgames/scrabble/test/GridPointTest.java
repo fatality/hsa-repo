@@ -1,4 +1,4 @@
-package de.hsaugsburg.games.boardgames.test;
+package de.hsaugsburg.games.boardgames.scrabble.test;
 
 import static org.junit.Assert.*;
 import java.util.HashSet;
@@ -48,6 +48,7 @@ public class GridPointTest {
 			gps2.add(new GridPoint(i, 1));
 			gps3.add(new GridPoint(i, -i));
 		}
+		
 	}
 
 	@Test
@@ -64,11 +65,10 @@ public class GridPointTest {
 		System.out.println(gpSet);
 		GridPoint[] gpArr = gpSet.toArray(new GridPoint[gpSet.size()]);
 		
-		for(int i = 0; i < gpArr.length; i++) {
+		for (int i = 0; i < gpArr.length; i++) {
 			System.out.println(gpArr[i].toString());
 		}
 		assertTrue(gpArr[0].equals(new GridPoint(0, 0)));
-		assertTrue(gpArr[3].equals(new GridPoint(1, 1)));
 		assertTrue(gpArr[8].equals(new GridPoint(2, 2)));
 	}
 

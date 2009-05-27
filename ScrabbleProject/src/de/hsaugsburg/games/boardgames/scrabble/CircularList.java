@@ -1,10 +1,12 @@
 package de.hsaugsburg.games.boardgames.scrabble;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CircularList<T> {
+public class CircularList<T> implements Serializable {
 	
+	private static final long serialVersionUID = -4488884422541989373L;
 	private int current;
 	private List<T> list = new ArrayList<T>();
 	
@@ -26,6 +28,10 @@ public class CircularList<T> {
 		} else {
 			return null;
 		}
+	}
+	
+	public T current() {
+		return list.get(current);
 	}
 	
 	public List<T> getAll() {

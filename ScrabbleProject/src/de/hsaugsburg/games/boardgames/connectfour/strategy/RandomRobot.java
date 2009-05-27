@@ -21,13 +21,13 @@ public class RandomRobot implements IRobot {
 		this.engine = engine;
 	}
 
-	public int getChoice() {
+	public Object next() {
 		try {
 			int column;
 			if ((column = couldWinAtColumn(BinaryPiece.O, 0)) > -1) return column;
 			if ((column = couldWinAtColumn(BinaryPiece.X, 0)) > -1) return column;
 	
-			if (board.countEqualPiecesInOneDirection(BinaryPiece.X, 1, 0) == 2 &&
+			if( board.countEqualPiecesInOneDirection(BinaryPiece.X, 1, 0) == 2 &&
 				board.isOnTheBoard(board.getRow()-1, board.getColumn())) {
 				return board.getColumn();
 			}
@@ -41,7 +41,6 @@ public class RandomRobot implements IRobot {
 				board.isOnTheBoard(0, board.getColumn()+1)) {
 				return board.getColumn()+1;
 			}
-			
 			
 			if (board.countEqualPiecesInOneDirection(BinaryPiece.X, 1, -1) > 1 &&
 				!board.isEmpty(board.getRow(), board.getColumn()+1) &&
@@ -87,9 +86,7 @@ public class RandomRobot implements IRobot {
 			board.setRow(oldRow);
 			board.setColumn(oldColumn);
 			board.setPiece(oldPiece);
-			if (win) {
-				return column;
-			}
+			if (win) return column;
 		}
 		return -1;
 	}

@@ -1,8 +1,10 @@
-package de.hsaugsburg.games.boardgames.test;
+package de.hsaugsburg.games.boardgames.scrabble.test;
 
+import de.hsaugsburg.games.boardgames.scrabble.CommandScanner;
 import de.hsaugsburg.games.boardgames.scrabble.LetterPiece;
 import de.hsaugsburg.games.boardgames.scrabble.RandomPool;
 import de.hsaugsburg.games.boardgames.scrabble.ScrabblePlayer;
+import de.hsaugsburg.games.boardgames.scrabble.consoleui.CommandProcessor.Command;
 
 public class RandomPoolTest {
 
@@ -13,8 +15,7 @@ public class RandomPoolTest {
 		
 		RandomPool<LetterPiece> pool = new RandomPool<LetterPiece>();
 		LetterPiece[] pieces = LetterPiece.values();
-		ScrabblePlayer player = new ScrabblePlayer("player");
-		
+		ScrabblePlayer player = new ScrabblePlayer("player", new CommandScanner(Command.values()));
 		
 		for (int i = 0; i < pieces.length; i++) {
 			for (int j = 0; j < pieces[i].getCount(); j++) {
@@ -29,6 +30,11 @@ public class RandomPoolTest {
 			player.receive(pool.take());
 		}
 		
+//		System.out.print('[');
+//		while(!pool.empty()) {
+//			System.out.print(pool.take()+ ", ");
+//		}
+//		System.out.println(']');
 		System.out.println(player.getMyPieces());
 		System.out.println(pool);
 	}

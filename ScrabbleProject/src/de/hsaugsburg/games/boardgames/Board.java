@@ -1,13 +1,15 @@
 package de.hsaugsburg.games.boardgames;
 
+import java.io.Serializable;
 import java.util.Iterator;
 import de.hsaugsburg.games.boardgames.exceptions.OutsideBoardException;
 
 /**
  * @author Marc Rochow, Anja Radtke
  */
-public class Board <P extends IPiece, D> {
+public class Board <P extends IPiece, D> implements Serializable {
 	
+	private static final long serialVersionUID = 8812638036800160501L;
 	private Square<P, D>[][] squares;
 	
 	@SuppressWarnings("unchecked")
@@ -113,7 +115,6 @@ public class Board <P extends IPiece, D> {
 			private GridPoint currentDir = direction;
 			private boolean start = startPointInclusive;
 			
-//			@Override
 			public boolean hasNext() {
 				if (start) {
 					return isOnTheBoard(currentPoint.getRow(), currentPoint.getColumn());
@@ -121,7 +122,6 @@ public class Board <P extends IPiece, D> {
 				return isOnTheBoard(currentPoint.plus(currentDir).getRow(), currentPoint.plus(currentDir).getColumn());
 			}
 
-//			@Override
 			public GridPoint next() {
 				if (start) {
 					start = false;
@@ -130,11 +130,23 @@ public class Board <P extends IPiece, D> {
 				return currentPoint = currentPoint.plus(currentDir);
 			}
 
-//			@Override
 			public void remove() throws UnsupportedOperationException {
-				//No need to implement this method I guess.
 				throw new UnsupportedOperationException();
-			}	
+			}
 		};
 	}
+	
+	@Override
+	public boolean equals(Object obj) {	
+		boolean h = true;
+		if (obj instanceof Board) {	
+			for (int row = 0; row < getHeight() && h; row++) {
+				for (int column = 0; column < getWidth() && h; column++) {
+					h = this.squares[row][column].equals(((Board<?, ?>)obj).squares[row][column]);
+				}
+			}
+		}
+		return h;
+	}
+	
 }

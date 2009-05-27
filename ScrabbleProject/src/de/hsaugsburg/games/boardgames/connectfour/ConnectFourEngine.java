@@ -40,7 +40,7 @@ public class ConnectFourEngine {
 	}
 	
 	public int getChoice() {
-		return robot.getChoice();
+		return (Integer)robot.next();
 	}
 	
 	public boolean singlePlayer() {

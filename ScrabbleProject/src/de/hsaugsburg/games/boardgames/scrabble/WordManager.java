@@ -1,5 +1,6 @@
 package de.hsaugsburg.games.boardgames.scrabble;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -12,10 +13,10 @@ import de.hsaugsburg.games.boardgames.ManhattanDirection;
 import de.hsaugsburg.games.boardgames.exceptions.IllegalPieceOperationException;
 import de.hsaugsburg.games.boardgames.exceptions.OutsideBoardException;
 
-public class WordManager {
+public class WordManager implements Serializable {
 	
-	private Logger logger = Logger.getLogger(this.getClass().getName());
-	
+	private static final long serialVersionUID = -4967337405541678383L;
+	private transient Logger logger;
 	private ScrabbleBoard board;
 	private ScrabblePlayer currentPlayer;
 	private List<String> wordList = new ArrayList<String>();
@@ -23,13 +24,17 @@ public class WordManager {
 	private int newPoints;
 	
 	public WordManager(ScrabbleBoard board) {
-		logger.setLevel(Level.ALL);
+		resetLogger();
+		logger.setLevel(Level.OFF);
 		this.board = board;
+	}
+	
+	public void resetLogger() {
+		logger = Logger.getLogger(this.getClass().getName());
 	}
 	
 	/**
 	 * getLetterList() only for testing purposes.
-	 * 
 	 * @return list of GridPoints
 	 */
 	public Set<GridPoint> getLetterList() {
@@ -48,7 +53,7 @@ public class WordManager {
 		this.currentPlayer = player;
 	}
 	
-	public List<String> getPorducedWords() {
+	public List<String> getProducedWords() {
 		return wordList;
 	}
 	
@@ -73,7 +78,7 @@ public class WordManager {
 		board.putPiece(piece, gp);
 		
 		//Logging messages.
-		logger.log(Level.INFO, "Piece added: " + gp + " " + piece + ", new list size: " + letterList.size());
+		logger.log(Level.FINEST, "Piece added: " + gp + " " + piece + ", new list size: " + letterList.size());
 	}
 	
 	public void removePiece(GridPoint gp) throws IllegalPieceOperationException, OutsideBoardException {
@@ -86,17 +91,21 @@ public class WordManager {
 		
 		currentPlayer.getMyPieces().add(board.getPiece(gp));
 		letterList.remove(gp);
-		logger.log(Level.INFO, "Piece removed: " + gp + " " + board.getPiece(gp) + ", new list size: " + letterList.size());
+		logger.log(Level.FINEST, "Piece removed: " + gp + " " + board.getPiece(gp) + ", new list size: " + letterList.size());
 		board.putPiece(null, gp);
 		
 	}
 	
 	public void commitLetterSequence(boolean first) throws IllegalPieceOperationException, OutsideBoardException {
-		if (first && board.isEmpty(new GridPoint(7, 7))) {
+		
+		if(first && board.isEmpty(new GridPoint(7, 7))) {
 			throw new IllegalPieceOperationException("Starred field has to be set before first commit!");
 		}
 		if (first && (letterList.size() < 2)) {
 			throw new IllegalPieceOperationException("First commit requires two pieces at least!");
+		}
+		if (letterList.isEmpty()) {
+			throw new IllegalPieceOperationException("No new letters have been added!");
 		}
 		
 		List<ManhattanDirection> directions = new ArrayList<ManhattanDirection>();
@@ -112,12 +121,11 @@ public class WordManager {
 			startPoints.add((GridPoint)letterList.toArray()[0]);
 			Iterator<GridPoint> it = board.iterator(startPoints.get(0), directions.get(0).gp, true);
 			int iteratedLetters = 0;
-			
 			while (it.hasNext()) {
 				GridPoint gp = it.next();
 				if (board.getPiece(gp) != null) {
 					if (board.getDetails(gp).isFixed()) {
-						if (gp.isManhattanColinearWith(letterList)) {
+						if (gp.isManhattanColinearWith(letterList) ) {
 							letterList.add(gp);
 						} else {
 							break;
@@ -125,7 +133,7 @@ public class WordManager {
 					}
 					iteratedLetters++;
 				} else {
-					logger.log(Level.INFO, "iteratedLetters/letterList.size(): " + Integer.toString(iteratedLetters) + "/" + letterList.size());
+					logger.log(Level.FINEST, "iteratedLetters/letterList.size(): " + Integer.toString(iteratedLetters) + "/" + letterList.size());
 					if (iteratedLetters != letterList.size()) {
 						throw new IllegalPieceOperationException("A gap is in your dropped word!");
 					}
@@ -160,7 +168,7 @@ public class WordManager {
 		}
 		
 		/* 4. Rule
-		 * Iterate over initial word and find all its extending connection points that are then used as startPoints.
+		 * Iterate over word and find all its extending connection points that are then used as startPoints.
 		 * After that use the startPoints to get all new words.
 		 */
 		if (!first) {
@@ -189,7 +197,6 @@ public class WordManager {
 				startPoints.add(gp);
 			}
 			Iterator<GridPoint> boardIt = board.iterator(gp, directions.get(0).gp, true);
-			
 			while (boardIt.hasNext()) {
 				if (board.getPiece(gp = boardIt.next()) == null) {
 					break;
@@ -212,13 +219,14 @@ public class WordManager {
 			for (int i = 0; i < startPoints.size(); i++) {
 				boardIt = board.iterator(startPoints.get(i), directions.get(i).gp.neg(), true);
 				gp = startPoints.get(i);
-				while (boardIt.hasNext()) {
-					do {
-						if (board.getPiece(gp = boardIt.next()) == null) {
-							break;
-						}
-						startPoints.set(i, gp);
-					} while (boardIt.hasNext());
+				while (true) {
+					if (board.getPiece(gp = boardIt.next()) == null) {
+						break;
+					}
+					startPoints.set(i, gp);
+					if (!boardIt.hasNext()) {
+						break;
+					}
 				}
 				boardIt = board.iterator(startPoints.get(i), directions.get(i).gp, true);
 				
@@ -241,13 +249,12 @@ public class WordManager {
 		
 		//Convert to strings
 		{	
-			logger.log(Level.INFO, "Letters to commit: " + letterList.toString());
+			logger.log(Level.FINE, "Letters to commit: " + letterList.toString());
 			for (int i = 0; i < startPoints.size(); i++) {
 				StringBuffer sb = new StringBuffer();
-				logger.log(Level.INFO,"Word" + Integer.toString(i) + " startPoint/direction :" + startPoints.get(i).toString() + "/" + directions.get(i).toString());
+				logger.log(Level.FINEST,"Word" + Integer.toString(i) + " startPoint/direction :" + startPoints.get(i).toString() + "/" + directions.get(i).toString());
 				Iterator<GridPoint> boardIt = board.iterator(startPoints.get(i), directions.get(i).gp, true);
 				GridPoint gp;
-				
 				while (boardIt.hasNext()) {
 					if (board.getPiece(gp = boardIt.next()) == null) {
 						break;
@@ -262,8 +269,7 @@ public class WordManager {
 	public void removePreliminaryPieces() {
 		List<LetterPiece> recollected = new ArrayList<LetterPiece>(7);
 		Iterator<GridPoint> it  = letterList.iterator();
-		
-		while (it.hasNext()) {
+		while(it.hasNext()) {
 			GridPoint gp = it.next();
 			if (!board.getDetails(gp).isFixed()) {
 				recollected.add(board.removePiece(gp));
@@ -272,7 +278,7 @@ public class WordManager {
 		currentPlayer.receiveAll(recollected);
 		letterList.clear();
 		wordList.clear();
-		//Mit Liste "recollected", um sie gegebenenfalls auch returnen zu können.
+		//Mit Liste "recollected", um sie gegebenenfalls auch returnen zu k�nnen.
 	}
 	
 	public int changePreliminaryStatus() {

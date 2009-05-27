@@ -1,6 +1,8 @@
 package de.hsaugsburg.games.boardgames;
 
-public interface IPiece {
+import java.io.Serializable;
+
+public interface IPiece extends Serializable {
 
 	public String name();
 	

@@ -5,8 +5,9 @@ import de.hsaugsburg.games.boardgames.exceptions.InvalidStateException;
 import de.hsaugsburg.games.boardgames.exceptions.OutsideBoardException;
 import de.hsaugsburg.games.boardgames.scrabble.ScrabbleEngine.State;
 
-public class ScrabbleProxy implements IScrabbleEngine{
+public abstract class ScrabbleProxy implements IScrabbleEngine{
 
+	private static final long serialVersionUID = 8636194715942507652L;
 	private IScrabbleEngine ise;
 	
 	public ScrabbleProxy(IScrabbleEngine ise){

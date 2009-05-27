@@ -1,14 +1,17 @@
-package de.hsaugsburg.games.boardgames.test;
+package de.hsaugsburg.games.boardgames.scrabble.test;
 
 import static org.junit.Assert.*;
 import java.util.List;
 import java.util.logging.Level;
+import java.util.logging.LogManager;
 import java.util.logging.Logger;
 import org.junit.Before;
 import org.junit.Test;
 import de.hsaugsburg.games.boardgames.GridPoint;
 import de.hsaugsburg.games.boardgames.scrabble.consoleui.BoardView;
+import de.hsaugsburg.games.boardgames.scrabble.consoleui.CommandProcessor.Command;
 import de.hsaugsburg.games.boardgames.exceptions.GameException;
+import de.hsaugsburg.games.boardgames.scrabble.CommandScanner;
 import de.hsaugsburg.games.boardgames.scrabble.LetterPiece;
 import de.hsaugsburg.games.boardgames.scrabble.ScrabbleBoard;
 import de.hsaugsburg.games.boardgames.scrabble.ScrabblePlayer;
@@ -23,16 +26,18 @@ public class WordManagerTest {
 	ScrabblePlayer player;
 	
 	@Before
-	public void setUp() throws Exception {		
+	public void setUp() throws Exception {
+		LogManager.getLogManager().readConfiguration(ClassLoader.getSystemResourceAsStream("scrabble.properties"));
 		board = new ScrabbleBoard();
 		view = new BoardView(board);
 		manager = new WordManager(board);
 		logger.setLevel(Level.ALL);
+		Logger.getLogger("").setLevel(Level.ALL);
 	}
 
 	@Test
 	public void testGetPorducedWords() {
-		player = new ScrabblePlayer("Test");
+		player = new ScrabblePlayer("Test", new CommandScanner(Command.values()));
 		manager.setPlayer(player);
 		board.reset();
 		board.putPiece(LetterPiece.M, 7, 6); board.getDetails(7, 6).setFixed(); 
@@ -79,15 +84,15 @@ public class WordManagerTest {
 		
 		try {
 			manager.commitLetterSequence(false);
-		}
-		catch (GameException e) {
+		} catch (GameException e) {
 			fail(e.getMessage());
 		}
-		List<String> words = manager.getPorducedWords();
-		assertTrue(words.get(0).compareTo("ABCDEFGHX") == 0);
-		assertTrue(words.get(1).compareTo("ABK") == 0);
-		assertTrue(words.get(2).compareTo("MMMD") == 0);
-		assertTrue(words.get(3).compareTo("ME") == 0);
+		List<String> words = manager.getProducedWords();
+		
+		assertEquals("ABCDEFGHX", words.get(0));
+		assertEquals("ABK", words.get(1));
+		assertEquals("MMMD", words.get(2));
+		assertEquals("ME", words.get(3));
 		manager.calcScore();
 		assertTrue(manager.getPoints() == 45);
 		manager.getLetterList().clear();
@@ -95,7 +100,7 @@ public class WordManagerTest {
 	
 	@Test
 	public void testGetPorducedWords2() {
-		player = new ScrabblePlayer("Test");
+		player = new ScrabblePlayer("Test", new CommandScanner(Command.values()));
 		manager.setPlayer(player);
 		board.reset();
 		board.putPiece(LetterPiece.A, 6, 8); board.getDetails(6, 8).setFixed(); 
@@ -127,15 +132,58 @@ public class WordManagerTest {
 		
 		try {
 			manager.commitLetterSequence(false);
-		}
-		catch (GameException e) {
+		} catch (GameException e) {
 			fail(e.getMessage());
 		}
-		List<String> words = manager.getPorducedWords();
-		assertTrue(words.get(0).compareTo("XA") == 0);
-		assertTrue(words.get(1).compareTo("XC") == 0);
+		List<String> words = manager.getProducedWords();
+		assertEquals("XA", words.get(0));
+		assertEquals("XC", words.get(1));
 		manager.calcScore();
 		assertTrue(manager.getPoints() == 13);
+		manager.getLetterList().clear();
+	}
+	
+	@Test
+	public void testGetPorducedWords3() {
+		player = new ScrabblePlayer("Test", new CommandScanner(Command.values()));
+		manager.setPlayer(player);
+		board.reset();
+		board.putPiece(LetterPiece.E, 7, 7); board.getDetails(7, 7).setFixed(); 
+		board.putPiece(LetterPiece.E, 7, 8); board.getDetails(7, 8).setFixed();
+		board.putPiece(LetterPiece.L, 7, 9); board.getDetails(7, 9).setFixed();
+		board.putPiece(LetterPiece.V, 8, 7); board.getDetails(8, 7).setFixed();
+		board.putPiece(LetterPiece.E, 8, 9); board.getDetails(8, 9).setFixed();
+		board.putPiece(LetterPiece.E, 8, 10); manager.getLetterList().add(new GridPoint(8, 10));
+		
+		/*
+		 *   1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 
+		 * A___ .  .  .. .  .  . ___ .  .  .  .. .  . ___A
+		 * B .  __ .  .  . ... .  .  . ... .  .  .  __ . B
+		 * C .  .  __ .  .  .  .. .  .. .  .  .  __ .  . C
+		 * D .. .  .  __ .  .  .  .. .  .  .  __ .  .  ..D
+		 * E .  .  .  .  __ .  .  .  .  .  __ .  .  .  . E
+		 * F . ... .  .  . ... .  .  . ... .  .  . ... . F
+		 * G .  .  .. .  .  .  .. .  .. .  .  .  .. .  . G
+		 * H___ .  .  .. .  .  . [E][E][L] .  .. .  . ___H
+		 * I .  .  .. .  .  .  ..[V] ..[E] E  .  .. .  . I
+		 * J . ... .  .  . ... .  .  . ... .  .  . ... . J
+		 * K .  .  .  .  __ .  .  .  .  .  __ .  .  .  . K
+		 * L .. .  .  __ .  .  .  .. .  .  .  __ .  .  ..L
+		 * M .  .  __ .  .  .  .. .  .. .  .  .  __ .  . M
+		 * N .  __ .  .  . ... .  .  . ... .  .  .  __ . N
+		 * O___ .  .  .. .  .  . ___ .  .  .  .. .  . ___O
+		 *   1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 
+		 */
+		
+		view.render();
+		
+		try {
+			manager.commitLetterSequence(false);
+		} catch (GameException e) {
+			fail(e.getMessage());
+		}
+		List<String> words = manager.getProducedWords();
+		assertEquals("EE", words.get(0));
 		manager.getLetterList().clear();
 	}
 	

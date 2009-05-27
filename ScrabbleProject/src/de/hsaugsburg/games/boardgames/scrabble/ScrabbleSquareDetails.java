@@ -1,7 +1,10 @@
 package de.hsaugsburg.games.boardgames.scrabble;
 
-public class ScrabbleSquareDetails {
+import java.io.Serializable;
 
+public class ScrabbleSquareDetails implements Serializable {
+
+	private static final long serialVersionUID = -3371678220363897922L;
 	private SquareMultiplier multiplier;
 	private boolean pieceFixed;
 	
@@ -32,4 +35,17 @@ public class ScrabbleSquareDetails {
 	public boolean isFixed() {
 		return this.pieceFixed;
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof ScrabbleSquareDetails) {
+			ScrabbleSquareDetails details = (ScrabbleSquareDetails) obj;
+			if (this.multiplier == null) {
+				return this.pieceFixed == details.pieceFixed && this.multiplier == details.multiplier;
+			}
+			return this.pieceFixed == details.pieceFixed && this.multiplier.equals(details.multiplier);
+		}
+		return false;
+	}
+	
 }

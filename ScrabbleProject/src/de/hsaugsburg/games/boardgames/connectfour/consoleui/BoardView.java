@@ -9,10 +9,8 @@ import de.hsaugsburg.games.boardgames.connectfour.BinaryPiece;
 public class BoardView {
 	
 	/**
-	 * @param board			Board is set in the application launcher by
-	 * 						BoardView's setBoard() method.
-	 * @param buffer 		A kind of cache for the entire board 
-	 * 						before it gets printed out to the console.
+	 * @param board			Board is set in the application launcher by BoardView's setBoard() method.
+	 * @param buffer		A kind of cache for the entire board before it gets printed out to the console.
 	 */
 	private Board<BinaryPiece, Object> board;
 	private StringBuffer buffer;
@@ -35,8 +33,7 @@ public class BoardView {
 	}
 	
 	/**
-	 * @method printBoard()						Converts the board to chars
-	 * 											and appends them one by one to the "buffer".
+	 * @method printBoard()						Converts the board to chars and appends them one by one to the "buffer".
 	 * @throws BoardNotInitializedException
 	 */
 	private void printBoard() {
@@ -45,9 +42,7 @@ public class BoardView {
 				;
 				if (board.getPiece(row, column) != null) {
 					buffer.append(board.getPiece(row, column));
-				} else {
-					buffer.append(".");
-				}
+				} else buffer.append(".");
 			}
 			buffer.append("\n");
 		}
