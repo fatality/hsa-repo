@@ -9,7 +9,7 @@ import java.io.PrintWriter;
 
 public class TerminalUtils {
 	
-	private static final String MSG_DIR = "//diskstation/public/messages/";
+	private static final String MSG_DIR = "terminal/public/messages/";
 	public static final String SERVER_MSG = MSG_DIR + "servermsg.";
 	public static final String INPUT_REQUEST = MSG_DIR + "inputreq.";
 	public static final String INPUT_RESPONSE = MSG_DIR + "inputres.";
