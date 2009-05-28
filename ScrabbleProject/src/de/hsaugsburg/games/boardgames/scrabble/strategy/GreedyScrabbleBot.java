@@ -39,7 +39,7 @@ public class GreedyScrabbleBot implements ICommandScanner {
 	}
 	
 	public static void loadList() {
-		try {	
+		try {	 
 			File list = new File ("wordlist.txt");
 			Scanner scanner = new Scanner(list).useDelimiter("[^A-Za-z\u00e4\u00f6\u00fc\u00c4\u00d6\u00dc]+");
 			while (scanner.hasNext()) {

@@ -9,4 +9,5 @@ de.hsaugsburg.games.boardgames.exceptions
 de.hsaugsburg.games.boardgames.scrabble
 de.hsaugsburg.games.boardgames.scrabble.application
 de.hsaugsburg.games.boardgames.scrabble.consoleui
-de.hsaugsburg.games.boardgames.test
+de.hsaugsburg.games.boardgames.scrabble.strategy
+de.hsaugsburg.games.boardgames.scrabble.test
