@@ -7,14 +7,14 @@ import java.io.InputStreamReader;
 
 public class Terminal {
 
-	private int id;
+	protected final int ID;
 	
 	public Terminal(int id) {
-		this.id = id;
+		this.ID = id;
 	}
 	
-	private String readMessage() {
-		File file = new File(TerminalUtils.SERVER_MSG + id);
+	protected String readMessage() {
+		File file = new File(TerminalUtils.SERVER_MSG + ID);
 		if (file.exists() && file.canRead()) {
 			String tmp = TerminalUtils.readFile(file);
 			file.delete();
@@ -23,8 +23,8 @@ public class Terminal {
 		return null;
 	}
 	
-	private String checkRequest() {
-		File file = new File(TerminalUtils.INPUT_REQUEST + id);
+	protected String checkRequest() {
+		File file = new File(TerminalUtils.INPUT_REQUEST + ID);
 		if (file.exists() && file.canRead()) {
 			String tmp = TerminalUtils.readFile(file);
 			file.delete();
@@ -33,7 +33,7 @@ public class Terminal {
 		return null;
 	}
 	
-	private String getInput() {
+	protected String getInput() {
 		StringBuffer buffer = new StringBuffer();
 		try {
 			BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -60,7 +60,7 @@ public class Terminal {
 			if (request != null) {
 				System.out.print(request);
 				String input = getInput();
-				TerminalUtils.writeFile(new File(TerminalUtils.INPUT_RESPONSE + id), input);
+				TerminalUtils.writeFile(new File(TerminalUtils.INPUT_RESPONSE + ID), input);
 			}
 			try {
 				Thread.sleep(5);
@@ -71,7 +71,7 @@ public class Terminal {
 	}
 
 	public static void main(String[] args) {
-		new Terminal(2).run();
+		new Terminal(1).run();
 	}
 	
 }

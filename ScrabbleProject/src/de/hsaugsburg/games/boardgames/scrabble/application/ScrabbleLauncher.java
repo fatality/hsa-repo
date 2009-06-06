@@ -1,7 +1,5 @@
 package de.hsaugsburg.games.boardgames.scrabble.application;
 
-import java.io.IOException;
-import java.util.logging.LogManager;
 import java.lang.reflect.Proxy;
 import de.hsaugsburg.games.boardgames.scrabble.EventLogger;
 import de.hsaugsburg.games.boardgames.scrabble.IScrabbleEngine;
@@ -18,12 +16,6 @@ public class ScrabbleLauncher {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-//		try {
-//			LogManager.getLogManager().readConfiguration(ClassLoader.getSystemResourceAsStream("scrabble.properties"));
-//		}
-//		catch (IOException e) {
-//			
-//		}
 		ScrabbleBoard board = new ScrabbleBoard();
 		BoardView view = new BoardView(board);
 		IScrabbleEngine engine = new ScrabbleEngine(board, new RandomPool<LetterPiece>());

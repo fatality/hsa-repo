@@ -36,7 +36,18 @@ public class TerminalServer implements Serializable {
 			}
 		}	
 		inputLine = TerminalUtils.readFile(file);
-		file.delete();
+		int count = 0;
+		while (file.exists()) {
+			count++;
+			file.delete();
+			try {
+				Thread.sleep(200);
+			}
+			catch (InterruptedException e) {
+				
+			}
+		}
+		System.err.println(count);
 		return inputLine;
 	}
 
