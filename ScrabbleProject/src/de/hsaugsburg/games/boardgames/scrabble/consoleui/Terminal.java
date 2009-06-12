@@ -71,7 +71,7 @@ public class Terminal {
 	}
 
 	public static void main(String[] args) {
-		new Terminal(1).run();
+		new Terminal(2).run();
 	}
 	
 }

@@ -36,7 +36,7 @@ public class CommandProcessor {
 						engine.engageState(State.INITIAL);
 						engine.setMode((String)params[0]);
 						engine.reset();
-						engine.addDefaultPlayers(3);
+						engine.addDefaultPlayers(2);
 						engine.fillPool();
 						engine.getList().previous();
 						engine.getManager().setPlayer(engine.getList().next());

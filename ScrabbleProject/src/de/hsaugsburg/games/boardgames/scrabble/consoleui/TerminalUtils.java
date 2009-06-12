@@ -2,17 +2,44 @@ package de.hsaugsburg.games.boardgames.scrabble.consoleui;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 
 public class TerminalUtils {
 	
 	private static final String MSG_DIR = "terminal/public/messages/";
 	public static final String SERVER_MSG = MSG_DIR + "servermsg.";
+	public static final String SERVER_OBJ = MSG_DIR + "serverobj.";
 	public static final String INPUT_REQUEST = MSG_DIR + "inputreq.";
 	public static final String INPUT_RESPONSE = MSG_DIR + "inputres.";
+	
+	public static void writeObject(File file, Object obj) {
+		try {
+			ObjectOutputStream stream = new ObjectOutputStream(new FileOutputStream(file));
+			stream.writeObject(obj);
+			stream.flush();
+			stream.close();
+		} catch (IOException e) {
+			System.err.println(e.getMessage());
+		}
+	}
+	
+	public static Object readObject(File file) {
+		ObjectInputStream stream;
+		Object obj = null;
+		try {
+			stream = new ObjectInputStream(new FileInputStream(file));
+			obj = stream.readObject();
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
+		return obj;
+	}
 		
 	public static void writeFile(File file, String msg) {
 		try {
