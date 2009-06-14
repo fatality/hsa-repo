@@ -1,6 +1,6 @@
 package de.hsaugsburg.games.boardgames.scrabble.test;
 
-import de.hsaugsburg.games.boardgames.scrabble.consoleui.TerminalServer;
+import de.hsaugsburg.games.boardgames.scrabble.terminal.TerminalServer;
 
 public class TerminalServerTest {
 	

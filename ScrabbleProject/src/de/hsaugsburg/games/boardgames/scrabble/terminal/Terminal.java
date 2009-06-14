@@ -1,4 +1,4 @@
-package de.hsaugsburg.games.boardgames.scrabble.consoleui;
+package de.hsaugsburg.games.boardgames.scrabble.terminal;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -62,6 +62,7 @@ public class Terminal {
 				String input = getInput();
 				TerminalUtils.writeFile(new File(TerminalUtils.INPUT_RESPONSE + ID), input);
 			}
+			
 			try {
 				Thread.sleep(5);
 			} catch (InterruptedException e) {
@@ -71,7 +72,7 @@ public class Terminal {
 	}
 
 	public static void main(String[] args) {
-		new Terminal(2).run();
+		new Terminal(1).run();
 	}
 	
 }

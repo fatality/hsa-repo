@@ -17,8 +17,8 @@ import de.hsaugsburg.games.boardgames.exceptions.IllegalPieceOperationException;
 import de.hsaugsburg.games.boardgames.exceptions.InvalidStateException;
 import de.hsaugsburg.games.boardgames.exceptions.OutsideBoardException;
 import de.hsaugsburg.games.boardgames.exceptions.UnknownCommandException;
-import de.hsaugsburg.games.boardgames.scrabble.consoleui.CommandProcessor.Command;
 import de.hsaugsburg.games.boardgames.scrabble.strategy.GreedyScrabbleBot;
+import de.hsaugsburg.games.boardgames.scrabble.strategy.GreedyScrabbleTrieBot;
 
 public class ScrabbleEngine implements IScrabbleEngine {
 	
@@ -53,19 +53,20 @@ public class ScrabbleEngine implements IScrabbleEngine {
 		if (!board.isInitialized() && newState != State.INITIAL && newState != State.PLAYER) {
 			throw new InvalidStateException("Start a new game first.");
 		}
-		if (isAgreeing() && (newState != State.AGREEING && newState != State.REJECTING)) {
+		if (isAgreeing() && (newState != State.AGREEING )) {
 			throw new InvalidStateException("Please agree or reject...");
 		}
-		if (!isAgreeing() && (newState == State.AGREEING || newState == State.REJECTING)) {
-			throw new InvalidStateException("Can't agree or reject before commit...");
+		if (!isAgreeing() && (newState == State.AGREEING )) {
+			throw new InvalidStateException("Can't agree before commit...");
 		}
 		this.currentState = newState;
 	}
 	
 	public void reset() {
+		manager.getLetterList().clear();
 		pool.getCollection().clear();
 		for (ScrabblePlayer player : players.getAll()) {
-			player.getMyPieces().clear();
+			player.getPieces().clear();
 		}
 		board.reset();
 	}
@@ -86,7 +87,7 @@ public class ScrabbleEngine implements IScrabbleEngine {
 		return manager;
 	}
 	
-	public Integer getCurrentTerminalId() {
+	public Integer getTerminalId() {
 		if (players.current().isTerminal()) {
 			return players.current().getId(); 
 		}
@@ -115,9 +116,7 @@ public class ScrabbleEngine implements IScrabbleEngine {
 		} else if ("CP".equals(mode)) {
 			this.mode = PlayerMode.COMP;
 		} else {
-			if (mode != null) {
-				throw new UnknownCommandException("Invalid param: " + mode);
-			}
+			if (mode != null) {throw new UnknownCommandException("Invalid param: " + mode);}
 		}
 	}
 	
@@ -128,12 +127,16 @@ public class ScrabbleEngine implements IScrabbleEngine {
 	public void addDefaultPlayers(int number) {
 		if (currentState == State.INITIAL && players.getAll().isEmpty()) {
 			for (int i = 1; i <= number; i++) {
-				if(i == number && mode == PlayerMode.SINGLE) {
+				if (i == number && mode == PlayerMode.SINGLE) {
 					players.add(new ScrabblePlayer("GreedyScrabbleBot", new GreedyScrabbleBot(this, board)));
 				} else if (mode == PlayerMode.COMP){
-					players.add(new ScrabblePlayer("GreedyScrabbleBot" + i, new GreedyScrabbleBot(this, board)));
+					if (i == 1) {
+						players.add(new ScrabblePlayer("GreedyScrabbleBot" + i, new GreedyScrabbleBot(this, board)));
+					} else {
+						players.add(new ScrabblePlayer("GreedyScrabbleTrieBot" + i, new GreedyScrabbleTrieBot(this, board)));
+					}
 				} else {
-					players.add(new ScrabblePlayer("Player" + i, new CommandScanner(Command.values(),true)));
+					players.add(new ScrabblePlayer("Player" + i, new CommandScanner(Command.values())));
 				}
 			}
 		} 
@@ -149,7 +152,7 @@ public class ScrabbleEngine implements IScrabbleEngine {
 	}
 
 	public void givePieces() {
-		for (int i = manager.getPlayer().getMyPieces().size(); i < 7 && !pool.empty(); i++) {
+		for (int i = manager.getPlayer().getPieces().size(); i < 7 && !pool.empty(); i++) {
 			manager.getPlayer().receive(pool.take());
 		}	
 	}
@@ -185,7 +188,8 @@ public class ScrabbleEngine implements IScrabbleEngine {
 	public IScrabbleEngine load() throws GameException {
 		IScrabbleEngine engine;
 		try {
-			ObjectInputStream in = new ObjectInputStream(new FileInputStream(new File("scrabble.sav")));
+			ObjectInputStream in = new ObjectInputStream(
+					new FileInputStream(new File("scrabble.sav")));
 			engine = (IScrabbleEngine) in.readObject();
 			in.close();
 			return engine;

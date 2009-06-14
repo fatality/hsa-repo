@@ -13,7 +13,7 @@ import de.hsaugsburg.games.boardgames.scrabble.ScrabbleEngine.State;
 public interface IScrabbleEngine extends Serializable {
 
 	public abstract void engageState(State newState)
-		throws InvalidStateException, IllegalPieceOperationException, OutsideBoardException;
+			throws InvalidStateException;
 	
 	public abstract void reset();
 	
@@ -25,7 +25,7 @@ public interface IScrabbleEngine extends Serializable {
 	
 	public abstract CircularList<ScrabblePlayer> getList();
 
-	public abstract boolean isFirst();
+	public abstract boolean isFirst() ;
 
 	public abstract boolean isAgreeing();
 
@@ -33,7 +33,7 @@ public interface IScrabbleEngine extends Serializable {
 
 	public abstract void addPlayer(String name);
 
-	public abstract Integer getCurrentTerminalId();
+	public abstract Integer getTerminalId();
 	
 	public abstract List<Integer> getTerminalIds();
 	

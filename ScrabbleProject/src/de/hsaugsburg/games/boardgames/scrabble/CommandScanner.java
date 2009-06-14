@@ -6,7 +6,7 @@ import de.hsaugsburg.games.boardgames.ICommand;
 import de.hsaugsburg.games.boardgames.ICommandScanner;
 import de.hsaugsburg.games.boardgames.exceptions.GameException;
 import de.hsaugsburg.games.boardgames.exceptions.UnknownCommandException;
-import de.hsaugsburg.games.boardgames.scrabble.consoleui.TerminalServer;
+import de.hsaugsburg.games.boardgames.scrabble.terminal.TerminalServer;
 
 public class CommandScanner implements ICommandScanner {
 	

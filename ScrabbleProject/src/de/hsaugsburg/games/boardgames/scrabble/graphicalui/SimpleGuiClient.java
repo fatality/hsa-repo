@@ -8,13 +8,13 @@ import java.awt.event.*;
 import java.io.File;
 import de.hsaugsburg.games.boardgames.scrabble.ScrabbleBoard;
 import de.hsaugsburg.games.boardgames.scrabble.ScrabbleEngine;
-import de.hsaugsburg.games.boardgames.scrabble.consoleui.Terminal;
-import de.hsaugsburg.games.boardgames.scrabble.consoleui.TerminalUtils;
+import de.hsaugsburg.games.boardgames.scrabble.terminal.Terminal;
+import de.hsaugsburg.games.boardgames.scrabble.terminal.TerminalUtils;
 
 public class SimpleGuiClient extends Terminal {
 	
 	private JFrame frame;
-	private DScrabbleBoard boardArea;
+	private GBoardView boardArea;
 	private JTextField textInput;
 	private JLabel promptLabel;
 	private JLabel messageLabel;
@@ -28,7 +28,7 @@ public class SimpleGuiClient extends Terminal {
 			}
 		});
 		
-		boardArea = new DScrabbleBoard(new ScrabbleBoard());
+		boardArea = new GBoardView(new ScrabbleBoard());
 		frame.add(BorderLayout.SOUTH, createControlPanel());
 		frame.add(BorderLayout.CENTER, boardArea);
 		frame.setLocation(200, 200);
@@ -49,7 +49,7 @@ public class SimpleGuiClient extends Terminal {
 		textInput.setEnabled(false);
 		textInput.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(textInput.isEnabled()) {
+				if (textInput.isEnabled()) {
 					TerminalUtils.writeFile(new File(TerminalUtils.INPUT_RESPONSE + ID), textInput.getText());
 					promptLabel.setText(null);
 					textInput.setText(null);
@@ -67,12 +67,19 @@ public class SimpleGuiClient extends Terminal {
 		return controlPanel;
 	}
 	
-	protected ScrabbleEngine readObject() {
+	protected Object readObject() {
 		File file = new File(TerminalUtils.SERVER_OBJ + ID);
 		if (file.exists() && file.canRead()) {
 			Object obj = TerminalUtils.readObject(file);
-			file.delete();
-			return (ScrabbleEngine) obj;
+			while (!file.delete()) {
+				try {
+					Thread.sleep(10);
+				} 
+				catch (InterruptedException e) {
+					
+				}
+			}
+			return obj;
 		}
 		return null;
 	}
@@ -85,10 +92,10 @@ public class SimpleGuiClient extends Terminal {
 				messageLabel.setText(message);
 			}
 			
-			ScrabbleEngine engine = readObject();
-			if (engine != null) {
-				boardArea.setBoard(engine.getBoard());
-				boardArea.render();	
+			ScrabbleBoard board = (ScrabbleBoard) readObject();
+			if (board != null) {
+				boardArea.setBoard(board);
+				boardArea.repaint();
 			}
 			try {
 				Thread.sleep(5);

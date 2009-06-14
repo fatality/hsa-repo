@@ -19,7 +19,7 @@ public abstract class ScrabbleProxy implements IScrabbleEngine{
 		ise.addPiece(piece, row, column);
 	}
 
-	public void engageState(State newState) throws InvalidStateException, IllegalPieceOperationException, OutsideBoardException {
+	public void engageState(State newState) throws InvalidStateException {
 		System.out.println("* vor Aufruf von IScrabble.engageState, newState: " + newState);
 		ise.engageState(newState);
 	}

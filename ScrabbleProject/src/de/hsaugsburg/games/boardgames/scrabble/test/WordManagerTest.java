@@ -2,15 +2,15 @@ package de.hsaugsburg.games.boardgames.scrabble.test;
 
 import static org.junit.Assert.*;
 import java.util.List;
+import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
-import java.util.logging.LogManager;
 import java.util.logging.Logger;
 import org.junit.Before;
 import org.junit.Test;
 import de.hsaugsburg.games.boardgames.GridPoint;
 import de.hsaugsburg.games.boardgames.scrabble.consoleui.BoardView;
-import de.hsaugsburg.games.boardgames.scrabble.consoleui.CommandProcessor.Command;
 import de.hsaugsburg.games.boardgames.exceptions.GameException;
+import de.hsaugsburg.games.boardgames.scrabble.Command;
 import de.hsaugsburg.games.boardgames.scrabble.CommandScanner;
 import de.hsaugsburg.games.boardgames.scrabble.LetterPiece;
 import de.hsaugsburg.games.boardgames.scrabble.ScrabbleBoard;
@@ -19,7 +19,7 @@ import de.hsaugsburg.games.boardgames.scrabble.WordManager;
 
 public class WordManagerTest {
 	
-	Logger logger = Logger.getLogger(WordManager.class.getName());
+	Logger logger;
 	ScrabbleBoard board;
 	WordManager manager;
 	BoardView view;
@@ -27,12 +27,15 @@ public class WordManagerTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		LogManager.getLogManager().readConfiguration(ClassLoader.getSystemResourceAsStream("scrabble.properties"));
 		board = new ScrabbleBoard();
 		view = new BoardView(board);
 		manager = new WordManager(board);
+		logger = Logger.getLogger(WordManager.class.getName());
 		logger.setLevel(Level.ALL);
-		Logger.getLogger("").setLevel(Level.ALL);
+		ConsoleHandler ch = new ConsoleHandler();
+		ch.setLevel(Level.ALL);
+	    logger.addHandler(ch);
+
 	}
 
 	@Test

@@ -1,4 +1,4 @@
-package de.hsaugsburg.games.boardgames.scrabble.consoleui;
+package de.hsaugsburg.games.boardgames.scrabble.terminal;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -35,12 +35,14 @@ public class TerminalUtils {
 		try {
 			stream = new ObjectInputStream(new FileInputStream(file));
 			obj = stream.readObject();
+			stream.close();
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
 		}
 		return obj;
 	}
-		
+	
+	
 	public static void writeFile(File file, String msg) {
 		try {
 			PrintWriter writer = new PrintWriter(new FileOutputStream(file), true);

@@ -1,28 +1,29 @@
 package de.hsaugsburg.games.boardgames.scrabble.strategy;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import de.hsaugsburg.games.boardgames.GridPoint;
 import de.hsaugsburg.games.boardgames.ICommandScanner;
+import de.hsaugsburg.games.boardgames.IRobot;
 import de.hsaugsburg.games.boardgames.ManhattanDirection;
 import de.hsaugsburg.games.boardgames.exceptions.GameException;
+import de.hsaugsburg.games.boardgames.scrabble.Command;
 import de.hsaugsburg.games.boardgames.scrabble.IScrabbleEngine;
 import de.hsaugsburg.games.boardgames.scrabble.LetterPiece;
 import de.hsaugsburg.games.boardgames.scrabble.ScrabbleBoard;
 import de.hsaugsburg.games.boardgames.scrabble.ScrabbleEngine.State;
-import de.hsaugsburg.games.boardgames.scrabble.consoleui.CommandProcessor.Command;
 
-public class GreedyScrabbleBot implements ICommandScanner {
+public class GreedyScrabbleBot implements ICommandScanner, IRobot {
 	
 	private static final long serialVersionUID = -2630144236809665044L;
 	private IScrabbleEngine engine;
 	private ScrabbleBoard board;
-	private static transient List<String> wordList = new ArrayList<String>();
+	private static transient List<String> wordList = new LinkedList<String>();
 	private transient Logger logger;
 	private int dropCnt;
 	
@@ -39,14 +40,14 @@ public class GreedyScrabbleBot implements ICommandScanner {
 	}
 	
 	public static void loadList() {
-		try {	 
+		try {	
 			File list = new File ("wordlist.txt");
 			Scanner scanner = new Scanner(list).useDelimiter("[^A-Za-z\u00e4\u00f6\u00fc\u00c4\u00d6\u00dc]+");
 			while (scanner.hasNext()) {
 				wordList.add(scanner.next().toUpperCase());
 			}
 			scanner.close();
-		} catch(Exception e) {
+		} catch (Exception e){
 			System.err.println(e.getMessage());
 		}
 	}
@@ -64,9 +65,7 @@ public class GreedyScrabbleBot implements ICommandScanner {
 	}
 
 	public Object next(int id) {
-		if (logger == null) {
-			resetLogger();
-		}
+		if (logger == null) {resetLogger();}
 		long t1  = System.nanoTime();
 		boolean commited  = false;
 		for (int row = 0; row < board.getHeight() && !commited; row++) {
@@ -93,9 +92,7 @@ public class GreedyScrabbleBot implements ICommandScanner {
 		boolean h = false;
 		int minlen = 0;
 		while (!engine.isFirst()) {
-			if (!lineCheck.hasNext()) {
-				return false;
-			}
+			if (!lineCheck.hasNext()) {return false;}
 			GridPoint gp = lineCheck.next();
 			for (int i = 0; i < 4; i++) {
 				if (board.isOnTheBoard(gp.plus(rotateDir.gp)) && 

@@ -58,7 +58,10 @@ public class WordManager implements Serializable {
 	}
 	
 	public void addPiece(LetterPiece piece, GridPoint gp) throws IllegalPieceOperationException, OutsideBoardException {
-		if (!currentPlayer.getMyPieces().contains(piece)) {
+		if (piece == null) {
+			throw new IllegalPieceOperationException("No piece selected!");
+		}
+		if (!currentPlayer.getPieces().contains(piece)) {
 			throw new IllegalPieceOperationException("Letter is not in list!");
 		}
 		if (!board.isEmpty(gp)) {
@@ -74,7 +77,7 @@ public class WordManager implements Serializable {
 		}
 		
 		letterList.add(gp);
-		currentPlayer.getMyPieces().remove(piece);
+		currentPlayer.getPieces().remove(piece);
 		board.putPiece(piece, gp);
 		
 		//Logging messages.
@@ -89,7 +92,7 @@ public class WordManager implements Serializable {
 			throw new IllegalPieceOperationException("Piece is fixed!");
 		}
 		
-		currentPlayer.getMyPieces().add(board.getPiece(gp));
+		currentPlayer.getPieces().add(board.getPiece(gp));
 		letterList.remove(gp);
 		logger.log(Level.FINEST, "Piece removed: " + gp + " " + board.getPiece(gp) + ", new list size: " + letterList.size());
 		board.putPiece(null, gp);
@@ -98,7 +101,7 @@ public class WordManager implements Serializable {
 	
 	public void commitLetterSequence(boolean first) throws IllegalPieceOperationException, OutsideBoardException {
 		
-		if(first && board.isEmpty(new GridPoint(7, 7))) {
+		if (first && board.isEmpty(new GridPoint(7, 7))) {
 			throw new IllegalPieceOperationException("Starred field has to be set before first commit!");
 		}
 		if (first && (letterList.size() < 2)) {
@@ -193,14 +196,12 @@ public class WordManager implements Serializable {
 			
 			//Iterate over dropped letters and add startPoint and correlating direction if letter is extension point.
 			GridPoint gp = gpArr[0];
-			if (letterList.size() < 2) {
-				startPoints.add(gp);
-			}
+			if (letterList.size() < 2) {startPoints.add(gp);}
 			Iterator<GridPoint> boardIt = board.iterator(gp, directions.get(0).gp, true);
 			while (boardIt.hasNext()) {
 				if (board.getPiece(gp = boardIt.next()) == null) {
 					break;
-				} else if (!board.getDetails(gp).isFixed()) {
+				} else if (!board.getDetails(gp).isFixed()){
 					ManhattanDirection rotateDir = directions.get(0).orthogonalDir();
 					for (int i = 0; i < 2; i++) {
 						if (board.isOnTheBoard(gp.plus(rotateDir.gp)) && 
@@ -226,7 +227,7 @@ public class WordManager implements Serializable {
 					startPoints.set(i, gp);
 					if (!boardIt.hasNext()) {
 						break;
-					}
+					}	
 				}
 				boardIt = board.iterator(startPoints.get(i), directions.get(i).gp, true);
 				
@@ -269,16 +270,17 @@ public class WordManager implements Serializable {
 	public void removePreliminaryPieces() {
 		List<LetterPiece> recollected = new ArrayList<LetterPiece>(7);
 		Iterator<GridPoint> it  = letterList.iterator();
-		while(it.hasNext()) {
+		while (it.hasNext()) {
 			GridPoint gp = it.next();
 			if (!board.getDetails(gp).isFixed()) {
 				recollected.add(board.removePiece(gp));
 			}
+
 		}
 		currentPlayer.receiveAll(recollected);
 		letterList.clear();
 		wordList.clear();
-		//Mit Liste "recollected", um sie gegebenenfalls auch returnen zu k�nnen.
+		//Mit Liste "recollected", um sie gegebenenfalls auch returnen zu können.
 	}
 	
 	public int changePreliminaryStatus() {

@@ -29,6 +29,7 @@ public class ScrabbleBoardTest {
 		bot.getWordList().add("ER");
 	}
 	
+
 	@Test
 	public void testEqualsObject() {
 		
@@ -41,7 +42,7 @@ public class ScrabbleBoardTest {
 			engine.getList().previous();
 			engine.getManager().setPlayer(engine.getList().next());
 			engine.givePieces();
-			System.out.println(engine.getManager().getPlayer().getMyPieces().toString());
+			System.out.println(engine.getManager().getPlayer().getPieces().toString());
 			
 			// ADD (Player1)
 			engine.engageState(State.DROPPING);
@@ -61,7 +62,7 @@ public class ScrabbleBoardTest {
 			engine.getManager().changePreliminaryStatus();
 			engine.getManager().setPlayer(engine.getList().next());
 			engine.givePieces();
-			System.out.println(engine.getManager().getPlayer().getMyPieces().toString());
+			System.out.println(engine.getManager().getPlayer().getPieces().toString());
 			
 			// compare fixed
 			fakeBoard.getDetails(7, 7).setFixed();
@@ -75,7 +76,7 @@ public class ScrabbleBoardTest {
 			engine.getManager().changePreliminaryStatus();
 			engine.getManager().setPlayer(engine.getList().next());
 			engine.givePieces();
-			System.out.println(engine.getManager().getPlayer().getMyPieces().toString());
+			System.out.println(engine.getManager().getPlayer().getPieces().toString());
 			
 			fakeBoard.putPiece(LetterPiece.R, 8, 7);
 			fakeBoard.getDetails(8, 7).setFixed();

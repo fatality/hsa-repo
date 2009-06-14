@@ -5,7 +5,7 @@ import java.io.StringWriter;
 import java.util.Iterator;
 import java.util.List;
 import de.hsaugsburg.games.boardgames.*;
-import de.hsaugsburg.games.boardgames.scrabble.consoleui.CommandProcessor.Command;
+import de.hsaugsburg.games.boardgames.scrabble.Command;
 
 /**
  * @author Marc Rochow, Anja Radtke
@@ -20,6 +20,7 @@ public class BoardView {
 	private StringWriter unistring;
 	private StringWriter brostring;
 
+	
 	public BoardView(Board<?, ?> board) {
 		this.board = board;
 		broadcast = new PrintWriter(brostring = new StringWriter());
@@ -33,9 +34,9 @@ public class BoardView {
 	public void render() {
 		clearBuffer();
 		printBoard();
-		printPlayer();
 		broadcast.print(buffer);
 		System.out.print(buffer);
+		printPlayer();	
 	}
 	
 	private void printBoard() {
@@ -43,8 +44,11 @@ public class BoardView {
 	}
 	
 	public void printPlayer() {
-		if (currentPlayer == null) return;
+		StringBuffer buffer = new StringBuffer();
+		if(currentPlayer == null) return;
 		buffer.append("Current player: " + currentPlayer.toString() + "\n");
+		unicast.print(buffer);
+		System.out.print(buffer);
 	}
 	
 	public void setPlayer(Player player) {
@@ -53,12 +57,13 @@ public class BoardView {
 	
 	private void clearBuffer() {
 		buffer = new StringBuffer(300);
+		brostring.getBuffer().setLength(0);
 	}
 
 	public void printPoints(Player player) {
 		StringBuffer buffer = new StringBuffer();
-		buffer.append("NEW POINTS: " + player.getLastPoints() + player.getName() + " TOTAL: " + player.getPoints());
-		broadcast.println(buffer);
+		buffer.append(player.getName() + " NEW/TOTAL POINTS: " + player.getLastPoints() + "/" + player.getPoints());
+		unicast.println(buffer);
 		System.out.println(buffer);
 	}
 	
@@ -70,7 +75,7 @@ public class BoardView {
 			buffer.append(" ");
 			buffer.append(it.next());
 		}
-		broadcast.println(buffer);
+		unicast.println(buffer);
 		System.out.println(buffer);
 	}
 	
@@ -80,7 +85,7 @@ public class BoardView {
 		for (int i = 0; i < commands.length; i++) {
 			buffer.append(commands[i].getToken()+ " " + commands[i].getHelpText() + '\n');
 		}
-		broadcast.print(buffer);
+		unicast.print(buffer);
 		System.out.print(buffer);
 	}
 	
@@ -90,24 +95,15 @@ public class BoardView {
 	}
 	
 	public String getBroadcast() {
-		broadcast.flush();
-		brostring.flush();
 		String tmp = brostring.toString();
-		brostring.getBuffer().delete(0, brostring.getBuffer().capacity());
+		brostring.getBuffer().setLength(0);
 		return tmp;
 	}
 	
 	public String getUnicast() {
-		unicast.flush();
-		unistring.flush();
 		String tmp = unistring.toString();
-		unistring.getBuffer().delete(0, unistring.getBuffer().capacity());
+		unistring.getBuffer().setLength(0);
 		return tmp;
 	}
 	
-	public void close() {
-		unicast.close();
-		broadcast.close();
-	}
-
 }

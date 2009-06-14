@@ -1,4 +1,4 @@
-package de.hsaugsburg.games.boardgames.scrabble.consoleui;
+package de.hsaugsburg.games.boardgames.scrabble.terminal;
 
 import java.io.File;
 import java.io.Serializable;
@@ -7,6 +7,22 @@ import java.util.List;
 public class TerminalServer implements Serializable {
 	
 	private static final long serialVersionUID = -9018733712413879187L;
+	
+	public void sendObject(Object obj, List<Integer> terminalIds) {
+		for (Integer id : terminalIds) {
+			sendObject(obj, id);
+			try {
+				Thread.sleep(1);
+			} catch (InterruptedException e) {
+				
+			}
+		}
+	}
+	
+	public void sendObject(Object obj, int id) {
+		File file = new File(TerminalUtils.SERVER_OBJ + id);
+		TerminalUtils.writeObject(file, obj);
+	}
 	
 	public void sendMessage(String msg, List<Integer> terminalIds) {
 		for (Integer id : terminalIds) {
@@ -34,20 +50,16 @@ public class TerminalServer implements Serializable {
 			} catch (InterruptedException e) {
 				
 			}
-		}	
+		}
 		inputLine = TerminalUtils.readFile(file);
-		int count = 0;
 		while (file.exists()) {
-			count++;
 			file.delete();
 			try {
 				Thread.sleep(200);
-			}
-			catch (InterruptedException e) {
+			} catch (InterruptedException e) {
 				
 			}
 		}
-		System.err.println(count);
 		return inputLine;
 	}
 

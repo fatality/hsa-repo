@@ -33,7 +33,7 @@ public class ScrabblePlayer extends Player implements ICommandScanner {
 		myPieces.remove(piece);
 	}
 	
-	public List<LetterPiece> getMyPieces(){
+	public List<LetterPiece> getPieces(){
 		return myPieces;
 	}
 	
@@ -49,9 +49,13 @@ public class ScrabblePlayer extends Player implements ICommandScanner {
 		return scanner.isTerminal();
 	}
 	
+	public ICommandScanner getScanner() {
+		return scanner;
+	}
+	
 	@Override
 	public String toString() {
-		return getName() + "\nPieces: " + getMyPieces().toString();
+		return getName() + " " + "\nPieces: " + getPieces().toString();
 	}
 	
 }

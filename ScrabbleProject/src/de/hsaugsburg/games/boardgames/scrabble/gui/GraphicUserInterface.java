@@ -1,7 +1,6 @@
 package de.hsaugsburg.games.boardgames.scrabble.gui;
 
 import java.awt.BorderLayout;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -11,11 +10,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import de.hsaugsburg.games.boardgames.scrabble.consoleui.Terminal;
-import de.hsaugsburg.games.boardgames.scrabble.consoleui.TerminalUtils;
-import de.hsaugsburg.games.boardgames.scrabble.graphicalui.SimpleGuiClient;
+import de.hsaugsburg.games.boardgames.scrabble.terminal.Terminal;
+import de.hsaugsburg.games.boardgames.scrabble.terminal.TerminalUtils;
 
 public class GraphicUserInterface extends Terminal {
 
@@ -49,7 +46,7 @@ public class GraphicUserInterface extends Terminal {
 		
 		picPanel = new JPanel();
 		frame.getContentPane().add(picPanel, BorderLayout.NORTH);
-		picLabel = new JLabel(new ImageIcon("./resources/scrabble_board_full.png"));
+		picLabel = new JLabel(new ImageIcon("./ressources/Scrabble_Spielfeld.png"));
 		//Now an idea for an simple and adequate GUI, a mixture between "drag and drop" and "console GUI"
 		/*TODO: split the board to :
 		        a NORTH label: A to Z, 
@@ -67,11 +64,11 @@ public class GraphicUserInterface extends Terminal {
 		frame.setLocation(200, 200);
 		frame.pack();
 		frame.setVisible(true);
+		
 	}
 	
 	public static void main(String[] args) {
-		GraphicUserInterface gui = new GraphicUserInterface(1);
-		
+		new GraphicUserInterface(1);
 	}
 	
 }
