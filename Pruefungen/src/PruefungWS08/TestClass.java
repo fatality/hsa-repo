@@ -14,7 +14,7 @@ public class TestClass {
 		sk.addGericht(g1);
 		sk.addGericht(g2);
 		
-		System.out.println(sk.getBilligstes(g1.typ.toString()));
+		System.out.println(sk.getBilligstes(g1.typ).toString());
 	}
 
 }
