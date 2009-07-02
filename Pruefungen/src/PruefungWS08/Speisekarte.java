@@ -15,6 +15,8 @@ public class Speisekarte {
 			if (gerichte[i] == null) {
 				gerichte[i] = gericht;
 			}
+			if(z < gerichte.length)
+				gerichte[z++]=gericht;
 		}
 	}
 	
