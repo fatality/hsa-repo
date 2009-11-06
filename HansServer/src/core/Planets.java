@@ -83,6 +83,7 @@ public class Planets {
 	 */
 	public void confirm(){
 		this.startposition = this.endposition;
+		this.endposition = null;
 	}
 	
 }
