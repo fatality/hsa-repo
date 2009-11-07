@@ -4,8 +4,15 @@
  */
 package core;
 
+import java.util.ArrayList;
+import core.Planets;
+
 public class Management {
 
+	public Planets centralStar;
+	public ArrayList<Planets> planets;
+	
+	
     /**
      * @param args
      */
