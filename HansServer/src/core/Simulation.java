@@ -9,4 +9,6 @@ package core;
  */
 public class Simulation {
 
+public final double g = 6.674E-11;
+	
 }

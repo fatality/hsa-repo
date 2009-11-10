@@ -17,14 +17,14 @@ public class Planets {
 	
 	private Vector position;
 	private final Vector speed;
-	private final float mass;
+	private final double mass;
 	
 	/**
 	 * Contructor for Planets
-	 * Gets a Vector(x,y,z) as float-Array for position and speed.
-	 * Gets a float for the mass
+	 * Gets Vectors for position and speed
+	 * Gets a double for the mass
 	 */
-	public Planets(Vector position, Vector speed, float mass){
+	public Planets(Vector position, Vector speed, double mass){
 		this.position = position;
 		this.speed = speed;
 		this.mass = mass;
@@ -51,10 +51,10 @@ public class Planets {
 	
 	/**
 	 * Getter for Mass
-	 * Returns a float with the mass
-	 * @return float
+	 * Returns a double with the mass
+	 * @return double
 	 */
-	public float getMass(){
+	public double getMass(){
 		return this.mass;
 	}
 	

@@ -11,11 +11,11 @@ package core;
 
 public class Vector {
 	
-public float x = 0;
-public float y = 0;
-public float z = 0;
+public double x = 0;
+public double y = 0;
+public double z = 0;
 
-public Vector(float x, float y, float z){
+public Vector(double x, double y, double z){
 	this.x = x;
 	this.y = y;
 	this.z = z;
