@@ -15,18 +15,17 @@ package core;
  */
 public class Planets {
 	
-	public float[] startposition = new float[3];
-	public float[] endposition = new float[3];
-	public float[] speed = new float[3];
-	public float mass;
+	private Vector position;
+	private final Vector speed;
+	private final float mass;
 	
 	/**
 	 * Contructor for Planets
 	 * Gets a Vector(x,y,z) as float-Array for position and speed.
 	 * Gets a float for the mass
 	 */
-	public Planets(short central, float[] position, float[] speed, float mass){
-		this.startposition = position;
+	public Planets(Vector position, Vector speed, float mass){
+		this.position = position;
 		this.speed = speed;
 		this.mass = mass;
 	}
@@ -34,19 +33,19 @@ public class Planets {
 	
 	/**
 	 * Getter for Startposition
-	 * Returns an float-Array with the Coordinates(x,y,z)
-	 * @return float[x,y,z]
+	 * Returns the Position as a Vector
+	 * @return Vector
 	 */
-	public float[] getStart(){
-		return this.startposition;
+	public Vector getStart(){
+		return this.position;
 	}
 	
 	/**
 	 * Getter for Speed
-	 * Returns an float-Array with the Speed-Vektor(x,y,z)
-	 * @return float[x,y,z]
+	 * Returns the Speed as a Vector
+	 * @return Vector
 	 */
-	public float[] getSpeed(){
+	public Vector getSpeed(){
 		return this.speed;
 	}
 	
@@ -57,33 +56,6 @@ public class Planets {
 	 */
 	public float getMass(){
 		return this.mass;
-	}
-    
-	/**
-	 * Setter for endposition
-	 * Checks if the endpositions is null.
-	 * If yes, stores the end position and returns true
-	 * Else returns false.
-	 * Maybe usefull for an exception later
-	 * @param float[x,y,z]
-	 * @return boolean
-	 */
-	public boolean setEnd(float[] end){
-		if(this.endposition == null){
-			this.endposition = end;
-			return true;
-		}
-		else
-			return false;
-	}
-	
-	/**
-	 * Confirmation of endposition
-	 * Sets the endposition as new startposition
-	 */
-	public void confirm(){
-		this.startposition = this.endposition;
-		this.endposition = null;
 	}
 	
 }
