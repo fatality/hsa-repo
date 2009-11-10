@@ -26,4 +26,15 @@ public Vector getStartSpeed(double centralMass, double planetMass, double distan
 	return speed;
 	}
 
+/**
+ * Calculates the Gravitations between two Planets.
+ * @param Planets m1
+ * @param Planets m2
+ * @return Vector
+ */
+public Vector calcGravitation(Planets m1, Planets m2){
+	
+	return null;
+}
+
 }

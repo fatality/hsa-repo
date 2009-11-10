@@ -36,8 +36,12 @@ public Vector addVec(Vector toAdd){
 }
 
 
-
-
-	
+/**
+ * Negates a Vector and returns the new negated Vector.
+ * @return Vector
+ */
+public Vector negateVec(){
+	return new Vector(-this.x, -this.y, -this.z);
+}
 	
 }
