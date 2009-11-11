@@ -35,6 +35,19 @@ public Vector addVec(Vector toAdd){
 	return sum;
 }
 
+/**
+ * Subtracts the given Vector from the actual one
+ * @param Vector subThis
+ * @return Vector
+ */
+public Vector subVec(Vector subThis){
+	Vector sub = new Vector(this.x - subThis.x,
+							this.y - subThis.y,
+							this.z - subThis.z);
+	return sub;
+}
+
+
 
 /**
  * Negates a Vector and returns the new negated Vector.
@@ -42,6 +55,24 @@ public Vector addVec(Vector toAdd){
  */
 public Vector negateVec(){
 	return new Vector(-this.x, -this.y, -this.z);
+}
+
+/**
+ * Returns the length of a vector
+ * @return double
+ */
+public double getLenght(){
+	return Math.sqrt(x*x + y*y + z*z);
+}
+
+/**
+ * Multiplies a Vector with a given double
+ * @param double multWith
+ * @return Vector
+ */
+public Vector multiplyVector(double multWith){
+	Vector mult = new Vector (this.x*multWith, this.y*multWith, this.z*multWith);
+	return mult;
 }
 	
 }

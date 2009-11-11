@@ -36,7 +36,7 @@ public class Planets {
 	 * Returns the Position as a Vector
 	 * @return Vector
 	 */
-	public Vector getStart(){
+	public Vector getPosition(){
 		return this.position;
 	}
 	
