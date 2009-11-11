@@ -74,5 +74,18 @@ public Vector multiplyVector(double multWith){
 	Vector mult = new Vector (this.x*multWith, this.y*multWith, this.z*multWith);
 	return mult;
 }
+
+/**
+ * Kreuzprodukt zweier Vektoren
+ * @param cross With
+ * @return Vector
+ */
+public Vector crossVec(Vector cWith){
+	Vector cross = new Vector(this.y*cWith.z - this.z*cWith.y,
+								this.z*cWith.x - this.x*cWith.z,
+								this.x*cWith.y - this.y*cWith.x);
+
+	return cross;
+}
 	
 }

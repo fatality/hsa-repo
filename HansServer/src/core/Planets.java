@@ -16,20 +16,26 @@ package core;
 public class Planets {
 	
 	private Vector position;
-	private final Vector speed;
-	private final double mass;
+	private double speed;
+	private double mass;
 	
 	/**
 	 * Contructor for Planets
 	 * Gets Vectors for position and speed
 	 * Gets a double for the mass
 	 */
-	public Planets(Vector position, Vector speed, double mass){
+	public Planets(Vector position, double mass){
 		this.position = position;
-		this.speed = speed;
 		this.mass = mass;
 	}
-	
+
+	/**
+	 * Setter for speed
+	 * @param speed
+	 */
+	public void setSpeed(double speed){
+		this.speed = speed;
+	}
 	
 	/**
 	 * Getter for Startposition
@@ -45,7 +51,7 @@ public class Planets {
 	 * Returns the Speed as a Vector
 	 * @return Vector
 	 */
-	public Vector getSpeed(){
+	public double getSpeed(){
 		return this.speed;
 	}
 	

@@ -10,6 +10,18 @@ package core;
 public class Simulation {
 
 public final double G = 6.672E-11;
+public final double t;
+public final Vector speedDirection;
+	
+	
+/**
+ * Constructor for Simulation
+ * @param t for time intervals
+ */
+public Simulation(double t, Vector speedDirection){
+	this.t = t;
+	this.speedDirection = speedDirection;
+}
 	
 
 /**
@@ -18,17 +30,31 @@ public final double G = 6.672E-11;
  * @param Planets centralStar
  * @return Vector Speed
  */
-public Vector getStartSpeed(Planets centralStar, Planets planet){
+public double getStartSpeed(Planets centralStar, Planets planet){
 	
 	double speedMath = ((centralStar.getMass() - planet.getMass())/centralStar.getMass())
-						*Math.sqrt((G*centralStar.getMass())/planet.getPosition().getLenght());
-	Vector speed = new Vector(0,speedMath,0);
-	return speed;
+						*Math.sqrt((G*centralStar.getMass())/planet.getPosition().subVec(centralStar.getPosition()).getLenght());
+
+	return speedMath;
 	}
 
 /**
+ * Calculates the direction of the Speed Vector
+ * @param centralStar
+ * @param planet
+ * @return Vector
+ */
+public Vector speedDir(Planets centralStar, Planets planet){
+	Vector vi = planet.getPosition().subVec(centralStar.getPosition()).crossVec(speedDirection);
+	Vector speed = vi.multiplyVector(1/planet.getSpeed());
+	return speed;
+}
+
+
+
+
+/**
  * Calculates the Gravitation between two Planets.
- * 
  * @param Planets m1
  * @param Planets m2
  * @return Vector
@@ -44,6 +70,26 @@ public Vector getStartSpeed(Planets centralStar, Planets planet){
 	}
 	
 	
+	/**
+	 * Calculates the acceleration for a planet
+	 * @param planet
+	 * @param Vector f (all gravitation together)
+	 * @return Vector
+	 */
+	public Vector calcAcc(Planets planet, Vector f){
+		return f.multiplyVector((1/planet.getMass()));
+	}
+
+	/**
+	 * Calculates the new position for a planet
+	 * @param planet
+	 * @param acceleration
+	 * @return Vector
+	 */
+	public Vector simStep(Planets centralStar, Planets planet, Vector acc){
+		Vector newPos = planet.getPosition().addVec(speedDir(centralStar, planet).multiplyVector(t)).addVec(acc.multiplyVector((t*t)/2));
+		return newPos;
+	}
 	
 
 }
