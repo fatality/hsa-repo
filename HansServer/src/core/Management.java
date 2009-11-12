@@ -5,19 +5,18 @@
 package core;
 
 import java.util.ArrayList;
-import core.Planets;
 
 public class Management {
 
 	public Planets centralStar;
 	public ArrayList<Planets> planets;
-	public ArrayList<Planets> newPosPlanet;
+	public ArrayList<Planets> newPosPlanet = new ArrayList<Planets>();
 	public Simulation sim;
 
 	public void startSimulation() {
 		sim = new Simulation(84600, new Vector(0, 0, 1));
 		initCentral();
-		initPlanets();
+		initPlanets(1);
 	}
 
 	public void initCentral() {
@@ -26,14 +25,28 @@ public class Management {
 		centralStar = central;
 	}
 
-	public void initPlanets() {
+	public void initPlanets(int planetCount) {
 		ArrayList<Planets> god = new ArrayList<Planets>();
-		god.add(new Planets(new Vector(0, 150E6, 0), 5.976E24));
+		for (int i = planetCount; i > 0; i--) {
+			Planets temp = new Planets(new Vector(0, 150E6, 0), 5.976E24);
+			temp.setSpeed(sim.getStartSpeed(centralStar, temp));
+			god.add(temp);
+		}
+
 		planets = god;
 	}
 	
 	public void doSim() {
-		
+		for (int i = 0; i <=365; i++) {
+			Vector f = sim.calcGravitation(centralStar, planets.get(0));
+			Vector a = sim.calcAcc(planets.get(0), f);
+			Vector p = sim.simStep(centralStar, planets.get(0), a);
+			Planets g = new Planets(p, planets.get(0).getMass(), planets.get(0).getSpeed());
+			newPosPlanet.add(g);
+			System.out.println(p);
+			planets = newPosPlanet;
+			newPosPlanet = new ArrayList<Planets>();
+		}
 	}
 
 }

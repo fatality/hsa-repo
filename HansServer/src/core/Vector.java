@@ -87,5 +87,14 @@ public Vector crossVec(Vector cWith){
 
 	return cross;
 }
+
+public String toString(){
+	System.out.println(x);
+	System.out.println(y);
+	System.out.println(z);
+	System.out.println();
+	return null;
+	
+}
 	
 }
