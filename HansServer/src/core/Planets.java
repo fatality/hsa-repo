@@ -38,7 +38,7 @@ public class Planets {
 	}
 	
 	/**
-	 * Getter for Startposition
+	 * Getter for Position
 	 * Returns the Position as a Vector
 	 * @return Vector
 	 */
