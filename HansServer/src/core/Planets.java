@@ -28,6 +28,12 @@ public class Planets {
 		this.position = position;
 		this.mass = mass;
 	}
+	
+	public Planets(Vector position, double mass, double speed) {
+		this.position = position;
+		this.mass = mass;
+		this.speed = speed;
+	}
 
 	/**
 	 * Setter for speed
@@ -44,6 +50,10 @@ public class Planets {
 	 */
 	public Vector getPosition(){
 		return this.position;
+	}
+	
+	public void setPosition(Vector position) {
+		this.position = position;
 	}
 	
 	/**
