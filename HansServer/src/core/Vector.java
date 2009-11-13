@@ -88,6 +88,11 @@ public Vector crossVec(Vector cWith){
 	return cross;
 }
 
+
+/**
+ * @Override
+ * @TODO Only used for programming! Will be deleted later.
+ */
 public String toString(){
 	System.out.println(x);
 	System.out.println(y);

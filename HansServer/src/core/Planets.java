@@ -5,8 +5,6 @@
 package core;
 
 /**
- * lists every planet we use in this simulation
- * 
  * 06.11.09 Only a quick implementation - not Final!
  * Only a construction class for Planets. They will be
  * stored in the Management.
@@ -29,6 +27,12 @@ public class Planets {
 		this.mass = mass;
 	}
 	
+	/**
+	 * Overloaded Constructor for Planets. Used to copy known planets
+	 * @param Vector position
+	 * @param double mass
+	 * @param double speed
+	 */
 	public Planets(Vector position, double mass, double speed) {
 		this.position = position;
 		this.mass = mass;

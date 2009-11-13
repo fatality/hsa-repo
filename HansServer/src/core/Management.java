@@ -13,18 +13,30 @@ public class Management {
 	public ArrayList<Planets> newPosPlanet = new ArrayList<Planets>();
 	public Simulation sim;
 
+	/**
+	 * Collection of methods to initialize the star system
+	 * 
+	 */
 	public void startSimulation() {
 		sim = new Simulation(84600, new Vector(0, 0, 1));
 		initCentral();
 		initPlanets(1);
 	}
 
+	/**
+	 * Inits the central Star, by saving it into its variable
+	 */
 	public void initCentral() {
 		Planets central = new Planets(new Vector(0, 0, 0), 1.985E30);
 		central.setSpeed(0);
 		centralStar = central;
 	}
 
+	
+	/**
+	 * Inits the Planets which will be simulated and saves them into the planets arraylist
+	 * @param planetCount (Number of planets)
+	 */
 	public void initPlanets(int planetCount) {
 		ArrayList<Planets> god = new ArrayList<Planets>();
 		for (int i = planetCount; i > 0; i--) {
@@ -36,6 +48,12 @@ public class Management {
 		planets = god;
 	}
 	
+	
+	/**
+	 * Responsable for the simulation.
+	 * @TODO Insert Master-Worker here
+	 * 
+	 */
 	public void doSim() {
 		for (int i = 0; i <=365; i++) {
 			Vector f = sim.calcGravitation(centralStar, planets.get(0));
