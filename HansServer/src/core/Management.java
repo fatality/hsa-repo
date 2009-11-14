@@ -19,6 +19,14 @@ public class Management {
 	public int countTodo;
 	
 
+	/**
+	 * Construtor of the Management(Master)
+	 * Initializes the Starsystem
+	 * @param t = time Intervals
+	 * @param animationDirection = the direction the planets will fly in the system
+	 * @param NumberOfPlanets 
+	 * @param simDuration = how many iterations will be calculatet
+	 */
 	public Management(int t, Vector animationDirection, int NumberOfPlanets, int simDuration){
 		sim = new Simulation(t, animationDirection);
 		calculatedPlanets = new ArrayList<Planet>();
@@ -27,16 +35,6 @@ public class Management {
 		countTodo = NumberOfPlanets;
 	}
 	
-	/**
-	 * Collection of methods to initialize the star system
-	 * 
-	 */
-	public void startSimulation() {
-		sim = new Simulation(84600, new Vector(0, 0, 1));
-		calculatedPlanets = new ArrayList<Planet>();
-		initCentral();
-		initPlanets(1);
-	}
 
 	/**
 	 * Inits the central Star, by saving it into its variable
@@ -81,6 +79,10 @@ public class Management {
 			planets = calculatedPlanets;
 			calculatedPlanets = new ArrayList<Planet>();
 		}
+	}
+	
+	public void distributeWork(){
+
 	}
 	
 }

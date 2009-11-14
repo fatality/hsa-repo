@@ -13,7 +13,6 @@ public class StartSim {
 		
 		Management man = new Management(84600, new Vector(0,0,1),1, 365);
 		
-		man.startSimulation();
 		man.doSim();
 		
 	}

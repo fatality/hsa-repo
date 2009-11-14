@@ -7,11 +7,15 @@ public class Worker {
 	public double f;
 	public ArrayList<Planet> otherPlanets;
 	public Planet centralPlanet;
-	public Planet calcPlanet;
 	public Simulation sim;
+	public int planetToCalc;
 	
 	
 	public Worker(double t, Vector animationDir){
 		this.sim = new Simulation(t, animationDir);
+	}
+	
+	public void doSim(){
+		
 	}
 }
