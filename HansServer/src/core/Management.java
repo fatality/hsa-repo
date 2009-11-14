@@ -10,7 +10,7 @@ public class Management {
 
 	public Planets centralStar;
 	public ArrayList<Planets> planets;
-	public ArrayList<Planets> newPosPlanet = new ArrayList<Planets>();
+	public ArrayList<Planets> newPosPlanet;
 	public Simulation sim;
 
 	/**
@@ -19,6 +19,7 @@ public class Management {
 	 */
 	public void startSimulation() {
 		sim = new Simulation(84600, new Vector(0, 0, 1));
+		newPosPlanet = new ArrayList<Planets>();
 		initCentral();
 		initPlanets(1);
 	}
@@ -66,5 +67,6 @@ public class Management {
 			newPosPlanet = new ArrayList<Planets>();
 		}
 	}
-
+	
+	
 }
