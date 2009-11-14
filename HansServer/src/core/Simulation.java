@@ -11,26 +11,26 @@ public class Simulation {
 
 	public final double G = 6.672E-11;
 	public final double t;
-	public final Vector speedDirection;
+	public final Vector animationDirection;
 
 	/**
 	 * Constructor for Simulation
 	 * 
 	 * @param t for time intervals
 	 */
-	public Simulation(double t, Vector speedDirection) {
+	public Simulation(double t, Vector animationDirection) {
 		this.t = t;
-		this.speedDirection = speedDirection;
+		this.animationDirection = animationDirection;
 	}
 
 	/**
 	 * Calculates the Speed for a new Planet.
 	 * 
-	 * @param Planets planet
-	 * @param Planets centralStar
+	 * @param Planet planet
+	 * @param Planet centralStar
 	 * @return Vector Speed
 	 */
-	public double getStartSpeed(Planets centralStar, Planets planet) {
+	public double getStartSpeed(Planet centralStar, Planet planet) {
 
 		double speedMath = ((centralStar.getMass() - planet.getMass()) / centralStar.getMass())
 				* Math.sqrt((G * centralStar.getMass())
@@ -46,8 +46,8 @@ public class Simulation {
 	 * @param planet
 	 * @return Vector
 	 */
-	public Vector speedDir(Planets centralStar, Planets planet) {
-		Vector vi = planet.getPosition().subVec(centralStar.getPosition()).crossVec(speedDirection);
+	public Vector speedDir(Planet centralStar, Planet planet) {
+		Vector vi = planet.getPosition().subVec(centralStar.getPosition()).crossVec(animationDirection);
 		Vector speed = vi.multiplyVector(1 / planet.getSpeed());
 		return speed;
 	}
@@ -55,11 +55,11 @@ public class Simulation {
 	/**
 	 * Calculates the Gravitation between two Planets.
 	 * 
-	 * @param Planets m1
-	 * @param Planets m2
+	 * @param Planet m1
+	 * @param Planet m2
 	 * @return Vector
 	 */
-	public Vector calcGravitation(Planets m1, Planets m2) {
+	public Vector calcGravitation(Planet m1, Planet m2) {
 		double m1m2 = m1.getMass() * m2.getMass();
 		double lengthr2Minusr1 = m2.getPosition().subVec(m1.getPosition()).getLenght();
 		Vector r2Minusr1 = m2.getPosition().subVec(m1.getPosition());
@@ -77,7 +77,7 @@ public class Simulation {
 	 * @param Vector f (all gravitation together)
 	 * @return Vector
 	 */
-	public Vector calcAcc(Planets planet, Vector f) {
+	public Vector calcAcc(Planet planet, Vector f) {
 		return f.multiplyVector((1 / planet.getMass()));
 	}
 
@@ -88,7 +88,7 @@ public class Simulation {
 	 * @param acceleration
 	 * @return Vector
 	 */
-	public Vector simStep(Planets centralStar, Planets planet, Vector acc) {
+	public Vector simStep(Planet centralStar, Planet planet, Vector acc) {
 		Vector newPos = planet.getPosition().addVec(speedDir(centralStar, planet).multiplyVector(t)).addVec(
 				acc.multiplyVector((t * t) / 2));
 		return newPos;

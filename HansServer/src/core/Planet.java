@@ -11,7 +11,7 @@ package core;
  * Central Planet will be stored in an extra array
  * in the Management.
  */
-public class Planets {
+public class Planet {
 	
 	private Vector position;
 	private double speed;
@@ -22,7 +22,7 @@ public class Planets {
 	 * Gets Vectors for position and speed
 	 * Gets a double for the mass
 	 */
-	public Planets(Vector position, double mass){
+	public Planet(Vector position, double mass){
 		this.position = position;
 		this.mass = mass;
 	}
@@ -33,7 +33,7 @@ public class Planets {
 	 * @param double mass
 	 * @param double speed
 	 */
-	public Planets(Vector position, double mass, double speed) {
+	public Planet(Vector position, double mass, double speed) {
 		this.position = position;
 		this.mass = mass;
 		this.speed = speed;
