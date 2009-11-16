@@ -12,7 +12,7 @@ public class Worker {
 	
 	
 	// Die Variablen werden durch abruf einer Workorder vom 
-	// zentralen synchronisierten Abholplatz (Array) gefüllt
+	// zentralen synchronisierten Abholplatz (Array) gefÃ¼llt
 	// Hab grade ne blockade, kanns nicht implementieren.
 	
 	
@@ -38,7 +38,7 @@ public class Worker {
 		Planet g = new Planet(p, planets.get(planetToCalc).getMass(), planets.get(planetToCalc).getSpeed());
 	
 		//Hier wird die Methode aufgerufen mit der, der Worker, den neu berechneten
-		//Planeten in das Array Speichert das vom Master auf vollständigkeit geprüft
+		//Planeten in das Array Speichert das vom Master auf VollstÃ¤ndigkeit geprÃ¼ft
 		//wird.
 	
 	}

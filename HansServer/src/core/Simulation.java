@@ -26,16 +26,12 @@ public class Simulation {
 	/**
 	 * Calculates the Speed for a new Planet.
 	 * 
-	 * @param Planet planet
+	 * @param Planet  planet
 	 * @param Planet centralStar
 	 * @return Vector Speed
 	 */
 	public double getStartSpeed(Planet centralStar, Planet planet) {
-
-		double speedMath = ((centralStar.getMass() - planet.getMass()) / centralStar.getMass())
-				* Math.sqrt((G * centralStar.getMass())
-						/ planet.getPosition().subVec(centralStar.getPosition()).getLenght());
-
+		double speedMath = ((centralStar.getMass() - planet.getMass()) / centralStar.getMass()) * Math.sqrt((G * centralStar.getMass()) / planet.getPosition().subVec(centralStar.getPosition()).getLenght());
 		return speedMath;
 	}
 
@@ -63,10 +59,7 @@ public class Simulation {
 		double m1m2 = m1.getMass() * m2.getMass();
 		double lengthr2Minusr1 = m2.getPosition().subVec(m1.getPosition()).getLenght();
 		Vector r2Minusr1 = m2.getPosition().subVec(m1.getPosition());
-
-		Vector gravitation = r2Minusr1.multiplyVector(G
-				* (m1m2 / (lengthr2Minusr1 * lengthr2Minusr1 * lengthr2Minusr1)));
-
+		Vector gravitation = r2Minusr1.multiplyVector(G * (m1m2 / (lengthr2Minusr1 * lengthr2Minusr1 * lengthr2Minusr1)));
 		return gravitation;
 	}
 
@@ -89,8 +82,7 @@ public class Simulation {
 	 * @return Vector
 	 */
 	public Vector simStep(Planet centralStar, Planet planet, Vector acc) {
-		Vector newPos = planet.getPosition().addVec(speedDir(centralStar, planet).multiplyVector(t)).addVec(
-				acc.multiplyVector((t * t) / 2));
+		Vector newPos = planet.getPosition().addVec(speedDir(centralStar, planet).multiplyVector(t)).addVec(acc.multiplyVector((t * t) / 2));
 		return newPos;
 	}
 

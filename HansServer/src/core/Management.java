@@ -6,7 +6,7 @@ package core;
 
 import java.util.ArrayList;
 
-public class Management{
+public class Management {
 
 	public Planet centralStar;
 	public ArrayList<Planet> planets;
@@ -15,24 +15,22 @@ public class Management{
 	public int simDuration;
 	public ArrayList<Workorder> workorder;
 	public int countDone;
-	
 
 	/**
-	 * Construtor of the Management(Master)
-	 * Initializes the Starsystem
-	 * @param t = time Intervals
+	 * Constructor of the Management(Master) Initializes the Starsystem
+	 * 
+	 * @param t	= time Intervals
 	 * @param animationDirection = the direction the planets will fly in the system
-	 * @param NumberOfPlanets 
-	 * @param simDuration = how many iterations will be calculatet
+	 * @param NumberOfPlanets
+	 * @param simDuration = how many iterations will be calculated
 	 */
-	public Management(int t, Vector animationDirection, int NumberOfPlanets, int simDuration){
+	public Management(int t, Vector animationDirection, int NumberOfPlanets, int simDuration) {
 		sim = new Simulation(t, animationDirection);
 		calculatedPlanets = new ArrayList<Planet>();
 		initCentral();
 		initPlanets(NumberOfPlanets);
 		countDone = NumberOfPlanets;
 	}
-	
 
 	/**
 	 * Inits the central Star, by saving it into its variable
@@ -43,9 +41,9 @@ public class Management{
 		centralStar = central;
 	}
 
-	
 	/**
 	 * Inits the Planets which will be simulated and saves them into the planets arraylist
+	 * 
 	 * @TODO Change to random generation of planets!
 	 * @param planetCount (Number of planets)
 	 */
@@ -59,16 +57,14 @@ public class Management{
 
 		planets = god;
 	}
-	
-	
+
 	/**
-	 * Responsable for the simulation without the Master
-	 * Dummy implementation to see if the simulations works.
-	 * @TODO Insert Master-Worker here
+	 * Responsible for the simulation without the Master Dummy implementation to see if the simulations works.
 	 * 
+	 * @TODO Insert Master-Worker here
 	 */
 	public void doSim() {
-		for (int i = 0; i <=365; i++) {
+		for (int i = 0; i <= 365; i++) {
 			Vector f = sim.calcGravitation(centralStar, planets.get(0));
 			Vector a = sim.calcAcc(planets.get(0), f);
 			Vector p = sim.simStep(centralStar, planets.get(0), a);
@@ -79,10 +75,9 @@ public class Management{
 			calculatedPlanets = new ArrayList<Planet>();
 		}
 	}
-	
+
 	/**
-	 * @TODO Master, not finished yet!
-	 * 
+	 * @TODO Master, not finished yet! 
 	 */
 	public void master() {
 		// Start of a new cycle by adding all workorders in the workorder array.
@@ -92,19 +87,19 @@ public class Management{
 		}
 
 		// Waiting for every workorder to be done
-		while(calculatedPlanets.size() != planets.size()){
+		while (calculatedPlanets.size() != planets.size()) {
 			try {
 				Thread.sleep(50);
 			} catch (InterruptedException e) {
-					e.printStackTrace();
+				e.printStackTrace();
 			}
 		}
-		
+
 		// Finish the cycle and set the new coordinates as the actual ones.
 		countDone = 0;
 		planets = calculatedPlanets;
 		calculatedPlanets = new ArrayList<Planet>();
-		
+
 	}
 
 }
