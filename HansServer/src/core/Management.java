@@ -62,7 +62,8 @@ public class Management{
 	
 	
 	/**
-	 * Responsable for the simulation.
+	 * Responsable for the simulation without the Master
+	 * Dummy implementation to see if the simulations works.
 	 * @TODO Insert Master-Worker here
 	 * 
 	 */
