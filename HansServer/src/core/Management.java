@@ -10,10 +10,10 @@ public class Management {
 
 	public Planet centralStar;
 	public ArrayList<Planet> planets;
+	// Wird bei neuer implementierung nichtmehr gebraucht
 	public ArrayList<Planet> calculatedPlanets;
 	public Simulation sim;
 	public int simDuration;
-	public ArrayList<Workorder> workorder;
 	public int countDone;
 
 	/**
@@ -79,27 +79,42 @@ public class Management {
 	/**
 	 * @TODO Master, not finished yet! 
 	 */
-	public void master() {
-		// Start of a new cycle by adding all workorders in the workorder array.
-		while (countDone != planets.size() - 1) {
+//	public void master() {
+//		// Start of a new cycle by adding all workorders in the workorder array.
+//		while (countDone != planets.size() - 1) {
+//			workorder.add(new Workorder(planets, centralStar, countDone));
+//			countDone++;
+//		}
+//
+//		// Waiting for every workorder to be done
+//		while (calculatedPlanets.size() != planets.size()) {
+//			try {
+//				Thread.sleep(50);
+//			} catch (InterruptedException e) {
+//				e.printStackTrace();
+//			}
+//		}
+//
+//		// Finish the cycle and set the new coordinates as the actual ones.
+//		countDone = 0;
+//		planets = calculatedPlanets;
+//		calculatedPlanets = new ArrayList<Planet>();
+//
+//	}
+	
+	
+	public ArrayList<Workorder> distributeWork(){
+		ArrayList<Workorder> workorder = new ArrayList<Workorder>();
+		while(countDone != planets.size()-1){
 			workorder.add(new Workorder(planets, centralStar, countDone));
 			countDone++;
 		}
-
-		// Waiting for every workorder to be done
-		while (calculatedPlanets.size() != planets.size()) {
-			try {
-				Thread.sleep(50);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-
-		// Finish the cycle and set the new coordinates as the actual ones.
+		return workorder;
+	}
+	
+	public void workDone(ArrayList<Planet> calculatedPlanets){
 		countDone = 0;
 		planets = calculatedPlanets;
-		calculatedPlanets = new ArrayList<Planet>();
-
 	}
 
 }

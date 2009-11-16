@@ -2,25 +2,49 @@ package core;
 
 import java.util.ArrayList;
 
-public class Worker {
+import launcher.StartSim;
+
+public class Worker extends Thread{
 	
 	public double f;
 	public ArrayList<Planet> planets;
 	public Planet centralPlanet;
 	public Simulation sim;
 	public int planetToCalc;
+	public StartSim master;
+	public double t;
+	public Vector animationDir;
 	
 	
-	// Die Variablen werden durch abruf einer Workorder vom 
-	// zentralen synchronisierten Abholplatz (Array) gefüllt
-	// Hab grade ne blockade, kanns nicht implementieren.
-	
-	
-	public Worker(double t, Vector animationDir){
-		this.sim = new Simulation(t, animationDir);
+	public Worker(double t, Vector animationDir, StartSim master){
+		this.t = t;
+		this.animationDir = animationDir;
+		this.master = master;
 	}
 	
-	public void doSim(){
+	public void run() {
+		while (true) {
+			sim = new Simulation(t, animationDir);
+			Workorder toDo = master.getWork();
+			if(toDo == null){
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			}
+			planets = toDo.planets;
+			centralPlanet = toDo.centralStar;
+
+			Planet temp = doSim();
+			
+			master.calculationDone(temp);
+		}
+	}
+	
+
+	
+	public Planet doSim(){
 	
 		
 		Vector f = sim.calcGravitation(centralPlanet, planets.get(planetToCalc));
@@ -35,11 +59,9 @@ public class Worker {
 		Vector a = sim.calcAcc(planets.get(planetToCalc), f);
 		Vector p = sim.simStep(centralPlanet, planets.get(planetToCalc), a);
 		
-		Planet g = new Planet(p, planets.get(planetToCalc).getMass(), planets.get(planetToCalc).getSpeed());
+		return new Planet(p, planets.get(planetToCalc).getMass(), planets.get(planetToCalc).getSpeed());
 	
-		//Hier wird die Methode aufgerufen mit der, der Worker, den neu berechneten
-		//Planeten in das Array Speichert das vom Master auf Vollständigkeit geprüft
-		//wird.
+		
 	
 	}
 }
