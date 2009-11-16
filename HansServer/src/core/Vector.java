@@ -89,12 +89,9 @@ public class Vector {
 	 * @TODO Only used for programming! Will be deleted later.
 	 */
 	public String toString() {
-		System.out.println(x);
-		System.out.println(y);
-		System.out.println(z);
-		System.out.println();
-		return null;
-
+		String s = "X-Koordinate: " + x + "   Y-Koordinate: " + y + "   Z-Koordinate: " + z;
+		System.out.println(s);
+		return s;
 	}
 
 }
