@@ -17,7 +17,7 @@ public class Management {
 	public int countDone;
 
 	/**
-	 * Constructor of the Management(Master) Initializes the Starsystem
+	 * Konstruktor für das Management(Master) initiiert das Sternensystem
 	 * 
 	 * @param t	= time Intervals
 	 * @param animationDirection = the direction the planets will fly in the system
@@ -33,7 +33,7 @@ public class Management {
 	}
 
 	/**
-	 * Inits the central Star, by saving it into its variable
+	 * Initiiert den Zentralen stern und speichert ihn in seine variable
 	 */
 	public void initCentral() {
 		Planet central = new Planet(new Vector(0, 0, 0), 1.985E30);
@@ -42,9 +42,10 @@ public class Management {
 	}
 
 	/**
-	 * Inits the Planets which will be simulated and saves them into the planets arraylist
+	 * Initiiert die Planeten für die Simulation
+	 *
 	 * 
-	 * @TODO Change to random generation of planets!
+	 * @TODO Bisher werden nur Erden erzeugt. Änderung auf Random
 	 * @param planetCount (Number of planets)
 	 */
 	public void initPlanets(int planetCount) {
@@ -59,7 +60,8 @@ public class Management {
 	}
 
 	/**
-	 * Responsible for the simulation without the Master Dummy implementation to see if the simulations works.
+	 * Dummy implementierung der Simulation. Arbeitet ohne Master/Worker 
+	 * zum testen der Simulation.
 	 * 
 	 * @TODO Insert Master-Worker here
 	 */
@@ -77,7 +79,7 @@ public class Management {
 	}
 
 	/**
-	 * @TODO Master, not finished yet! 
+	 * @TODO Alte master worker implementierung 
 	 */
 //	public void master() {
 //		// Start of a new cycle by adding all workorders in the workorder array.
@@ -103,6 +105,9 @@ public class Management {
 //	}
 	
 	
+	/**
+	 * Erstellt die Liste an Workorders die von den Workern abgearbeitet werden soll.
+	 */
 	public ArrayList<Workorder> distributeWork(){
 		ArrayList<Workorder> workorder = new ArrayList<Workorder>();
 		while(countDone != planets.size()-1){
@@ -112,6 +117,10 @@ public class Management {
 		return workorder;
 	}
 	
+	/**
+	 * Beendet den zyklus und setzt die neuen Positionen als die aktuellen
+	 * @param calculatedPlanets
+	 */
 	public void workDone(ArrayList<Planet> calculatedPlanets){
 		countDone = 0;
 		planets = calculatedPlanets;

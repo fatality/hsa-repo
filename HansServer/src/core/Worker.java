@@ -15,13 +15,25 @@ public class Worker extends Thread{
 	public double t;
 	public Vector animationDir;
 	
-	
+	/**
+	 * Konstruktor für den Worker
+	 * @param t Zeitintervalle
+	 * @param animationDir Richtung der Geschwindigkeit
+	 * @param master Verweis auf den Master bzw. auf den Verteiler.
+	 */
 	public Worker(double t, Vector animationDir, StartSim master){
 		this.t = t;
 		this.animationDir = animationDir;
 		this.master = master;
 	}
 	
+	
+	/**
+	 * Alauf des Threads
+	 * Erstellt eine simulation, kuckt dann ob eine Workorder vorhanden ist
+	 * Wenn ja: Berechnet er diese und gibt den neu berechneten Planeten zurück ins "berechnet" Array
+	 * Wenn nein: schlafe für 100ms
+	 */
 	public void run() {
 		while (true) {
 			sim = new Simulation(t, animationDir);
@@ -43,7 +55,10 @@ public class Worker extends Thread{
 	}
 	
 
-	
+	/**
+	 * Eigentliche Simulation
+	 * @return Planet (neuberechneter Planet)
+	 */
 	public Planet doSim(){
 	
 		

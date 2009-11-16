@@ -51,6 +51,11 @@ public class StartSim {
 		}
 	}
 	
+	/**
+	 * Methode mit hilfe der die Worker nachschaun ob arbeit da ist.
+	 * Synchronized!
+	 * @return
+	 */
 	public synchronized Workorder getWork(){
 		if(workorder.isEmpty()){
 			return null;
@@ -60,6 +65,11 @@ public class StartSim {
 		return temp;
 	}
 	
+	/**
+	 * Methode mit hilfe der die Worker ihre berechneten Planeten zurückgeben
+	 * Synchronized!
+	 * @param planet
+	 */
 	public synchronized void calculationDone(Planet planet){
 		calculatedPlanets.add(planet);
 	}

@@ -14,9 +14,9 @@ public class Simulation {
 	public final Vector animationDirection;
 
 	/**
-	 * Constructor for Simulation
+	 * Konstruktor der Simulation
 	 * 
-	 * @param t for time intervals
+	 * @param t (Zeitintervall)
 	 */
 	public Simulation(double t, Vector animationDirection) {
 		this.t = t;
@@ -24,7 +24,7 @@ public class Simulation {
 	}
 
 	/**
-	 * Calculates the Speed for a new Planet.
+	 * Berechnet die "optimale" geschwindigkeit für einen neuen Planeten
 	 * 
 	 * @param Planet  planet
 	 * @param Planet centralStar
@@ -36,7 +36,7 @@ public class Simulation {
 	}
 
 	/**
-	 * Calculates the direction of the Speed Vector
+	 * Berechnet die Richtung des Geschwindigkeitsvectors
 	 * 
 	 * @param centralStar
 	 * @param planet
@@ -49,7 +49,7 @@ public class Simulation {
 	}
 
 	/**
-	 * Calculates the Gravitation between two Planets.
+	 * Berechnet die Gravitation zwischen zwei Planeten
 	 * 
 	 * @param Planet m1
 	 * @param Planet m2
@@ -64,7 +64,7 @@ public class Simulation {
 	}
 
 	/**
-	 * Calculates the acceleration for a planet
+	 * Berechnet die beschleunigung zwischen zwei Planeten
 	 * 
 	 * @param planet
 	 * @param Vector f (all gravitation together)
@@ -75,7 +75,7 @@ public class Simulation {
 	}
 
 	/**
-	 * Calculates the new position for a planet
+	 * Berechnet die neue Position eines Planeten
 	 * 
 	 * @param planet
 	 * @param acceleration
