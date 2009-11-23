@@ -5,9 +5,8 @@
 package core;
 
 /**
- * 06.11.09 Only a quick implementation - not Final! Only a construction class
- * for Planets. They will be stored in the Management. Central Planet will be
- * stored in an extra array in the Management.
+ * Kunstruktor Klasse für Planeten Planeten werden im Management gespeichert.
+ * Zentralstern wird in einem Extra Array im Management abgespeichert.
  */
 public class Planet {
 
@@ -16,7 +15,10 @@ public class Planet {
 	private double mass;
 
 	/**
-	 * Constructor for Planets gets Vectors for position and speed Gets a double for the mass
+	 * Konstruktor für Planeten
+	 * 
+	 * @param Vector position
+	 * @param double mass
 	 */
 	public Planet(Vector position, double mass) {
 		this.position = position;
@@ -24,7 +26,8 @@ public class Planet {
 	}
 
 	/**
-	 * Overloaded Constructor for Planets. Used to copy known planets
+	 * Überladener Konstruktor der Planeten. Wird benutzt um Planeten zu
+	 * kopieren
 	 * 
 	 * @param Vector position
 	 * @param double mass
@@ -37,7 +40,7 @@ public class Planet {
 	}
 
 	/**
-	 * Setter for speed
+	 * Setter für Geschwindigkeit
 	 * 
 	 * @param speed
 	 */
@@ -46,7 +49,7 @@ public class Planet {
 	}
 
 	/**
-	 * Getter for Position Returns the Position as a Vector
+	 * Getter für Position, gibt die Position als Vector zurück
 	 * 
 	 * @return Vector
 	 */
@@ -59,7 +62,7 @@ public class Planet {
 	}
 
 	/**
-	 * Getter for Speed Returns the Speed as a Vector
+	 * Getter für Geschwindigkeit, gibt die Geschwindigkeit als Vector zurück
 	 * 
 	 * @return Vector
 	 */
@@ -68,7 +71,7 @@ public class Planet {
 	}
 
 	/**
-	 * Getter for Mass Returns a double with the mass
+	 * Getter für die Masse, gibt die Masse als double zurück
 	 * 
 	 * @return double
 	 */
