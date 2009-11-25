@@ -5,7 +5,6 @@
 package core;
 
 import java.util.ArrayList;
-import launcher.StartSim;
 
 public class Worker extends Thread {
 
@@ -14,7 +13,7 @@ public class Worker extends Thread {
 	public Planet centralPlanet;
 	public Simulation sim;
 	public int planetToCalc;
-	public StartSim master;
+	public Management master;
 	public double t;
 	public Vector animationDir;
 
@@ -25,7 +24,7 @@ public class Worker extends Thread {
 	 * @param animationDir Richtung der Geschwindigkeit
 	 * @param master Verweis auf den Master bzw. auf den Verteiler.
 	 */
-	public Worker(double t, Vector animationDir, StartSim master) {
+	public Worker(double t, Vector animationDir, Management master) {
 		this.t = t;
 		this.animationDir = animationDir;
 		this.master = master;
@@ -33,14 +32,16 @@ public class Worker extends Thread {
 
 	/**
 	 * Alauf des Threads Erstellt eine Simulation, schaut ob eine Workorder
-	 * vorhanden ist. Wenn ja: Berechnet er diese und gibt den neu berechneten
-	 * Planeten zurück ins "berechnete" Array. Wenn nein: schläft er für 100ms
+	 * vorhanden ist. 
+	 * Wenn ja: Berechnet er diese und gibt den neu berechneten
+	 * Planeten zurück ins "berechnete" Array. 
+	 * Wenn nein: schläft er für 100ms
 	 */
 	public void run() {
 		while (true) {
 			sim = new Simulation(t, animationDir);
 			Workorder toDo = master.getWork();
-			if (toDo == null) {
+			while (toDo == null) {
 				try {
 					Thread.sleep(100);
 				} catch (InterruptedException e) {
@@ -50,6 +51,7 @@ public class Worker extends Thread {
 			planets = toDo.planets;
 			centralPlanet = toDo.centralStar;
 			Planet temp = doSim();
+			temp.toString();
 			master.calculationDone(temp);
 		}
 	}

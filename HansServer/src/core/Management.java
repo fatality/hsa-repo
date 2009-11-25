@@ -6,6 +6,7 @@ package core;
 
 import java.util.ArrayList;
 
+
 public class Management {
 
 	public Planet centralStar;
@@ -15,6 +16,7 @@ public class Management {
 	public Simulation sim;
 	public int simDuration;
 	public int countDone;
+	public ArrayList<Workorder> workorder;
 
 	/**
 	 * Konstruktor für das Management(Master) initiiert das Sternensystem
@@ -24,13 +26,14 @@ public class Management {
 	 * @param NumberOfPlanets
 	 * @param simDuration Wieviele Iterationen werden kalkuliert
 	 */
-	public Management(int t, Vector animationDirection, int NumberOfPlanets,
-			int simDuration) {
-		sim = new Simulation(t, animationDirection);
+	public Management(double t, Vector animationDir, int NumberOfPlanets, int simDuration) {
+	
+		this.sim = new Simulation(t, animationDir);
 		calculatedPlanets = new ArrayList<Planet>();
 		initCentral();
 		initPlanets(NumberOfPlanets);
 		countDone = NumberOfPlanets;
+		workorder = new ArrayList<Workorder>();
 	}
 
 	/**
@@ -58,63 +61,41 @@ public class Management {
 		planets = god;
 	}
 
-	/**
-	 * Dummy Implementierung der Simulation. Arbeitet ohne Master/Worker zum
-	 * Testen der Simulation.
-	 * 
-	 * @TODO Master-Worker einfügen
-	 */
-	public void doSim() {
-		for (int i = 0; i <= 365; i++) {
-			Vector f = sim.calcGravitation(centralStar, planets.get(0));
-			Vector a = sim.calcAcc(planets.get(0), f);
-			Vector p = sim.simStep(centralStar, planets.get(0), a);
-			Planet g = new Planet(p, planets.get(0).getMass(), planets.get(0)
-					.getSpeed());
-			calculatedPlanets.add(g);
-			System.out.println(p);
-			planets = calculatedPlanets;
-			calculatedPlanets = new ArrayList<Planet>();
+
+
+//
+	// Implementierung des Master-Worker-Pattern ab hier.
+//	
+
+		public void doSim(double t, Vector animationDir) {
+		for (int i = 0; i < 5; i++) {
+			Worker temp = new Worker(t, animationDir, this);
+			temp.start();
+		}
+		for (int i = 0; i < simDuration; i++) {
+			distributeWork();
+			while (calculatedPlanets.size() != workorder.size()) {
+				try {
+					Thread.sleep(50);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+			workDone(calculatedPlanets);
 		}
 	}
-
-	/**
-	 * @TODO Alte Master-Worker Implementierung
-	 */
-	// public void master() {
-	// // Start of a new cycle by adding all workorders in the workorder array.
-	// while (countDone != planets.size() - 1) {
-	// workorder.add(new Workorder(planets, centralStar, countDone));
-	// countDone++;
-	// }
-	//
-	// // Waiting for every workorder to be done
-	// while (calculatedPlanets.size() != planets.size()) {
-	// try {
-	// Thread.sleep(50);
-	// } catch (InterruptedException e) {
-	// e.printStackTrace();
-	// }
-	// }
-	//
-	// // Finish the cycle and set the new coordinates as the actual ones.
-	// countDone = 0;
-	// planets = calculatedPlanets;
-	// calculatedPlanets = new ArrayList<Planet>();
-	//
-	// }
-
+	
 	/**
 	 * Erstellt die Liste an Workorders die von den Workern abgearbeitet werden
 	 * sollen.
 	 */
-	public ArrayList<Workorder> distributeWork() {
+	public void distributeWork() {
 		ArrayList<Workorder> workorder = new ArrayList<Workorder>();
 		while (countDone != planets.size() - 1) {
 			workorder.add(new Workorder(planets, centralStar, countDone));
 			countDone++;
 		}
-		return workorder;
+		this. workorder = workorder;
 	}
 
 	/**
@@ -128,4 +109,31 @@ public class Management {
 		planets = calculatedPlanets;
 	}
 
+	/**
+	 * Methode mit Hilfe der die Worker nachschauen ob Arbeit da ist.
+	 * Synchronized!
+	 * 
+	 * @return temp
+	 */
+	public synchronized Workorder getWork() {
+		if (workorder.isEmpty()) {
+			return null;
+		}
+		Workorder temp = workorder.get(0);
+		workorder.remove(0);
+		return temp;
+	}
+	
+	
+	/**
+	 * Methode mit Hilfe der die Worker ihre berechneten Planeten zurückgeben
+	 * Synchronized!
+	 * 
+	 * @param planet
+	 */
+	public synchronized void calculationDone(Planet planet) {
+		calculatedPlanets.add(planet);
+	}
+
+	
 }
