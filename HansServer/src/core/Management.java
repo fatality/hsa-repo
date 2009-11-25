@@ -28,6 +28,7 @@ public class Management {
 	 */
 	public Management(double t, Vector animationDir, int NumberOfPlanets, int simDuration) {
 	
+		this.simDuration = simDuration;
 		this.sim = new Simulation(t, animationDir);
 		calculatedPlanets = new ArrayList<Planet>();
 		initCentral();
