@@ -78,5 +78,10 @@ public class Planet {
 	public double getMass() {
 		return this.mass;
 	}
+	
+	public String toString(){
+		System.out.println(position.x + " " + position.y + " " + position.z);
+		return null;
+	}
 
 }

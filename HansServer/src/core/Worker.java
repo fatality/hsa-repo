@@ -50,6 +50,7 @@ public class Worker extends Thread {
 			}
 			planets = toDo.planets;
 			centralPlanet = toDo.centralStar;
+			planetToCalc = toDo.calculateThis;
 			Planet temp = doSim();
 			temp.toString();
 			master.calculationDone(temp);
@@ -62,19 +63,16 @@ public class Worker extends Thread {
 	 * @return Planet neuberechneter Planet
 	 */
 	public Planet doSim() {
-		Vector f = sim
-				.calcGravitation(centralPlanet, planets.get(planetToCalc));
+		Vector f = sim.calcGravitation(centralPlanet, planets.get(planetToCalc));
 		for (int i = 0; i < planets.size(); i++) {
 			if (i != planetToCalc) {
-				f.addVec(sim.calcGravitation(planets.get(i), planets
-						.get(planetToCalc)));
+				f.addVec(sim.calcGravitation(planets.get(i), planets.get(planetToCalc)));
 			} else {
 				i++;
 			}
 		}
 		Vector a = sim.calcAcc(planets.get(planetToCalc), f);
 		Vector p = sim.simStep(centralPlanet, planets.get(planetToCalc), a);
-		return new Planet(p, planets.get(planetToCalc).getMass(), planets.get(
-				planetToCalc).getSpeed());
+		return new Planet(p, planets.get(planetToCalc).getMass(), planets.get(planetToCalc).getSpeed());
 	}
 }

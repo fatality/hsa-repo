@@ -33,7 +33,7 @@ public class Management {
 		calculatedPlanets = new ArrayList<Planet>();
 		initCentral();
 		initPlanets(NumberOfPlanets);
-		countDone = NumberOfPlanets;
+		countDone = 0;
 		workorder = new ArrayList<Workorder>();
 	}
 
@@ -92,7 +92,7 @@ public class Management {
 	 */
 	public void distributeWork() {
 		ArrayList<Workorder> workorder = new ArrayList<Workorder>();
-		while (countDone != planets.size() - 1) {
+		for (int i = 0; i<planets.size(); i++) {
 			workorder.add(new Workorder(planets, centralStar, countDone));
 			countDone++;
 		}
