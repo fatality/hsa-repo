@@ -22,6 +22,7 @@ public class Workorder {
 	public Workorder(ArrayList<Planet> planets, Planet centralStar,
 			int calculateThis) {
 		this.planets = planets;
+		this.centralStar = centralStar;
 		this.calculateThis = calculateThis;
 	}
 }

@@ -9,15 +9,20 @@ import core.*;
 
 public class StartSim {
 
-	public static ArrayList<Workorder> workorder = new ArrayList<Workorder>();
-	public static ArrayList<Planet> calculatedPlanets = new ArrayList<Planet>();
+	
+	// Simulations Angaben
+	public static int planetCount = 5;
+	public static Vector animationDir = new Vector(0, 0, 1);
 	public static int simDuration = 365;
 	public static double t = 84600;
-	public static Vector animationDir = new Vector(0, 0, 1);
+
+
+
 	public static Management man;
+	
 
 	public static void main(String[] args) {
-		man = new Management(t, animationDir, 1, simDuration);
+		man = new Management(t, animationDir, 5, simDuration);
 		man.doSim(t, animationDir);
 		
 	}

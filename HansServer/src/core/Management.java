@@ -75,7 +75,7 @@ public class Management {
 		}
 		for (int i = 0; i < simDuration; i++) {
 			distributeWork();
-			while (calculatedPlanets.size() != workorder.size()) {
+			while (calculatedPlanets.size() != planets.size()) {
 				try {
 					Thread.sleep(50);
 				} catch (InterruptedException e) {
@@ -83,6 +83,7 @@ public class Management {
 				}
 			}
 			workDone(calculatedPlanets);
+			calculatedPlanets = new ArrayList<Planet>();
 		}
 	}
 	

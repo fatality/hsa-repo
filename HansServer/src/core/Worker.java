@@ -42,8 +42,9 @@ public class Worker extends Thread {
 			sim = new Simulation(t, animationDir);
 			Workorder toDo = master.getWork();
 			while (toDo == null) {
-				try {
+			try {
 					Thread.sleep(100);
+					toDo = master.getWork();
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
