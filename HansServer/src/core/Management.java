@@ -48,16 +48,25 @@ public class Management {
 
 	/**
 	 * Initiiert die Planeten für die Simulation
+	 * Alle planeten werden im abstand von 0.5AU aufsteigend um den zentralen stern gestartet.
+	 * Die maximale Masse der Planeten wird mit 1/2 der zentralen Sternmasse festgelegt.
+	 * Die eigentliche Masse eines Planeten wird mit Math.Random * maxMass berechnet.
 	 * 
 	 * @TODO Bisher werden nur Erden erzeugt. Änderung auf Random
 	 * @param planetCount Anzahl der Planeten
 	 */
 	public void initPlanets(int planetCount) {
+		
+		double distance = 75E6;
+		double maxMass = centralStar.getMass()/2;
+		
+		
 		ArrayList<Planet> god = new ArrayList<Planet>();
 		for (int i = planetCount; i > 0; i--) {
-			Planet temp = new Planet(new Vector(0, 150E6, 0), 5.976E24);
+			Planet temp = new Planet(new Vector(0, distance, 0), Math.random()* maxMass);
 			temp.setSpeed(sim.getStartSpeed(centralStar, temp));
 			god.add(temp);
+			distance += 75E6;
 		}
 		planets = god;
 	}
@@ -69,7 +78,7 @@ public class Management {
 //	
 
 		public void doSim(double t, Vector animationDir) {
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < 1; i++) {
 			Worker temp = new Worker(t, animationDir, this);
 			temp.start();
 		}
