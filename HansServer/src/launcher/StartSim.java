@@ -11,7 +11,7 @@ public class StartSim {
 
 	
 	// Simulations Angaben
-	public static int planetCount = 5;
+	public static int NumberOfPlanets = 10000;
 	public static Vector animationDir = new Vector(0, 0, 1);
 	public static int simDuration = 365;
 	public static double t = 84600;
@@ -22,7 +22,7 @@ public class StartSim {
 	
 
 	public static void main(String[] args) {
-		man = new Management(t, animationDir, 5, simDuration);
+		man = new Management(t, animationDir, NumberOfPlanets, simDuration);
 		man.doSim(t, animationDir);
 		
 	}

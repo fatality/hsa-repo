@@ -67,9 +67,7 @@ public class Worker extends Thread {
 		Vector f = sim.calcGravitation(centralPlanet, planets.get(planetToCalc));
 		for (int i = 0; i < planets.size(); i++) {
 			if (i != planetToCalc) {
-				f.addVec(sim.calcGravitation(planets.get(i), planets.get(planetToCalc)));
-			} else {
-				i++;
+				f = f.addVec(sim.calcGravitation(planets.get(i), planets.get(planetToCalc)));
 			}
 		}
 		Vector a = sim.calcAcc(planets.get(planetToCalc), f);

@@ -23,12 +23,12 @@ public class Vector {
 	/**
 	 * Addiert zwei Vektoren und gibt einen neuen Vektor zurück
 	 * 
-	 * @param Vector toAdd
+	 * @param Vector
+	 *            toAdd
 	 * @return Vector
 	 */
 	public Vector addVec(Vector toAdd) {
-		Vector sum = new Vector(this.x + toAdd.x, this.y + toAdd.y, this.z
-				+ toAdd.z);
+		Vector sum = new Vector(this.x + toAdd.x, this.y + toAdd.y, this.z + toAdd.z);
 		return sum;
 	}
 
