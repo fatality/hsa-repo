@@ -11,7 +11,7 @@ public class StartSim {
 
 	
 	// Simulations Angaben
-	public static int NumberOfPlanets = 10000;
+	public static int NumberOfPlanets = 1;
 	public static Vector animationDir = new Vector(0, 0, 1);
 	public static int simDuration = 365;
 	public static double t = 84600;

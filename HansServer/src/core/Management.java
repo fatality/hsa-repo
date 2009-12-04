@@ -4,6 +4,7 @@
  */
 package core;
 
+import java.io.*;
 import java.util.ArrayList;
 
 
@@ -17,6 +18,8 @@ public class Management {
 	public int simDuration;
 	public int countDone;
 	public ArrayList<Workorder> workorder;
+	BufferedWriter bx;
+	BufferedWriter by;
 
 	/**
 	 * Konstruktor für das Management(Master) initiiert das Sternensystem
@@ -27,7 +30,13 @@ public class Management {
 	 * @param simDuration Wieviele Iterationen werden kalkuliert
 	 */
 	public Management(double t, Vector animationDir, int NumberOfPlanets, int simDuration) {
-	
+		try{
+		bx = new BufferedWriter(new FileWriter("px.txt"));
+		by = new BufferedWriter(new FileWriter("py.txt"));
+		} catch (Exception e){
+			System.out.println("FEHLER");
+		}
+		
 		this.simDuration = simDuration;
 		this.sim = new Simulation(t, animationDir);
 		calculatedPlanets = new ArrayList<Planet>();
@@ -95,6 +104,7 @@ public class Management {
 			calculatedPlanets = new ArrayList<Planet>();
 		}
 	}
+		
 	
 	/**
 	 * Erstellt die Liste an Workorders die von den Workern abgearbeitet werden
@@ -116,6 +126,14 @@ public class Management {
 	 * @param calculatedPlanets
 	 */
 	public void workDone(ArrayList<Planet> calculatedPlanets) {
+		try{
+		bx.append(String.valueOf(planets.get(0).getPosition().x)+ ", ");
+		by.append(String.valueOf(planets.get(0).getPosition().y)+ ", ");
+		bx.flush();
+		by.flush();
+		}catch (Exception e){
+			System.out.println("FEHLER");
+		}
 		countDone = 0;
 		planets = calculatedPlanets;
 	}
