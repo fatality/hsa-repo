@@ -9,27 +9,18 @@ import core.*;
 
 public class StartSim {
 
-	
 	// Simulations Angaben
 	public static int NumberOfPlanets = 1;
 	public static Vector animationDir = new Vector(0, 0, 1);
 	public static int simDuration = 365;
 	public static double t = 84600;
 
-
-
 	public static Management man;
 	
-
 	public static void main(String[] args) {
 		man = new Management(t, animationDir, NumberOfPlanets, simDuration);
 		man.doSim(t, animationDir);
 		
 	}
-
-
-
-
-
 
 }

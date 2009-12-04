@@ -4,6 +4,10 @@
  */
 package core;
 
+import java.util.ArrayList;
+
+import launcher.StartSim;
+
 /**
  * Berechnet alle relevanten Daten
  */
@@ -12,6 +16,7 @@ public class Simulation {
 	public final double G = 6.672E-11;
 	public final double t;
 	public final Vector animationDirection;
+	public ArrayList<Planet> planets;
 
 	/**
 	 * Konstruktor der Simulation
@@ -34,9 +39,9 @@ public class Simulation {
 	 * @return Vector Speed
 	 */
 	public double getSpeed(Planet centralStar, Planet planet) {
-		double speedMath = ((centralStar.getMass() - planet.getMass()) / centralStar.getMass())
-				* Math.sqrt((G * centralStar.getMass())
-						/ planet.getPosition().subVec(centralStar.getPosition()).getLenght());
+		double speedMath = (((Management.M - planet.getMass())) / centralStar.getMass())
+				* Math.sqrt((G * Management.M) / (planet.getPosition().subVec(getRSL(centralStar, planet, Management.planets)).getLenght()));
+		System.out.println(speedMath);
 		return speedMath;
 	}
 
@@ -66,8 +71,7 @@ public class Simulation {
 		double m1m2 = m1.getMass() * m2.getMass();
 		double lengthr2Minusr1 = m2.getPosition().subVec(m1.getPosition()).getLenght();
 		Vector r2Minusr1 = m2.getPosition().subVec(m1.getPosition());
-		Vector gravitation = r2Minusr1.multiplyVector(G
-				* (m1m2 / (lengthr2Minusr1 * lengthr2Minusr1 * lengthr2Minusr1)));
+		Vector gravitation = r2Minusr1.multiplyVector(G * (m1m2 / (lengthr2Minusr1 * lengthr2Minusr1 * lengthr2Minusr1)));
 		return gravitation;
 	}
 
@@ -91,9 +95,21 @@ public class Simulation {
 	 * @return Vector
 	 */
 	public Vector simStep(Planet centralStar, Planet planet, Vector acc) {
-		Vector newPos = planet.getPosition().addVec(speedDir(centralStar, planet).multiplyVector(t)).addVec(
-				acc.multiplyVector((t * t) / 2));
+		Vector newPos = planet.getPosition().addVec(speedDir(centralStar, planet).multiplyVector(t)).addVec(acc.multiplyVector((t * t) / 2));
 		return newPos;
+	}
+
+	public Vector getRSL(Planet centralStar, Planet currPlanet, ArrayList<Planet> planets) {
+
+		Vector sum = new Vector(0, 0, 0);
+
+		for (int i = 0; i < StartSim.NumberOfPlanets; i++) {
+			// if ( planets.get(i).equals(currPlanet) == true ) continue;
+			sum = currPlanet.getPosition().multiplyVector(currPlanet.getMass());
+		}
+
+		sum = sum.multiplyVector(Math.pow(Management.M, -1));
+		return sum;
 	}
 
 }

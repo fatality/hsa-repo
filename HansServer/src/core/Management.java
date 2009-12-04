@@ -7,36 +7,39 @@ package core;
 import java.io.*;
 import java.util.ArrayList;
 
-
 public class Management {
 
 	public Planet centralStar;
-	public ArrayList<Planet> planets;
+	public static ArrayList<Planet> planets;
 	// Wird bei neuer implementierung nichtmehr gebraucht
 	public ArrayList<Planet> calculatedPlanets;
 	public Simulation sim;
 	public int simDuration;
 	public int countDone;
 	public ArrayList<Workorder> workorder;
+	public static double M;
 	BufferedWriter bx;
 	BufferedWriter by;
 
 	/**
 	 * Konstruktor für das Management(Master) initiiert das Sternensystem
 	 * 
-	 * @param t Zeitintervall
-	 * @param animationDirection Richtung wie die Planeten fliegen
+	 * @param t
+	 *            Zeitintervall
+	 * @param animationDirection
+	 *            Richtung wie die Planeten fliegen
 	 * @param NumberOfPlanets
-	 * @param simDuration Wieviele Iterationen werden kalkuliert
+	 * @param simDuration
+	 *            Wieviele Iterationen werden kalkuliert
 	 */
 	public Management(double t, Vector animationDir, int NumberOfPlanets, int simDuration) {
-		try{
-		bx = new BufferedWriter(new FileWriter("px.txt"));
-		by = new BufferedWriter(new FileWriter("py.txt"));
-		} catch (Exception e){
+		try {
+			bx = new BufferedWriter(new FileWriter("px.txt"));
+			by = new BufferedWriter(new FileWriter("py.txt"));
+		} catch (Exception e) {
 			System.out.println("FEHLER");
 		}
-		
+
 		this.simDuration = simDuration;
 		this.sim = new Simulation(t, animationDir);
 		calculatedPlanets = new ArrayList<Planet>();
@@ -56,37 +59,43 @@ public class Management {
 	}
 
 	/**
-	 * Initiiert die Planeten für die Simulation
-	 * Alle planeten werden im abstand von 0.5AU aufsteigend um den zentralen stern gestartet.
-	 * Die maximale Masse der Planeten wird mit 1/2 der zentralen Sternmasse festgelegt.
-	 * Die eigentliche Masse eines Planeten wird mit Math.Random * maxMass berechnet.
+	 * Initiiert die Planeten für die Simulation Alle planeten werden im abstand
+	 * von 0.5AU aufsteigend um den zentralen stern gestartet. Die maximale
+	 * Masse der Planeten wird mit 1/2 der zentralen Sternmasse festgelegt. Die
+	 * eigentliche Masse eines Planeten wird mit Math.Random * maxMass
+	 * berechnet.
 	 * 
 	 * @TODO Bisher werden nur Erden erzeugt. Änderung auf Random
-	 * @param numberOfPlanets Anzahl der Planeten
+	 * @param numberOfPlanets
+	 *            Anzahl der Planeten
 	 */
 	public void initPlanets(int numberOfPlanets) {
-		
+
 		double distance = 75E6;
-		double maxMass = centralStar.getMass()/2;
-		
-		
+		double maxMass = centralStar.getMass() / 10000.0;
+		double mass;
+
 		ArrayList<Planet> god = new ArrayList<Planet>();
 		for (int i = numberOfPlanets; i > 0; i--) {
-			Planet temp = new Planet(new Vector(0, distance, 0), Math.random()* maxMass);
-			temp.setSpeed(sim.getSpeed(centralStar, temp));
+			mass = Math.random() * maxMass;
+			Planet temp = new Planet(new Vector(0, distance, 0), mass);
+//			temp.setSpeed(sim.getSpeed(centralStar, temp));
 			god.add(temp);
 			distance += 75E6;
+			M += mass;
+		}
+		M += centralStar.getMass();
+		for (int i = 0; i < god.size(); i++) {
+			god.get(i).setSpeed(sim.getSpeed(centralStar, god.get(i)));
 		}
 		planets = god;
 	}
 
-
-
-//
+	//
 	// Implementierung des Master-Worker-Pattern ab hier.
-//	
+	//	
 
-		public void doSim(double t, Vector animationDir) {
+	public void doSim(double t, Vector animationDir) {
 		for (int i = 0; i < 4; i++) {
 			Worker temp = new Worker(t, animationDir, this);
 			temp.start();
@@ -104,19 +113,18 @@ public class Management {
 			calculatedPlanets = new ArrayList<Planet>();
 		}
 	}
-		
-	
+
 	/**
 	 * Erstellt die Liste an Workorders die von den Workern abgearbeitet werden
 	 * sollen.
 	 */
 	public void distributeWork() {
 		ArrayList<Workorder> workorder = new ArrayList<Workorder>();
-		for (int i = 0; i<planets.size(); i++) {
+		for (int i = 0; i < planets.size(); i++) {
 			workorder.add(new Workorder(planets, centralStar, countDone));
 			countDone++;
 		}
-		this. workorder = workorder;
+		this.workorder = workorder;
 	}
 
 	/**
@@ -126,12 +134,12 @@ public class Management {
 	 * @param calculatedPlanets
 	 */
 	public void workDone(ArrayList<Planet> calculatedPlanets) {
-		try{
-		bx.append(String.valueOf(planets.get(0).getPosition().x)+ ", ");
-		by.append(String.valueOf(planets.get(0).getPosition().y)+ ", ");
-		bx.flush();
-		by.flush();
-		}catch (Exception e){
+		try {
+			bx.append(String.valueOf(planets.get(0).getPosition().x) + "\n");
+			by.append(String.valueOf(planets.get(0).getPosition().y) + "\n");
+			bx.flush();
+			by.flush();
+		} catch (Exception e) {
 			System.out.println("FEHLER");
 		}
 		countDone = 0;
@@ -152,8 +160,7 @@ public class Management {
 		workorder.remove(0);
 		return temp;
 	}
-	
-	
+
 	/**
 	 * Methode mit Hilfe der die Worker ihre berechneten Planeten zurückgeben
 	 * Synchronized!
@@ -164,5 +171,4 @@ public class Management {
 		calculatedPlanets.add(planet);
 	}
 
-	
 }

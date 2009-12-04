@@ -20,6 +20,7 @@ public class Vector {
 		this.z = z;
 	}
 
+
 	/**
 	 * Addiert zwei Vektoren und gibt einen neuen Vektor zurück
 	 * 
