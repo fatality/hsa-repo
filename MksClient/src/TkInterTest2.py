@@ -4,6 +4,7 @@
 # @author: fatality
 #
 # File: TkInterTest2.py
+from numbers import Integral
 
 import vtk
 import math
@@ -12,27 +13,57 @@ import time
 from Tkinter import *
 from vtk.tk.vtkTkRenderWidget import vtkTkRenderWidget
 
+xfile = open( '../px.txt' )
+yfile = open( '../py.txt' )
+
+xlist = []
+ylist = []
+
+while True:
+    x = xfile.readline()
+    if len(x) == 0:
+        break
+    xlist.append(x)
+    
+
+while True:
+    y = yfile.readline()
+    if len(y) == 0:
+        break
+    ylist.append(y)
+
+xlist.reverse()
+ylist.reverse()
+
+xfile.close()
+yfile.close()
+
 #vtk implementation
 sphere = vtk.vtkSphereSource()
 sphere.SetRadius(5.0)
 sphere.SetPhiResolution(20)
 sphere.SetThetaResolution(20)
+
 sphereMapper = vtk.vtkPolyDataMapper()
 sphereMapper.SetInputConnection(sphere.GetOutputPort())
+
 sphereActor = vtk.vtkActor()
 sphereActor2 = vtk.vtkActor()
 sphereActor3 = vtk.vtkActor()
+
 sphereActor.SetMapper(sphereMapper)
 sphereActor2.SetMapper(sphereMapper)
 sphereActor3.SetMapper(sphereMapper)
+
 ren = vtk.vtkRenderer()
 ren.AddActor(sphereActor)
 ren.AddActor(sphereActor2)
 ren.AddActor(sphereActor3)
-#ren.SetBackground(0.1, 0.2, 0.4)
+
 sphereActor3.GetProperty().SetDiffuseColor(3, 1, 0)
 sphereActor2.GetProperty().SetDiffuseColor(0, 3, 1)
 sphereActor.GetProperty().SetDiffuseColor(0, 1, 3)
+
 cam = ren.GetActiveCamera()
 cam.SetPosition(0, -200, 0)
 cam.SetFocalPoint(0, 0, 0)
@@ -40,10 +71,10 @@ cam.SetViewUp(0, 0, 1)
 cam.SetViewAngle(40)
 ren.SetActiveCamera(cam)
 
-# layout
+# tkinter implementation
 master = Tk()
 master.title('Mehrkoerpersimulation')
-master.geometry('800x600')
+master.geometry('800x450')
 
 entryFrame = Frame(master)
 entryFrame.pack(side=LEFT)
@@ -57,11 +88,10 @@ entryBottomFrame.pack(side=BOTTOM)
 simulationFrame = Frame(master)
 simulationFrame.pack(side=RIGHT, padx=20)
 
-renderWidget = vtkTkRenderWidget(simulationFrame, width=400, height=400)
-ren.SetBackground(0.1, 0.2, 0.4)
+renderWidget = vtkTkRenderWidget(simulationFrame, width=500, height=400)
 renderWindow = renderWidget.GetRenderWindow()
 renderWindow.AddRenderer(ren)
-renderWindow.SetSize(300, 300)
+renderWindow.SetSize(500, 400)
 
 loopRunning = False
 exitRequested = False
@@ -75,19 +105,22 @@ def quit():
         exitRequested = True    
     else:
         master.quit()
-#
+
 # sphere loop
 def sphereLoop():
     global loopRunning, master, exitRequested
     loopRunning = True
+    i = 0
     while not exitRequested:
         global vis, currentTime, timeStep
         time.sleep(timeStep)
         currentTime += timeStep
-        pX, pZ = 30. * math.cos(currentTime), 30. * math.sin(currentTime)
-        pX2, pZ2 = 40. * math.cos(currentTime+3), 40. * math.sin(currentTime+3) 
-        sphereActor.SetPosition(pX, 100, pZ)
-        sphereActor2.SetPosition(pX2, 50, pZ2)
+        #pX, pZ = 30. * math.cos(currentTime), 30. * math.sin(currentTime)
+        #pX2, pZ2 = 40. * math.cos(currentTime+3), 40. * math.sin(currentTime+3)
+        x = float( xlist.pop() ) / 9000000000
+        y = float( ylist.pop() ) / 9000000000
+        sphereActor.SetPosition( x, 100, y )
+        #sphereActor2.SetPosition(pX2, 50, pZ2)
         renderWindow.Render()
         master.update()
     master.quit()
