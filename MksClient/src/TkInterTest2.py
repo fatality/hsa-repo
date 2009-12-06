@@ -4,7 +4,6 @@
 # @author: fatality
 #
 # File: TkInterTest2.py
-from numbers import Integral
 
 import vtk
 import math
@@ -110,7 +109,6 @@ def quit():
 def sphereLoop():
     global loopRunning, master, exitRequested
     loopRunning = True
-    i = 0
     while not exitRequested:
         global vis, currentTime, timeStep
         time.sleep(timeStep)
