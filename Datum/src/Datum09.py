@@ -6,22 +6,39 @@ Created on 05.12.2009
 
 class Datum09():
     
+
+    
     def __init__(self):
-        self.aktuellerMonat = 12
-        self.WochenTage = {'Montag': 0, 'Dienstag': 1, 'Mittwoch': 2,
-                           'Donnerstag': 3, 'Freitag': 4, 'Samstag': 5,
-                           'Sonntag': 6}    
-        StartTag = 1
-        StartMonat = 1
-        StartWochenTag = 3
-        aktuellerTag = 7
-        hilfsVariablen = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+            """__ bewirkt das die Variablen privatisiert werden """
+            self.Tag = 31
+            self.Monat = 12
+            self.WochenTage = {0 : 'Donnerstag', 1: 'Freitag' , 2 :'Samstag',
+                               3 :'Sonntag', 4 : 'Montag', 5 : 'Dienstag',
+                               6 : 'Mittwoch'}   
+            self.hilfsVariablen = (31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)
     
     def wochenTag(self):
-        monate = Datum09.aktuellerMonat
-        tage = 3 + Datum09.aktuellerTag
-        while monate >= 0:
-            tage += Datum09.hilfsVariablen(monate)
-            monate -= 1
+        
+        tage = 0
+       
+        for i in range(self.Monat-1):
+            tage += self.hilfsVariablen[i]
+           
+        tage += self.Tag-1
+        print self.WochenTage[tage % 7]
+        
+        
+    def addiereTage(self, tage):
+        while(tage + self.Tag > self.hilfsVariablen[self.Monat-1]):
+            self.Monat +=1
+            if (self.Monat > 12):
+                print "So gehts aber nicht! Nur fuers Jahr 2009!"
+                self.Monat = 12
+                self.Tag = 31
+                break
+            tage -= self.hilfsVariablen[self.Monat-1]
+            self.Tag += tage
             
-        print Datum09.WochenTage(tage % 7)
+       
+    def ausgabe(self):
+        self.wochenTag(); print str(self.Tag) + '. ' +  str(self.Monat)     
