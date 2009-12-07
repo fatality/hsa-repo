@@ -42,7 +42,7 @@ class Datum09():
                     print "Nur fuers Jahr 2009! Nicht fuer 2010!"
                     self.__Monat = 12
                     self.__Tag = 31
-                    break
+                    return
                 tage -= self.hilfsVariablen[self.__Monat-1]
             self.__Tag += tage
         if(tage < 0):
@@ -52,7 +52,7 @@ class Datum09():
                     print "Nur fuers Jahr 2009! Nicht fuer 2008!"
                     self.__Monat = 1
                     self.__Tag = 1
-                    break
+                    return
                 tage += self.hilfsVariablen[self.__Monat-1]
             self.__Tag +=tage  
         
