@@ -59,4 +59,4 @@ class Datum09():
             
        
     def ausgabe(self):
-        self.wochenTag(); print str(self.__Tag) + '.' +  str(self.__Monat)  +'.'   
+        self.wochenTag(); print str(self.__Tag) + '.' +  str(self.__Monat)  +'.2009'   
