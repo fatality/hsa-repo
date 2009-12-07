@@ -12,6 +12,7 @@ import time
 from Tkinter import *
 from vtk.tk.vtkTkRenderWidget import vtkTkRenderWidget
 
+# Oeffnen der Textdateien
 xfile = open( '../px.txt' )
 yfile = open( '../py.txt' )
 
@@ -23,7 +24,6 @@ while True:
     if len(x) == 0:
         break
     xlist.append(x)
-    
 
 while True:
     y = yfile.readline()
@@ -72,8 +72,8 @@ ren.SetActiveCamera(cam)
 
 # tkinter implementation
 master = Tk()
-master.title('Mehrkoerpersimulation')
-master.geometry('800x450')
+master.title( 'Mehrkoerpersimulation' )
+master.geometry( '800x450' )
 
 entryFrame = Frame(master)
 entryFrame.pack(side=LEFT)
@@ -113,12 +113,9 @@ def sphereLoop():
         global vis, currentTime, timeStep
         time.sleep(timeStep)
         currentTime += timeStep
-        #pX, pZ = 30. * math.cos(currentTime), 30. * math.sin(currentTime)
-        #pX2, pZ2 = 40. * math.cos(currentTime+3), 40. * math.sin(currentTime+3)
-        x = float( xlist.pop() ) / 9000000000
-        y = float( ylist.pop() ) / 9000000000
+        x = float( xlist.pop() ) / 9000000000 #skalierung
+        y = float( ylist.pop() ) / 9000000000 #skalierung
         sphereActor.SetPosition( x, 100, y )
-        #sphereActor2.SetPosition(pX2, 50, pZ2)
         renderWindow.Render()
         master.update()
     master.quit()
