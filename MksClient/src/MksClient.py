@@ -148,7 +148,7 @@ planetsSpinWidget = Spinbox( master, from_ = 1, to = 100, font = ( 'Arial', 10 )
 planetsSpinWidget.grid( row = 1, column = 1, sticky = E+S )
 
 renderWidget = vtkTkRenderWidget( master, width = 500, height = 400 )
-renderWidget.grid( row = 1, rowspan = 6, column = 2, sticky = W+E+N+S, padx = 30, pady = 5 )
+renderWidget.grid( row = 1, rowspan = 7, column = 2, sticky = W+E+N+S, padx = 30, pady = 5 )
 renderWindow = renderWidget.GetRenderWindow()
 renderWindow.AddRenderer( ren )
 renderWindow.SetSize( 500, 400 )
@@ -174,7 +174,13 @@ sunEntryWidget.grid( row = 4, column = 1, sticky = E+N )
 doSimButton = Button( master, text = 'Simulation starten!', command = sphereLoop, font = ( 'Arial', 10 ), width = 14 )
 doSimButton.grid( row = 5, column = 1, sticky = E+N )
 
+impulsWidget = Label( master, text = 'Gesamtimpuls der Simulation:', font = ( 'Arial', 10) )
+impulsWidget.grid( row = 6, column = 0, sticky = W )
+
+impulsEntryWidget = Entry( master, font = ( 'Arial', 10 ), width = 12 )
+impulsEntryWidget.grid( row = 6, column = 1, sticky = E )
+
 exitButton = Button( master, text = 'Programm beenden', command = quit, font = ( 'Arial', 10 ), width = 14 )
-exitButton.grid( row = 6, column = 1, sticky = E )
+exitButton.grid( row = 7, column = 1, sticky = E )
 
 mainloop()
