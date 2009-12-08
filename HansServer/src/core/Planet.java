@@ -47,20 +47,7 @@ public class Planet {
 	public void setSpeed(double speed) {
 		this.speed = speed;
 	}
-
-	/**
-	 * Getter für Position, gibt die Position als Vector zurück
-	 * 
-	 * @return Vector
-	 */
-	public Vector getPosition() {
-		return this.position;
-	}
-
-	public void setPosition(Vector position) {
-		this.position = position;
-	}
-
+	
 	/**
 	 * Getter für Geschwindigkeit, gibt die Geschwindigkeit als Vector zurück
 	 * 
@@ -68,6 +55,21 @@ public class Planet {
 	 */
 	public double getSpeed() {
 		return this.speed;
+	}
+
+	
+	public void setPosition(Vector position) {
+		this.position = position;
+	}
+	
+	
+	/**
+	 * Getter für Position, gibt die Position als Vector zurück
+	 * 
+	 * @return Vector
+	 */
+	public Vector getPosition() {
+		return this.position;
 	}
 
 	/**

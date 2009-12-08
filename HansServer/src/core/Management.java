@@ -104,7 +104,7 @@ public class Management {
 			distributeWork();
 			while (calculatedPlanets.size() != planets.size()) {
 				try {
-					Thread.sleep(50);
+					Thread.sleep(0,1);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}

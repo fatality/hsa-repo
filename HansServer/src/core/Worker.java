@@ -43,7 +43,7 @@ public class Worker extends Thread {
 			Workorder toDo = master.getWork();
 			while (toDo == null) {
 			try {
-					Thread.sleep(100);
+					Thread.sleep(0,1);
 					toDo = master.getWork();
 				} catch (InterruptedException e) {
 					e.printStackTrace();
