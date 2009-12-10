@@ -57,7 +57,7 @@ public class Simulation {
 	 */
 	public Vector speedDir(Planet centralStar, Planet planet) {
 		Vector vi = planet.getPosition().subVec(centralStar.getPosition()).crossVec(animationDirection);
-		Vector speed = vi.multiplyVector(1 / getSpeed(centralStar, planet));
+		Vector speed = vi.multiplyVector(1 / planet.getSpeed());
 		return speed;
 	}
 

@@ -8,11 +8,12 @@ package core;
  * Kunstruktor Klasse für Planeten Planeten werden im Management gespeichert.
  * Zentralstern wird in einem Extra Array im Management abgespeichert.
  */
-public class Planet {
+public class Planet implements Comparable{
 
 	private Vector position;
 	private double speed;
 	private double mass;
+	private int planetNumber;
 
 	/**
 	 * Konstruktor für Planeten
@@ -20,9 +21,10 @@ public class Planet {
 	 * @param Vector position
 	 * @param double mass
 	 */
-	public Planet(Vector position, double mass) {
+	public Planet(Vector position, double mass, int planetNumber) {
 		this.position = position;
 		this.mass = mass;
+		this.planetNumber = planetNumber;
 	}
 
 	/**
@@ -33,10 +35,11 @@ public class Planet {
 	 * @param double mass
 	 * @param double speed
 	 */
-	public Planet(Vector position, double mass, double speed) {
+	public Planet(Vector position, double mass, double speed, int planetNumber) {
 		this.position = position;
 		this.mass = mass;
 		this.speed = speed;
+		this.planetNumber = planetNumber;
 	}
 
 	/**
@@ -85,5 +88,23 @@ public class Planet {
 		System.out.println(position.x + " " + position.y + " " + position.z);
 		return null;
 	}
+	
+	public int getNumber(){
+		return planetNumber;
+	}
+
+	@Override
+	public int compareTo(Object arg0) {
+		Planet compare = (Planet) arg0;
+		if(getNumber() < compare.getNumber())
+			return -1;
+		else if (getNumber() == compare.getNumber())
+			return 0;
+		else 
+			return 1;
+	
+	}
+	
+
 
 }

@@ -6,9 +6,13 @@ package core;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Management {
 
+	public Vector animationDir = new Vector(0, 0, 1);
+	public double t = 1800;
+	
 	public Planet centralStar;
 	public static ArrayList<Planet> planets;
 	public ArrayList<Planet> calculatedPlanets;
@@ -31,7 +35,8 @@ public class Management {
 	 * @param simDuration
 	 *            Wieviele Iterationen werden kalkuliert
 	 */
-	public Management(double t, Vector animationDir, int NumberOfPlanets, int simDuration) {
+	public Management(int NumberOfPlanets, int simDuration, 
+					  double maxPlanetMass, double centralStarMass) {
 		try {
 			bx = new BufferedWriter(new FileWriter("px.txt"));
 			by = new BufferedWriter(new FileWriter("py.txt"));
@@ -41,9 +46,9 @@ public class Management {
 
 		this.simDuration = simDuration;
 		calculatedPlanets = new ArrayList<Planet>();
-		initCentral();
-		initPlanets(NumberOfPlanets);
-		this.sim = new Simulation(t, animationDir, M, planets);
+		initCentral(centralStarMass);
+		initPlanets(NumberOfPlanets, maxPlanetMass);
+		this.sim = new Simulation(this.t, this.animationDir, M, planets);
 		initPlanetSpeed();
 		countDone = 0;
 		workorder = new ArrayList<Workorder>();
@@ -52,8 +57,8 @@ public class Management {
 	/**
 	 * Initiiert den Zentralstern und speichert ihn in seine Variable
 	 */
-	public void initCentral() {
-		Planet central = new Planet(new Vector(0, 0, 0), 1.985E30);
+	public void initCentral(double centralStarMass) {
+		Planet central = new Planet(new Vector(0, 0, 0), centralStarMass, 0);
 		central.setSpeed(0);
 		centralStar = central;
 	}
@@ -69,16 +74,16 @@ public class Management {
 	 * @param numberOfPlanets
 	 *            Anzahl der Planeten
 	 */
-	public void initPlanets(int numberOfPlanets) {
+	public void initPlanets(int numberOfPlanets, double maxPlanetMass) {
 
 		double distance = 90E6;
-		double maxMass = centralStar.getMass() / 10000.0;
+		double maxMass = maxPlanetMass;
 		double mass;
 
 		ArrayList<Planet> god = new ArrayList<Planet>();
-		for (int i = numberOfPlanets; i > 0; i--) {
+		for (int i = 0; i < numberOfPlanets; i++) {
 			mass = Math.random() * maxMass;
-			Planet temp = new Planet(new Vector(0, distance, 0), mass);
+			Planet temp = new Planet(new Vector(0, distance, 0), mass, i);
 			god.add(temp);
 			distance += 90E6;
 			M += mass;
@@ -98,7 +103,7 @@ public class Management {
 	//	
 
 	public void doSim(double t, Vector animationDir) {
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < 50; i++) {
 			Worker temp = new Worker(t, animationDir, this, M);
 			temp.start();
 		}
@@ -136,6 +141,7 @@ public class Management {
 	 * @param calculatedPlanets
 	 */
 	public void workDone(ArrayList<Planet> calculatedPlanets) {
+		Collections.sort(calculatedPlanets);
 		try {
 			bx.append(String.valueOf(planets.get(0).getPosition().x) + "\n");
 			by.append(String.valueOf(planets.get(0).getPosition().y) + "\n");
