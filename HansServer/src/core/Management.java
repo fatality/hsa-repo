@@ -11,13 +11,12 @@ public class Management {
 
 	public Planet centralStar;
 	public static ArrayList<Planet> planets;
-	// Wird bei neuer implementierung nichtmehr gebraucht
 	public ArrayList<Planet> calculatedPlanets;
 	public Simulation sim;
 	public int simDuration;
 	public int countDone;
 	public ArrayList<Workorder> workorder;
-	public static double M;
+	public double M;
 	BufferedWriter bx;
 	BufferedWriter by;
 
@@ -41,10 +40,11 @@ public class Management {
 		}
 
 		this.simDuration = simDuration;
-		this.sim = new Simulation(t, animationDir);
 		calculatedPlanets = new ArrayList<Planet>();
 		initCentral();
 		initPlanets(NumberOfPlanets);
+		this.sim = new Simulation(t, animationDir, M);
+		initPlanetSpeed();
 		countDone = 0;
 		workorder = new ArrayList<Workorder>();
 	}
@@ -79,16 +79,18 @@ public class Management {
 		for (int i = numberOfPlanets; i > 0; i--) {
 			mass = Math.random() * maxMass;
 			Planet temp = new Planet(new Vector(0, distance, 0), mass);
-//			temp.setSpeed(sim.getSpeed(centralStar, temp));
 			god.add(temp);
 			distance += 75E6;
 			M += mass;
 		}
 		M += centralStar.getMass();
-		for (int i = 0; i < god.size(); i++) {
-			god.get(i).setSpeed(sim.getSpeed(centralStar, god.get(i)));
-		}
 		planets = god;
+	}
+	
+	public void initPlanetSpeed(){
+		for(int i = 0; i<planets.size(); i++){
+			planets.get(i).setSpeed(sim.getSpeed(centralStar, planets.get(i)));
+		}
 	}
 
 	//
@@ -97,7 +99,7 @@ public class Management {
 
 	public void doSim(double t, Vector animationDir) {
 		for (int i = 0; i < 4; i++) {
-			Worker temp = new Worker(t, animationDir, this);
+			Worker temp = new Worker(t, animationDir, this, M);
 			temp.start();
 		}
 		for (int i = 0; i < simDuration; i++) {

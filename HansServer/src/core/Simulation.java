@@ -17,6 +17,7 @@ public class Simulation {
 	public final double t;
 	public final Vector animationDirection;
 	public ArrayList<Planet> planets;
+	public double M;
 
 	/**
 	 * Konstruktor der Simulation
@@ -24,9 +25,10 @@ public class Simulation {
 	 * @param t
 	 *            Zeitintervall
 	 */
-	public Simulation(double t, Vector animationDirection) {
+	public Simulation(double t, Vector animationDirection, double M) {
 		this.t = t;
 		this.animationDirection = animationDirection;
+		this.M = M;
 	}
 
 	/**
@@ -39,8 +41,8 @@ public class Simulation {
 	 * @return Vector Speed
 	 */
 	public double getSpeed(Planet centralStar, Planet planet) {
-		double speedMath = (((Management.M - planet.getMass())) / centralStar.getMass())
-				* Math.sqrt((G * Management.M) / (planet.getPosition().subVec(getRSL(centralStar, planet, Management.planets)).getLenght()));
+		double speedMath = (((M - planet.getMass())) / M)
+				* Math.sqrt((G * M) / (planet.getPosition().subVec(getRSL(centralStar, planet, Management.planets)).getLenght()));
 		System.out.println(speedMath);
 		return speedMath;
 	}
@@ -54,7 +56,7 @@ public class Simulation {
 	 */
 	public Vector speedDir(Planet centralStar, Planet planet) {
 		Vector vi = planet.getPosition().subVec(centralStar.getPosition()).crossVec(animationDirection);
-		Vector speed = vi.multiplyVector(1 / planet.getSpeed());
+		Vector speed = vi.multiplyVector(1 / getSpeed(centralStar, planet));
 		return speed;
 	}
 
@@ -108,7 +110,7 @@ public class Simulation {
 			sum = currPlanet.getPosition().multiplyVector(currPlanet.getMass());
 		}
 
-		sum = sum.multiplyVector(Math.pow(Management.M, -1));
+		sum = sum.multiplyVector(Math.pow(M, -1));
 		return sum;
 	}
 

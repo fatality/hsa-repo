@@ -16,6 +16,7 @@ public class Worker extends Thread {
 	public Management master;
 	public double t;
 	public Vector animationDir;
+	public double M;
 
 	/**
 	 * Konstruktor für den Worker
@@ -24,10 +25,11 @@ public class Worker extends Thread {
 	 * @param animationDir Richtung der Geschwindigkeit
 	 * @param master Verweis auf den Master bzw. auf den Verteiler.
 	 */
-	public Worker(double t, Vector animationDir, Management master) {
+	public Worker(double t, Vector animationDir, Management master, double M) {
 		this.t = t;
 		this.animationDir = animationDir;
 		this.master = master;
+		this.M = M;
 	}
 
 	/**
@@ -39,7 +41,7 @@ public class Worker extends Thread {
 	 */
 	public void run() {
 		while (true) {
-			sim = new Simulation(t, animationDir);
+			sim = new Simulation(t, animationDir, M);
 			Workorder toDo = master.getWork();
 			while (toDo == null) {
 			try {
