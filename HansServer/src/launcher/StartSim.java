@@ -13,7 +13,7 @@ public class StartSim {
 	public static int NumberOfPlanets = 1;
 	public static Vector animationDir = new Vector(0, 0, 1);
 	public static int simDuration = 50000;
-	public static double t = 60;
+	public static double t = 1800;
 
 	public static Management man;
 	

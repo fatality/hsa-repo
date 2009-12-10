@@ -25,10 +25,11 @@ public class Simulation {
 	 * @param t
 	 *            Zeitintervall
 	 */
-	public Simulation(double t, Vector animationDirection, double M) {
+	public Simulation(double t, Vector animationDirection, double M, ArrayList<Planet> planets) {
 		this.t = t;
 		this.animationDirection = animationDirection;
 		this.M = M;
+		this.planets = planets;
 	}
 
 	/**
@@ -42,7 +43,7 @@ public class Simulation {
 	 */
 	public double getSpeed(Planet centralStar, Planet planet) {
 		double speedMath = (((M - planet.getMass())) / M)
-				* Math.sqrt((G * M) / (planet.getPosition().subVec(getRSL(centralStar, planet, Management.planets)).getLenght()));
+				* Math.sqrt((G * M) / (planet.getPosition().subVec(getRSL(centralStar, planet, planets)).getLenght()));
 		System.out.println(speedMath);
 		return speedMath;
 	}

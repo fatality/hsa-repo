@@ -41,7 +41,7 @@ public class Worker extends Thread {
 	 */
 	public void run() {
 		while (true) {
-			sim = new Simulation(t, animationDir, M);
+			sim = new Simulation(t, animationDir, M, planets);
 			Workorder toDo = master.getWork();
 			while (toDo == null) {
 			try {

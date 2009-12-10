@@ -43,7 +43,7 @@ public class Management {
 		calculatedPlanets = new ArrayList<Planet>();
 		initCentral();
 		initPlanets(NumberOfPlanets);
-		this.sim = new Simulation(t, animationDir, M);
+		this.sim = new Simulation(t, animationDir, M, planets);
 		initPlanetSpeed();
 		countDone = 0;
 		workorder = new ArrayList<Workorder>();
@@ -71,7 +71,7 @@ public class Management {
 	 */
 	public void initPlanets(int numberOfPlanets) {
 
-		double distance = 75E6;
+		double distance = 90E6;
 		double maxMass = centralStar.getMass() / 10000.0;
 		double mass;
 
@@ -80,7 +80,7 @@ public class Management {
 			mass = Math.random() * maxMass;
 			Planet temp = new Planet(new Vector(0, distance, 0), mass);
 			god.add(temp);
-			distance += 75E6;
+			distance += 90E6;
 			M += mass;
 		}
 		M += centralStar.getMass();
