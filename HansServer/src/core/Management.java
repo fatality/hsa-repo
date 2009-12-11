@@ -11,7 +11,7 @@ import java.util.Collections;
 public class Management {
 
 	public Vector animationDir = new Vector(0, 0, 1);
-	public double t = 1800;
+	public double t = 60;
 	
 	public Planet centralStar;
 	public static ArrayList<Planet> planets;
@@ -35,8 +35,12 @@ public class Management {
 	 * @param simDuration
 	 *            Wieviele Iterationen werden kalkuliert
 	 */
-	public Management(int NumberOfPlanets, int simDuration, 
-					  double maxPlanetMass, double centralStarMass) {
+	public Management() {
+	
+	}
+	
+	public void initManagement(int NumberOfPlanets, int simDuration, 
+					  double maxPlanetMass, double centralStarMass){
 		try {
 			bx = new BufferedWriter(new FileWriter("px.txt"));
 			by = new BufferedWriter(new FileWriter("py.txt"));
@@ -53,6 +57,7 @@ public class Management {
 		countDone = 0;
 		workorder = new ArrayList<Workorder>();
 	}
+	
 
 	/**
 	 * Initiiert den Zentralstern und speichert ihn in seine Variable
@@ -76,7 +81,7 @@ public class Management {
 	 */
 	public void initPlanets(int numberOfPlanets, double maxPlanetMass) {
 
-		double distance = 90E6;
+		double distance = 90E9;
 		double maxMass = maxPlanetMass;
 		double mass;
 
@@ -85,7 +90,7 @@ public class Management {
 			mass = Math.random() * maxMass;
 			Planet temp = new Planet(new Vector(0, distance, 0), mass, i);
 			god.add(temp);
-			distance += 90E6;
+			distance += 90E9;
 			M += mass;
 		}
 		M += centralStar.getMass();
@@ -102,7 +107,7 @@ public class Management {
 	// Implementierung des Master-Worker-Pattern ab hier.
 	//	
 
-	public void doSim(double t, Vector animationDir) {
+	public void doSim() {
 		for (int i = 0; i < 50; i++) {
 			Worker temp = new Worker(t, animationDir, this, M);
 			temp.start();
