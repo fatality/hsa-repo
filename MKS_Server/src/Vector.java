@@ -1,11 +1,16 @@
 /**
- * Eigene Vektor Implementation. Fehlende Operationen werden implementiert wenn
- * sie gebraucht werden.
+ * ########################################################
+ * Copyright (c) 2009
+ * @author fatality
+ * @date 2009-11-05
+ * http://www.gironimo.org/
+ * 
+ * Lizenz: GPL 3
+ * ########################################################
  */
 
 /**
- * @author fatality
- * @date 2009-11-16
+ * Eigene Vektor Implementation. Fehlende Operationen werden implementiert wenn sie gebraucht werden.
  */
 public class Vector {
 	
@@ -13,6 +18,13 @@ public class Vector {
 	public double y = 0;
 	public double z = 0;
 
+	/**
+	 * <strong>Konstruktor</strong> der <em>Vector-Klasse</em>.
+	 * 
+	 * @param x
+	 * @param y
+	 * @param z
+	 */
 	public Vector( double x, double y, double z ) {
 		this.x = x;
 		this.y = y;
@@ -20,7 +32,7 @@ public class Vector {
 	}
 	
 	/**
-	 * Addiert zwei Vektoren und gibt einen neuen Vektor zurück
+	 * Addiert zwei Vektoren und gibt einen neuen Vektor zurück.
 	 * 
 	 * @param Vector toAdd
 	 * @return Vector
@@ -31,7 +43,7 @@ public class Vector {
 	}
 	
 	/**
-	 * Subtrahiert den gegebenen Vektor mit dem aktuellen
+	 * Subtrahiert den gegebenen Vektor mit dem aktuellen.
 	 * 
 	 * @param Vector subThis
 	 * @return Vector
@@ -42,7 +54,7 @@ public class Vector {
 	}
 	
 	/**
-	 * Negiert einen Vektor und gibt einen neuen negierten Vektor zurück
+	 * Negiert einen Vektor und gibt einen neuen negierten Vektor zurück.
 	 * 
 	 * @return Vector
 	 */
@@ -51,7 +63,7 @@ public class Vector {
 	}
 	
 	/**
-	 * Gibt die Länge des Vektors zurück
+	 * Gibt die Länge des Vektors zurück.
 	 * 
 	 * @return double
 	 */
@@ -60,7 +72,7 @@ public class Vector {
 	}
 	
 	/**
-	 * Multipliziert einen Vektor mit einem gegebenen double
+	 * Multipliziert einen Vektor mit einem gegebenen double.
 	 * 
 	 * @param double multWith
 	 * @return Vector
@@ -71,7 +83,7 @@ public class Vector {
 	}
 	
 	/**
-	 * Kreuzprodukt von zwei Vektoren
+	 * Kreuzprodukt von zwei Vektoren.
 	 * 
 	 * @param cross With
 	 * @return Vector
@@ -82,10 +94,10 @@ public class Vector {
 	}
 	
 	/**
-	 * Simulationsausgabe
+	 * Simulationsausgabe.
 	 * 
 	 * @Override
-	 * @TODO Only used for programming! Will be deleted later.
+	 * @TODO Wird später gelöscht!
 	 */
 	public String toString() {
 		String s = "X-Koordinate: " + x + "   Y-Koordinate: " + y + "   Z-Koordinate: " + z;

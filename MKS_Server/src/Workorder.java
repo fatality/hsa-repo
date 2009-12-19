@@ -1,12 +1,18 @@
+/**
+ * ########################################################
+ * Copyright (c) 2009
+ * @author fatality
+ * @date 2009-11-16
+ * http://www.gironimo.org/
+ * 
+ * Lizenz: GPL 3
+ * ########################################################
+ */
+
 import java.util.ArrayList;
 
 /**
- * 
- */
-
-/**
- * @author fatality
- * @date 2009-11-16
+ * Konstruktor Klasse für das Master-Worker-Pattern.
  */
 public class Workorder {
 	
@@ -15,11 +21,11 @@ public class Workorder {
 	public int calculateThis;
 
 	/**
-	 * Konstruktor der Workorder
+	 * <strong>Konstruktor</strong> der <em>Workorder-Klasse</em>.
 	 * 
-	 * @param planets ArrayListe der Vorhanden Planeten(nur Referenz)
-	 * @param centralStar Referenz auf den zentralen Planeten
-	 * @param calculateThis Zahl welcher Planet berechnet werden soll
+	 * @param planets
+	 * @param centralStar
+	 * @param calculateThis
 	 */
 	public Workorder(ArrayList<Planet> planets, Planet centralStar,
 			int calculateThis) {

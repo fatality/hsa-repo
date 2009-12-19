@@ -1,10 +1,19 @@
 /**
- * Diese Klasse startet den Server und übergibt alle notwendigen Variablen ans Management.
+ * ########################################################
+ * Copyright (c) 2009
+ * @author fatality
+ * @date 2009-11-12
+ * http://www.gironimo.org/
+ * 
+ * Lizenz: GPL 3
+ * ########################################################
  */
 
 /**
- * @author fatality
- * @date 2009-11-12
+ * Diese Klasse startet den Server und übergibt alle notwendigen Variablen ans Management.
+ * Einfache Testmethode ;)
+ * 
+ * @TODO kann gelöscht werden sobald Server läuft.
  */
 public class StartSim {
 	
@@ -16,6 +25,8 @@ public class StartSim {
 	public static Management man;
 
 	/**
+	 * <strong>Main-Methode</strong> unserer Simulation.
+	 * 
 	 * @param args
 	 */
 	public static void main( String[] args ) {

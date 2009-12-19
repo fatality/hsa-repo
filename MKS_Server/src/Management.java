@@ -1,5 +1,12 @@
 /**
- * Verwaltet die Daten die zur Simulation verwendet werden.
+ * ########################################################
+ * Copyright (c) 2009
+ * @author fatality
+ * @date 2009-11-05
+ * http://www.gironimo.org/
+ * 
+ * Lizenz: GPL 3
+ * ########################################################
  */
 
 import java.io.*;
@@ -7,8 +14,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 /**
- * @author fatality
- * @date 2009-11-05
+ * Verwaltet die Daten die zur Simulation verwendet werden.
  */
 public class Management {
 	
@@ -29,6 +35,14 @@ public class Management {
 		
 	}
 	
+	/**
+	 * <strong>Konstruktor</strong> der <em>Management-Klasse</em>.
+	 * 
+	 * @param NumberOfPlanets
+	 * @param simDuration
+	 * @param maxPlanetMass
+	 * @param centralStarMass
+	 */
 	public void initManagement( int NumberOfPlanets, int simDuration, double maxPlanetMass, double centralStarMass ) {
 		try {
 			bx = new BufferedWriter( new FileWriter( "px.txt" ) );
@@ -57,22 +71,17 @@ public class Management {
 	}
 	
 	/**
-	 * Initiiert die Planeten für die Simulation Alle planeten werden im abstand
-	 * von 0.5AU aufsteigend um den zentralen stern gestartet. Die maximale
-	 * Masse der Planeten wird mit 1/2 der zentralen Sternmasse festgelegt. Die
-	 * eigentliche Masse eines Planeten wird mit Math.Random * maxMass
-	 * berechnet.
+	 * Initiiert die Planeten für die Simulation.
+	 * Alle planeten werden im Abstand von 0.5AU aufsteigend um den Zentralstern gestartet.
+	 * Die maximale Masse der Planeten wird mit 1/2 der zentralen Sternmasse festgelegt.
+	 * Die eigentliche Masse eines Planeten wird mit Math.Random * maxMass berechnet.
 	 * 
-	 * @TODO Bisher werden nur Erden erzeugt. Änderung auf Random
-	 * @param numberOfPlanets
-	 *            Anzahl der Planeten
+	 * @param numberOfPlanets Anzahl der Planeten
 	 */
 	public void initPlanets( int numberOfPlanets, double maxPlanetMass ) {
-
 		double distance = 90E9;
 		double maxMass = maxPlanetMass;
 		double mass;
-
 		ArrayList<Planet> god = new ArrayList<Planet>();
 		for ( int i = 0; i < numberOfPlanets; i++ ) {
 			mass = Math.random() * maxMass;
@@ -85,6 +94,9 @@ public class Management {
 		planets = god;
 	}
 	
+	/**
+	 * Initalisiert die Geschwindigkeit eines Planeten.
+	 */
 	public void initPlanetSpeed(){
 		for ( int i = 0; i < planets.size(); i++ ) {
 			planets.get( i ).setSpeed( sim.getSpeed( centralStar, planets.get( i ) ) );
@@ -98,8 +110,7 @@ public class Management {
 		for ( int i = 0; i < 50; i++ ) {
 			Worker temp = new Worker( t, animationDir, this, M );
 			temp.start();
-		}
-		
+		}	
 		for ( int i = 0; i < simDuration; i++ ) {
 			distributeWork();
 			while ( calculatedPlanets.size() != planets.size() ) {
@@ -150,7 +161,7 @@ public class Management {
 	
 	/**
 	 * Methode mit Hilfe der die Worker nachschauen ob Arbeit da ist.
-	 * Synchronized!
+	 * <em>Synchronized!</em>
 	 * 
 	 * @return temp
 	 */
@@ -165,7 +176,7 @@ public class Management {
 	
 	/**
 	 * Methode mit Hilfe der die Worker ihre berechneten Planeten zurückgeben
-	 * Synchronized!
+	 * <em>Synchronized!</em>
 	 * 
 	 * @param planet
 	 */

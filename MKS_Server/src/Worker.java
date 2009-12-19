@@ -1,12 +1,18 @@
+/**
+ * ########################################################
+ * Copyright (c) 2009
+ * @author fatality
+ * @date 2009-11-05
+ * http://www.gironimo.org/
+ * 
+ * Lizenz: GPL 3
+ * ########################################################
+ */
+
 import java.util.ArrayList;
 
 /**
- * 
- */
-
-/**
- * @author fatality
- * @date 2009-11-23
+ * Anwendung des Master-Worker-Pattern!
  */
 public class Worker extends Thread {
 	
@@ -21,11 +27,11 @@ public class Worker extends Thread {
 	public double M;
 
 	/**
-	 * Konstruktor für den Worker
+	 * <strong>Konstruktor</strong> für die <em>Worker-Klasse</em>.
 	 * 
-	 * @param t Zeitintervalle
-	 * @param animationDir Richtung der Geschwindigkeit
-	 * @param master Verweis auf den Master bzw. auf den Verteiler.
+	 * @param t
+	 * @param animationDir
+	 * @param master
 	 */
 	public Worker( double t, Vector animationDir, Management master, double M ) {
 		this.t = t;
@@ -35,11 +41,10 @@ public class Worker extends Thread {
 	}
 
 	/**
-	 * Alauf des Threads Erstellt eine Simulation, schaut ob eine Workorder
-	 * vorhanden ist. 
-	 * Wenn ja: Berechnet er diese und gibt den neu berechneten
-	 * Planeten zurück ins "berechnete" Array. 
-	 * Wenn nein: schläft er für 100ms
+	 * Alauf des Threads:
+	 * Erstellt eine Simulation, schaut ob eine Workorder vorhanden ist. 
+	 * Wenn ja: Berechnet er diese und gibt den neu berechneten Planeten zurück ins "berechnete" Array. 
+	 * Wenn nein: schläft er für 100ms.
 	 */
 	public void run() {
 		while ( true ) {
@@ -65,7 +70,7 @@ public class Worker extends Thread {
 	/**
 	 * Die Eigentliche Simulation
 	 * 
-	 * @return Planet neuberechneter Planet
+	 * @return Planet
 	 */
 	public Planet doSim() {
 		Vector f = sim.calcGravitation( centralPlanet, planets.get( planetToCalc ) );

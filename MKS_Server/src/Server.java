@@ -1,13 +1,24 @@
 /**
- * Diese Klasse startet den Server und übergibt alle notwendigen Variablen ans Management.
+ * ########################################################
+ * Copyright (c) 2009
+ * @author fatality
+ * @date 2009-11-05
+ * http://www.gironimo.org/
+ * 
+ * Lizenz: GPL 3
+ * ########################################################
  */
 
 /**
- * @author fatality
- * @date 2009-12-09
+ * Diese Klasse startet den Server und übergibt alle notwendigen Variablen ans Management.
  */
 public class Server {
 
+	/**
+	 * <strong>Main Methode</strong> unserer Simulation. Mit <em>Ice</em> Implementierung.
+	 * 
+	 * @param args
+	 */
 	public static void main( String[] args ) {
 		int status = 0;
 		Ice.Communicator ic = null;
@@ -26,8 +37,6 @@ public class Server {
 			status = 1;
 		}
 		if ( ic != null ) {
-			// Clean up
-			//
 			try {
 				ic.destroy();
 			} catch ( Exception e ) {

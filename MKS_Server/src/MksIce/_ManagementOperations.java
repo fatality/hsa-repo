@@ -11,7 +11,8 @@
 
 package MksIce;
 
-public interface _ManagementOperations
-{
-    void initManagement(int NumberOfPlanets, int simDuration, double maxPlanetMass, double centralStarMass, Ice.Current __current);
+public interface _ManagementOperations {
+	
+    void initManagement( int NumberOfPlanets, int simDuration, double maxPlanetMass, double centralStarMass, Ice.Current __current );
+
 }

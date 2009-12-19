@@ -11,18 +11,16 @@
 
 package MksIce;
 
-public final class ManagementPrxHolder
-{
-    public
-    ManagementPrxHolder()
-    {
+public final class ManagementPrxHolder {
+	
+    public ManagementPrxHolder() {
+    	
     }
 
-    public
-    ManagementPrxHolder(ManagementPrx value)
-    {
+    public ManagementPrxHolder( ManagementPrx value ) {
         this.value = value;
     }
 
     public ManagementPrx value;
+    
 }

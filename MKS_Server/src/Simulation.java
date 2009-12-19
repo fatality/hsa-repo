@@ -1,15 +1,21 @@
+/**
+ * ########################################################
+ * Copyright (c) 2009
+ * @author fatality
+ * @date 2009-11-05
+ * http://www.gironimo.org/
+ * 
+ * Lizenz: GPL 3
+ * ########################################################
+ */
+
 import java.util.ArrayList;
 
 /**
  * Berechnet alle relevanten Daten
  */
-
-/**
- * @author fatality
- * @date 2009-11-05
- */
 public class Simulation {
-	
+
 	public final double G = 6.672E-11;
 	public final double t;
 	public final Vector animationDirection;
@@ -17,9 +23,12 @@ public class Simulation {
 	public double M;
 
 	/**
-	 * Konstruktor der Simulation
+	 * <strong>Konstruktor</strong> der <em>Simulations-Klasse</em>.
 	 * 
-	 * @param t Zeitintervall
+	 * @param t
+	 * @param animationDirection
+	 * @param M
+	 * @param planets
 	 */
 	public Simulation( double t, Vector animationDirection, double M, ArrayList<Planet> planets ) {
 		this.t = t;
@@ -29,7 +38,7 @@ public class Simulation {
 	}
 
 	/**
-	 * Berechnet die "optimale" Geschwindigkeit für einen neuen Planeten
+	 * Berechnet die "optimale" Geschwindigkeit für einen neuen Planeten.
 	 * 
 	 * @param Planet planet
 	 * @param Planet centralStar
@@ -42,7 +51,7 @@ public class Simulation {
 	}
 
 	/**
-	 * Berechnet die Richtung des Geschwindigkeitsvektors
+	 * Berechnet die Richtung des Geschwindigkeitsvektors.
 	 * 
 	 * @param centralStar
 	 * @param planet
@@ -55,7 +64,7 @@ public class Simulation {
 	}
 
 	/**
-	 * Berechnet die Gravitation zwischen zwei Planeten
+	 * Berechnet die Gravitation zwischen zwei Planeten.
 	 * 
 	 * @param Planet m1
 	 * @param Planet m2
@@ -70,10 +79,10 @@ public class Simulation {
 	}
 
 	/**
-	 * Berechnet die Beschleunigung zwischen zwei Planeten
+	 * Berechnet die Beschleunigung zwischen zwei Planeten.
 	 * 
 	 * @param planet
-	 * @param Vector f Komplette Gravitation zusammen genommen
+	 * @param Vector f
 	 * @return Vector
 	 */
 	public Vector calcAcc( Planet planet, Vector f ) {
@@ -81,7 +90,7 @@ public class Simulation {
 	}
 
 	/**
-	 * Berechnet die neue Position eines Planeten
+	 * Berechnet die neue Position eines Planeten.
 	 * 
 	 * @param planet
 	 * @param acceleration
@@ -92,10 +101,17 @@ public class Simulation {
 		return newPos;
 	}
 
+	/**
+	 * Berechnet die annähernd konstante Geschwindigkeit aller Planeten.
+	 * 
+	 * @param centralStar
+	 * @param currPlanet
+	 * @param planets
+	 * @return
+	 */
 	public Vector getRSL( Planet centralStar, Planet currPlanet, ArrayList<Planet> planets ) {
 		Vector sum = new Vector( 0, 0, 0 );
 		for ( int i = 0; i < StartSim.NumberOfPlanets; i++ ) {
-			// if ( planets.get(i).equals( currPlanet ) == true ) continue;
 			sum = currPlanet.getPosition().multiplyVector( currPlanet.getMass() );
 		}
 		sum = sum.multiplyVector( Math.pow( M, -1 ) );

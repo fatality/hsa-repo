@@ -1,10 +1,17 @@
 /**
- * Interface für Ice (http://zeroc.com/)
+ * ########################################################
+ * Copyright (c) 2009
+ * @author fatality
+ * @date 2009-12-19
+ * http://www.gironimo.org/
+ * 
+ * Lizenz: GPL 3
+ * ########################################################
  */
 
 /**
- * @author fatality
- * @date 2009-12-19
+ * Interface für <strong>Ice - Internet Communication Engine</strong> 
+ * <a>http://zeroc.com/</a>
  */
 @SuppressWarnings("serial")
 public class ManagementI extends MksIce._ManagementDisp {
