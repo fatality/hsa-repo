@@ -21,6 +21,7 @@ public class Management {
 	public int countDone;
 	public ArrayList<Workorder> workorder;
 	public double M;
+	double[] planetCoords;
 	BufferedWriter bx;
 	BufferedWriter by;
 
@@ -121,7 +122,20 @@ public class Management {
 					e.printStackTrace();
 				}
 			}
-			workDone(calculatedPlanets);
+			this.planetCoords = workDone(calculatedPlanets);
+			
+			this.planetCoords = null;
+			
+			while (this.planetCoords != null)
+				try{
+					Thread.sleep(0,1);
+				} catch (InterruptedException e){
+					e.printStackTrace();
+				}
+			
+			
+			countDone = 0;
+			planets = calculatedPlanets;
 			calculatedPlanets = new ArrayList<Planet>();
 		}
 	}
@@ -140,13 +154,26 @@ public class Management {
 	}
 
 	/**
-	 * Beendet den Zyklus und setzt die neuen Positionen als die aktuellen
-	 * Postionen
+	 * Beendet den Zyklus.
 	 * 
 	 * @param calculatedPlanets
 	 */
-	public void workDone(ArrayList<Planet> calculatedPlanets) {
+	@SuppressWarnings("unchecked")
+	public double[] workDone(ArrayList<Planet> calculatedPlanets) {
 		Collections.sort(calculatedPlanets);
+		
+		// Umschreiben der planeten Koordinaten in ein array aus doubles 
+		// zur uebertragingsmoeglichkeit fuer ice
+		double[] planetCoords = new double[calculatedPlanets.size()*3];
+		int temp = 0;
+		for ( Planet p: calculatedPlanets){
+			planetCoords[temp] = p.getPosition().x;
+			planetCoords[temp+1] = p.getPosition().y;
+			planetCoords[temp+2] = p.getPosition().z;
+			temp+=3;
+		}
+		
+		// Behelfsausgabe der Werte des 1. Planeten zur Ueberpruefung weil Ice nicht laeuft
 		try {
 			bx.append(String.valueOf(planets.get(0).getPosition().x) + "\n");
 			by.append(String.valueOf(planets.get(0).getPosition().y) + "\n");
@@ -155,8 +182,10 @@ public class Management {
 		} catch (Exception e) {
 			System.out.println("FEHLER");
 		}
-		countDone = 0;
-		planets = calculatedPlanets;
+		
+		
+
+		return planetCoords;
 	}
 
 	/**
@@ -182,6 +211,14 @@ public class Management {
 	 */
 	public synchronized void calculationDone(Planet planet) {
 		calculatedPlanets.add(planet);
+	}
+	
+	/**
+	 * Methode die der Client aufruft um alles zu bekommen was er pro zyklus
+	 * braucht.
+	 */
+	public void clientGetsWhatHeNeeds(){
+		
 	}
 
 }
