@@ -122,14 +122,14 @@ public class Management {
 				}
 			}
 			planetCoords = workDone( calculatedPlanets );
-			while ( planetCoords != null ) {
-				try {
-					Thread.sleep( 0,1 );
-				} catch ( InterruptedException e ) {
-					e.printStackTrace();
-				}
-			}
-		
+//			while ( planetCoords != null ) {
+//				try {
+//					Thread.sleep( 0,1 );
+//				} catch ( InterruptedException e ) {
+//					e.printStackTrace();
+//				}
+//			}
+			countDone = 0;
 			calculatedPlanets = new ArrayList<Planet>();
 		}
 	}
@@ -160,7 +160,6 @@ public class Management {
 		// Umschreiben der planeten Koordinaten in ein array aus doubles 
 		// zur uebertragingsmoeglichkeit fuer ice
 		String tempCoords = new String();
-		int temp = 0;
 		for ( Planet p: calculatedPlanets ) {
 			tempCoords += (p.getPosition().x + "\n");
 			tempCoords += (p.getPosition().y + "\n");
