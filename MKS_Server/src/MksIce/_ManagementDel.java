@@ -11,8 +11,11 @@
 
 package MksIce;
 
-public interface _ManagementDel extends Ice._ObjectDel {
-	
-    void initManagement( int NumberOfPlanets, int simDuration, double maxPlanetMass, double centralStarMass, java.util.Map<String, String> __ctx ) throws IceInternal.LocalExceptionWrapper;
+public interface _ManagementDel extends Ice._ObjectDel
+{
+    void initManagement(int NumberOfPlanets, int simDuration, double maxPlanetMass, double centralStarMass, java.util.Map<String, String> __ctx)
+        throws IceInternal.LocalExceptionWrapper;
 
+    String getData(java.util.Map<String, String> __ctx)
+        throws IceInternal.LocalExceptionWrapper;
 }

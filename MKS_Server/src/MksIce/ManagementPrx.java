@@ -11,9 +11,11 @@
 
 package MksIce;
 
-public interface ManagementPrx extends Ice.ObjectPrx {
-	
-    public void initManagement( int NumberOfPlanets, int simDuration, double maxPlanetMass, double centralStarMass );
-    public void initManagement( int NumberOfPlanets, int simDuration, double maxPlanetMass, double centralStarMass, java.util.Map<String, String> __ctx );
+public interface ManagementPrx extends Ice.ObjectPrx
+{
+    public void initManagement(int NumberOfPlanets, int simDuration, double maxPlanetMass, double centralStarMass);
+    public void initManagement(int NumberOfPlanets, int simDuration, double maxPlanetMass, double centralStarMass, java.util.Map<String, String> __ctx);
 
+    public String getData();
+    public String getData(java.util.Map<String, String> __ctx);
 }

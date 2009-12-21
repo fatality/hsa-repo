@@ -11,6 +11,7 @@
 
 package MksIce;
 
-public interface Management extends Ice.Object, _ManagementOperations, _ManagementOperationsNC {
-	
+public interface Management extends Ice.Object,
+                                    _ManagementOperations, _ManagementOperationsNC
+{
 }

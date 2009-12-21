@@ -28,6 +28,7 @@ public class Management {
 	public int countDone;
 	public ArrayList<Workorder> workorder;
 	public double M;
+	public String planetCoords;
 	BufferedWriter bx;
 	BufferedWriter by;
 	
@@ -120,7 +121,15 @@ public class Management {
 					e.printStackTrace();
 				}
 			}
-			workDone( calculatedPlanets );
+			planetCoords = workDone( calculatedPlanets );
+			while ( planetCoords != null ) {
+				try {
+					Thread.sleep( 0,1 );
+				} catch ( InterruptedException e ) {
+					e.printStackTrace();
+				}
+			}
+		
 			calculatedPlanets = new ArrayList<Planet>();
 		}
 	}
@@ -145,18 +154,18 @@ public class Management {
 	 * @return planetCoords
 	 */
 	@SuppressWarnings( "unchecked" )
-	public double[] workDone( ArrayList<Planet> calculatedPlanets ) {
+	public String workDone( ArrayList<Planet> calculatedPlanets ) {
 		Collections.sort( calculatedPlanets );
 		
 		// Umschreiben der planeten Koordinaten in ein array aus doubles 
 		// zur uebertragingsmoeglichkeit fuer ice
-		double[] planetCoords = new double[ calculatedPlanets.size() * 3 ];
+		String tempCoords = new String();
 		int temp = 0;
 		for ( Planet p: calculatedPlanets ) {
-			planetCoords[ temp ] = p.getPosition().x;
-			planetCoords[ temp + 1 ] = p.getPosition().y;
-			planetCoords[ temp + 2 ] = p.getPosition().z;
-			temp += 3;
+			tempCoords += (p.getPosition().x + "\n");
+			tempCoords += (p.getPosition().y + "\n");
+			tempCoords += (p.getPosition().z + "\n");
+				
 		}
 		
 		// Behelfsausgabe der Werte des 1. Planeten zur Ueberpruefung weil Ice nicht laeuft
@@ -168,7 +177,7 @@ public class Management {
 		} catch ( Exception e ) {
 			System.out.println( "FEHLER" );
 		}
-		return planetCoords;
+		return tempCoords;
 	}
 	
 	/**
@@ -199,8 +208,10 @@ public class Management {
 	/**
 	 * Methode die der Client aufruft um alles zu bekommen was er pro Zyklus braucht.
 	 */
-	public void clientGetsWhatHeNeeds(){
-		
+	public String getData(){
+		String temp = planetCoords;
+		planetCoords = null;
+		return temp;
 	}
 
 }

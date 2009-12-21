@@ -11,33 +11,46 @@
 
 package MksIce;
 
-public final class ManagementHolder {
-	
-    public ManagementHolder() {
-    	
+public final class ManagementHolder
+{
+    public
+    ManagementHolder()
+    {
     }
 
-    public ManagementHolder( Management value ) {
+    public
+    ManagementHolder(Management value)
+    {
         this.value = value;
     }
 
-    public class Patcher implements IceInternal.Patcher {
-        public void patch( Ice.Object v ) {
-            try {
-                value = ( Management )v;
-            } catch( ClassCastException ex ) {
-                IceInternal.Ex.throwUOE( type(), v.ice_id() );
+    public class Patcher implements IceInternal.Patcher
+    {
+        public void
+        patch(Ice.Object v)
+        {
+            try
+            {
+                value = (Management)v;
+            }
+            catch(ClassCastException ex)
+            {
+                IceInternal.Ex.throwUOE(type(), v.ice_id());
             }
         }
-        public String type() {
+
+        public String
+        type()
+        {
             return "::MksIce::Management";
         }
     }
 
-    public Patcher getPatcher() {
+    public Patcher
+    getPatcher()
+    {
         return new Patcher();
     }
 
     public Management value;
-    
 }
