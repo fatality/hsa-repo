@@ -16,7 +16,7 @@ try:
 	management = MksIce.ManagementPrx.checkedCast( base )
 	if not management:
 		raise RuntimeError( "Invalid proxy" )
-	management.printString( "Hello World!" )
+	management.initManagement( 1, 2, 2.0, 5.0 )
 except:
 	traceback.print_exc()
 	status = 1
