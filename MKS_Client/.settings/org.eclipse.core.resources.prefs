@@ -1,4 +1,4 @@
-#Sun Dec 20 14:38:22 CET 2009
+#Wed Dec 30 10:40:54 CET 2009
 eclipse.preferences.version=1
-encoding//src/Client.py=utf-8
-encoding//src/MksClient.py=utf-8
+encoding//src/mks_qt_gui.py=utf-8
+encoding//src/mks_start.py=utf-8
