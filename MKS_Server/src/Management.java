@@ -29,12 +29,6 @@ public class Management {
 	public ArrayList<Workorder> workorder;
 	public double M;
 	public String planetCoords;
-	BufferedWriter bx;
-	BufferedWriter by;
-	
-	public Management() {
-		
-	}
 	
 	/**
 	 * <strong>Konstruktor</strong> der <em>Management-Klasse</em>.
@@ -45,13 +39,6 @@ public class Management {
 	 * @param centralStarMass
 	 */
 	public void initManagement( int NumberOfPlanets, int simDuration, double maxPlanetMass, double centralStarMass ) {
-		try {
-			bx = new BufferedWriter( new FileWriter( "px.txt" ) );
-			by = new BufferedWriter( new FileWriter( "py.txt" ) );
-		} catch ( Exception e ) {
-			System.out.println( "FEHLER" );
-		}
-		
 		this.simDuration = simDuration;
 		calculatedPlanets = new ArrayList<Planet>();
 		initCentral( centralStarMass );
@@ -122,6 +109,7 @@ public class Management {
 				}
 			}
 			planetCoords = workDone( calculatedPlanets );
+			planets = calculatedPlanets;
 //			while ( planetCoords != null ) {
 //				try {
 //					Thread.sleep( 0,1 );
@@ -158,7 +146,7 @@ public class Management {
 		Collections.sort( calculatedPlanets );
 		
 		// Umschreiben der planeten Koordinaten in ein array aus doubles 
-		// zur uebertragingsmoeglichkeit fuer ice
+		// zur uebertragungsmoeglichkeit ueber ice
 		String tempCoords = new String();
 		for ( Planet p: calculatedPlanets ) {
 			tempCoords += (p.getPosition().x + "\n");
@@ -167,15 +155,6 @@ public class Management {
 				
 		}
 		
-		// Behelfsausgabe der Werte des 1. Planeten zur Ueberpruefung weil Ice nicht laeuft
-		try {
-			bx.append( String.valueOf( planets.get(0).getPosition().x ) + "\n" );
-			by.append( String.valueOf( planets.get(0).getPosition().y ) + "\n" );
-			bx.flush();
-			by.flush();
-		} catch ( Exception e ) {
-			System.out.println( "FEHLER" );
-		}
 		return tempCoords;
 	}
 	
