@@ -47,6 +47,10 @@ public class Management {
 		initPlanetSpeed();
 		countDone = 0;
 		workorder = new ArrayList<Workorder>();
+		for ( int i = 0; i < 50; i++ ) {
+			Worker temp = new Worker( t, animationDir, this, M );
+			temp.start();
+		}
 	}
 	
 	/**
@@ -95,19 +99,19 @@ public class Management {
 	 * Implementierung des Master-Worker-Pattern
 	 */
 	public void doSim() {
-		for ( int i = 0; i < 50; i++ ) {
-			Worker temp = new Worker( t, animationDir, this, M );
-			temp.start();
-		}	
+//		for ( int i = 0; i < 50; i++ ) {
+//			Worker temp = new Worker( t, animationDir, this, M );
+//			temp.start();
+//		}	
 		for ( int i = 0; i < simDuration; i++ ) {
 			distributeWork();
-			while ( calculatedPlanets.size() != planets.size() ) {
-				try {
-					Thread.sleep( 0,1 );
-				} catch ( InterruptedException e ) {
-					e.printStackTrace();
-				}
-			}
+//			while ( calculatedPlanets.size() != planets.size() ) {
+//				try {
+//					Thread.sleep( 0,1 );
+//				} catch ( InterruptedException e ) {
+//					e.printStackTrace();
+//				}
+//			}
 			planetCoords = workDone( calculatedPlanets );
 			planets = calculatedPlanets;
 //			while ( planetCoords != null ) {
@@ -187,6 +191,7 @@ public class Management {
 	 * Methode die der Client aufruft um alles zu bekommen was er pro Zyklus braucht.
 	 */
 	public String getData(){
+		doSim();
 		String temp = planetCoords;
 		planetCoords = null;
 		return temp;

@@ -18,7 +18,7 @@ public class ManagementI extends MksIce._ManagementDisp {
     public void initManagement( int NumberOfPlanets, int simDuration, double maxPlanetMass, double centralStarMass, Ice.Current current ) {
     	man = new Management();
     	man.initManagement( NumberOfPlanets, simDuration, maxPlanetMass, centralStarMass );
-    	man.doSim();
+//    	man.doSim();
     }
 
 	public String getData( Ice.Current current ) {
