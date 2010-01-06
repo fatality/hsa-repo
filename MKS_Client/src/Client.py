@@ -1,34 +1,128 @@
 #!/usr/bin/python
-# -*- coding: utf-8 -*-
+# -*- coding:utf-8 -*-
 #
-# file: mks_qt_gui.py
+# file: Client.py
 #
 
-import vtk
+import sys, traceback, Ice, MksIce, vtk, time, math
 
-from PyQt4 import QtCore, QtGui
+from PyQt4 import QtGui, QtCore
 from vtk.qt4 import QVTKRenderWindowInteractor
 
 
-class Ui_MainWindow( object ):
+class InfoDialog( QtGui.QDialog ):
     
-    def setupUi( self, MainWindow ):
-
-        # ===
-        # MainWindow Properties
-        # ===
-        MainWindow.setObjectName( 'MainWindow' )
-        MainWindow.setWindowModality( QtCore.Qt.NonModal )
-        MainWindow.resize( 800, 577 )
+    def __init__( self, parent = None ):
+        
+        QtGui.QDialog.__init__( self, parent )
+        
         icon = QtGui.QIcon()
         icon.addPixmap( QtGui.QPixmap( 'icons/application_icon.png' ), QtGui.QIcon.Normal, QtGui.QIcon.Off )
-        MainWindow.setWindowIcon( icon )
-        MainWindow.setUnifiedTitleAndToolBarOnMac( True )
+        
+        # ===
+        # InfoDialog Eigenschaften
+        # ===
+        self.setObjectName( 'info_dialog' )
+        self.resize( 404, 251 )
+        self.setWindowIcon( icon )
+        
+        # ===
+        # InfoDialog Widgets
+        # ===
+        self.widget = QtGui.QWidget( self )
+        self.widget.setGeometry( QtCore.QRect( 0, 10, 402, 231 ) )
+        self.widget.setObjectName( 'widget' )
+        
+        self.logo_label = QtGui.QLabel( self.widget )
+        self.logo_label.setPixmap( QtGui.QPixmap( 'icons/application_logo.png' ) )
+        self.logo_label.setObjectName( 'logo_label' )
+        
+        self.info_edit = QtGui.QTextEdit( self.widget )
+        self.info_edit.setReadOnly( True )
+        self.info_edit.setObjectName( 'info_edit' )
+        
+        self.button_box = QtGui.QDialogButtonBox( self.widget )
+        self.button_box.setOrientation( QtCore.Qt.Horizontal )
+        self.button_box.setStandardButtons( QtGui.QDialogButtonBox.Close )
+        self.button_box.setObjectName( 'button_box' )
+        
+        self.vLayout = QtGui.QVBoxLayout( self.widget )
+        self.vLayout.setObjectName( 'vLayout' )
+        self.vLayout.addWidget( self.logo_label )
+        self.vLayout.addWidget( self.info_edit )
+        self.vLayout.addWidget( self.button_box )
+        
+        # ===
+        # Setzen des Layouts, Übersetzung des Dialogs und Darstellung
+        # ===
+        self.retranslateUi( self )
+        self.setLayout( self.vLayout )
+        self.show()
+        
+        # ===
+        # Signal/Slot Mechanismus
+        # ===
+        self.connect( self.button_box, QtCore.SIGNAL( 'rejected()' ), self.close )
+        
+        
+    def retranslateUi( self, info_dialog ):
+        info_dialog.setWindowTitle( QtGui.QApplication.translate( 'info_dialog', 'Informationen', None, QtGui.QApplication.UnicodeUTF8 ) )
+        info_dialog.setStatusTip( QtGui.QApplication.translate( 'info_dialog', 'http://mks.gironimo.org/', None, QtGui.QApplication.UnicodeUTF8 ) )
+        self.info_edit.setHtml( QtGui.QApplication.translate( 'info_dialog', '<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n'
+'<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n'
+"p, li { white-space: pre-wrap; }\n"
+'</style></head><body style=\' font-family:\'DejaVu Sans\'; font-size:8pt; font-weight:400; font-style:normal;\'>\n'
+'<p style=\' margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\'>Diese Anwendung entstandt während des Praktikums an der HS Augsburg im 3. Semester im Fach Programmieren 3. Das Programm soll eine schrittweise Simulation eines Mehrkörpersystems simulieren.</p>\n'
+'<p style=\'-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\'></p>\n'
+'<p style=\' margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\'>Das Online Handbuch ist unter folgenden Link erreichbar: <a href=\'http://mks.gironimo.org/\'><span style=\' text-decoration: underline; color:#0000ff;\'>http://mks.gironimo.org/</span></a></p>\n'
+'<p style=\'-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\'></p>\n'
+'<p style=\' margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\'>Die Simulation wurde in Java (<a href=\'http://www.java.com/\'><span style=\' text-decoration: underline; color:#0000ff;\'>http://www.java.com/</span></a>) geschrieben. Der Client dagegen in Python (<a href=\'http://www.python.org/\'><span style=\' text-decoration: underline; color:#0000ff;\'>http://www.python.org/</span></a>). Als Framework für die grafische Oberfläche wurde Qt (<a href=\'http://qt.nokia.com/\'><span style=\' text-decoration: underline; color:#0000ff;\'>http://qt.nokia.com/</span></a>) gewählt. Als visuelle Ausgabe der Körper kommt VTK (<a href=\'http://www.vtk.org/\'><span style=\' text-decoration: underline; color:#0000ff;\'>http://www.vtk.org/</span></a>) zum Einsatz. Als Middleware für die Kommunikation zwischen Client und Server wurde die Internet Communication Engine (Ice) aus dem Hause ZeroC (<a href=\'http://www.zeroc.com/\'><span style=\' text-decoration: underline; color:#0000ff;\'>http://www.zeroc.com/</span></a>) implementiert.</p>\n'
+'<p style=\'-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\'></p>\n'
+'<p style=\' margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\'>Das Entwicklungsteam besteht aus:</p>\n'
+'<p style=\' margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\'>Marc Rochow (GUI, Client, Ice)</p>\n'
+'<p style=\' margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\'>Sebastian Schwarz (Server, Ice)</p>\n'
+'<p style=\' margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\'>Anja Radtke (Ice, Client)</p>\n'
+'<p style=\' margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\'>Dominicus Bosch (Testen, Server)</p>\n'
+'<p style=\' margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\'>Hannes Slosharek (Testen, GUI)</p>\n'
+'<p style=\' margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\'>Stefan Wiesner (Testen, Client)</p>\n'
+'<p style=\'-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\'></p>\n'
+'<p style=\' margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\'>Die Anwendung steht unter <a href=\'http://www.fsf.org/licensing/licenses/gpl.html\'><span style=\' text-decoration: underline; color:#0000ff;\'>GNU General Public License 3</span></a>.</p>\n'
+'<p style=\' margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\'>Programm Version 1.0</p></body></html>', None, QtGui.QApplication.UnicodeUTF8))
+
     
+class MainWindow( QtGui.QMainWindow ):
+    
+    def __init__( self, parent = None ):
+        
+        QtGui.QMainWindow.__init__( self, parent)
+        
+        icon = QtGui.QIcon()
+        icon.addPixmap( QtGui.QPixmap( 'icons/application_icon.png' ), QtGui.QIcon.Normal, QtGui.QIcon.Off )
+        
+        icon1 = QtGui.QIcon()
+        icon1.addPixmap(QtGui.QPixmap( 'icons/application_start.png' ), QtGui.QIcon.Normal, QtGui.QIcon.Off )
+        
+        icon2 = QtGui.QIcon()
+        icon2.addPixmap( QtGui.QPixmap( 'icons/application_help.png' ), QtGui.QIcon.Normal, QtGui.QIcon.Off )
+        
+        icon3 = QtGui.QIcon()
+        icon3.addPixmap( QtGui.QPixmap( 'icons/application_exit.png' ), QtGui.QIcon.Normal, QtGui.QIcon.Off )
+        
+        icon4 = QtGui.QIcon()
+        icon4.addPixmap( QtGui.QPixmap( 'icons/application_info.png' ), QtGui.QIcon.Normal, QtGui.QIcon.Off )
+        
         # ===
-        # Qt Widgets
+        # MainWindow Eigenschaften
         # ===
-        self.centralwidget = QtGui.QWidget( MainWindow )
+        self.setObjectName( 'MainWindow' )
+        self.resize( 800, 577 )
+        self.setWindowIcon( icon )
+        self.setUnifiedTitleAndToolBarOnMac( True )
+        
+        # ===
+        # MainWindow Widgets
+        # ===
+        self.centralwidget = QtGui.QWidget( self )
         self.centralwidget.setObjectName( 'centralwidget' )
     
         self.tab_widget_pref = QtGui.QTabWidget( self.centralwidget )
@@ -170,10 +264,7 @@ class Ui_MainWindow( object ):
     
         self.simdata_layout_buttons_pref = QtGui.QVBoxLayout()
         self.simdata_layout_buttons_pref.setObjectName( 'simdata_layout_buttons_pref' )
-    
-        icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap( 'icons/application_start.png' ), QtGui.QIcon.Normal, QtGui.QIcon.Off )
-    
+
         self.start_button = QtGui.QPushButton( self.layoutWidget1 )
         self.start_button.setIcon( icon1 )
         self.start_button.setObjectName( 'start_button' )
@@ -252,10 +343,7 @@ class Ui_MainWindow( object ):
         spacerItem2 = QtGui.QSpacerItem( 40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum )
     
         self.help_button_layout.addItem( spacerItem2 )
-    
-        icon2 = QtGui.QIcon()
-        icon2.addPixmap( QtGui.QPixmap( 'icons/application_help.png' ), QtGui.QIcon.Normal, QtGui.QIcon.Off )
-    
+
         self.help_button = QtGui.QPushButton( self.layoutWidget3 )
         self.help_button.setIcon( icon2 )
         self.help_button.setObjectName( 'help_button' )
@@ -281,15 +369,54 @@ class Ui_MainWindow( object ):
     
         self.qvtk_widget = QVTKRenderWindowInteractor.QVTKRenderWindowInteractor( self.widget )
         self.qvtk_widget.setObjectName( 'qvtk_widget' )
+        
+        self.sphere = vtk.vtkSphereSource()
+        self.sphere.SetRadius( 1.0 )
+        self.sphere.SetPhiResolution( 100 )
+        self.sphere.SetThetaResolution( 100 )
+        
+        self.sphereMapper = vtk.vtkPolyDataMapper()
+        self.sphereMapper.SetInputConnection( self.sphere.GetOutputPort() )
+        
+        self.sphereActor = vtk.vtkActor()
+        self.sphereActor.SetMapper( self.sphereMapper )
+        
+        self.sphereActorCentral = vtk.vtkActor()
+        self.sphereActorCentral.SetMapper( self.sphereMapper )
+        
+        self.sphereActorCentral.GetProperty().SetDiffuseColor(1, 1, 0)
+        
+        self.ren1 = vtk.vtkRenderer()
+        self.ren1.AddActor( self.sphereActor )
+        self.ren1.AddActor( self.sphereActorCentral )
+        self.ren1.SetBackground( 0.1, 0.2, 0.4 )
+        
+        self.light = vtk.vtkLight()
+        self.light.SetPosition( - 200, - 200, 200 )
+        
+        self.ren1.AddLight( self.light )
+        
+        self.cam = self.ren1.GetActiveCamera()
+        self.cam.SetPosition( 0, - 50, 50 )
+        self.cam.SetFocalPoint( 0, 0, 0 )
+        self.cam.SetViewUp( 0, 1, 0 )
+        self.cam.SetViewAngle( 40 )
+        
+        self.ren1.SetActiveCamera( self.cam )
+
+        self.sphere.SetRadius( 2 )
+        
+        self.renderWindow = self.qvtk_widget.GetRenderWindow()
+        self.renderWindow.AddRenderer( self.ren1 )
     
         self.sim_layout.addWidget( self.qvtk_widget )
     
-        MainWindow.setCentralWidget( self.centralwidget )
-    
+        self.setCentralWidget( self.centralwidget )
+        
         # ===
-        # MenuBar
+        # MainWindow MenuBar
         # ===
-        self.menubar = QtGui.QMenuBar( MainWindow )
+        self.menubar = QtGui.QMenuBar( self )
         self.menubar.setGeometry( QtCore.QRect( 0, 0, 800, 21 ) )
         self.menubar.setObjectName( 'menubar' )
     
@@ -299,25 +426,19 @@ class Ui_MainWindow( object ):
         self.menu_help = QtGui.QMenu( self.menubar )
         self.menu_help.setObjectName( 'menu_help' )
     
-        self.start = QtGui.QAction( MainWindow )
+        self.start = QtGui.QAction( self )
         self.start.setIcon( icon1 )
         self.start.setObjectName( 'start' )
-    
-        icon3 = QtGui.QIcon()
-        icon3.addPixmap( QtGui.QPixmap( 'icons/application_exit.png' ), QtGui.QIcon.Normal, QtGui.QIcon.Off )
-    
-        self.exit = QtGui.QAction( MainWindow )
+
+        self.exit = QtGui.QAction( self )
         self.exit.setIcon( icon3 )
         self.exit.setObjectName( 'exit' )
     
-        self.handbook = QtGui.QAction( MainWindow )
+        self.handbook = QtGui.QAction( self )
         self.handbook.setIcon( icon2 )
         self.handbook.setObjectName( 'handbook' )
-    
-        icon4 = QtGui.QIcon()
-        icon4.addPixmap( QtGui.QPixmap( 'icons/application_info.png' ), QtGui.QIcon.Normal, QtGui.QIcon.Off )
-    
-        self.actionInfo = QtGui.QAction( MainWindow )
+
+        self.actionInfo = QtGui.QAction( self )
         self.actionInfo.setIcon( icon4 )
         self.actionInfo.setObjectName( 'actionInfo' )
     
@@ -331,23 +452,23 @@ class Ui_MainWindow( object ):
         self.menubar.addAction( self.menu_simulation.menuAction() )
         self.menubar.addAction( self.menu_help.menuAction() )
     
-        MainWindow.setMenuBar(self.menubar)
-    
+        self.setMenuBar( self.menubar )
+        
         # ===
-        # StatusBar
+        # MainWindow StatusBar
         # ===
-        self.statusbar = QtGui.QStatusBar( MainWindow )
+        self.statusbar = QtGui.QStatusBar( self )
         self.statusbar.setObjectName( 'statusbar' )
     
-        MainWindow.setStatusBar( self.statusbar )
-    
+        self.setStatusBar( self.statusbar )
+        
         # ===
-        # ToolBar
+        # MainWindow ToolBar
         # ===
-        self.toolBar = QtGui.QToolBar( MainWindow )
+        self.toolBar = QtGui.QToolBar( self )
         self.toolBar.setObjectName( 'toolBar' )
     
-        MainWindow.addToolBar( QtCore.Qt.TopToolBarArea, self.toolBar )
+        self.addToolBar( QtCore.Qt.TopToolBarArea, self.toolBar )
     
         self.toolBar.addAction( self.start )
         self.toolBar.addSeparator()
@@ -355,17 +476,97 @@ class Ui_MainWindow( object ):
         self.toolBar.addAction( self.actionInfo )
         self.toolBar.addSeparator()
         self.toolBar.addAction( self.exit )
-    
-    
-        self.retranslateUi( MainWindow )
-    
+        
+        # ===
+        # Übersetzung des MainWindows, Tabreihenfolge festlegen und darstellen
+        # ===
+        self.retranslateUi( self )
         self.tab_widget_pref.setCurrentIndex( 1 )
         self.tab_widget_help.setCurrentIndex( 0 )
+        self.show()
+        
+        # ===
+        # Signal/Slot Mechanismus
+        # ===
+        self.connect( self.exit, QtCore.SIGNAL( 'triggered()' ), self.onExit )
+        self.connect( self.default_button, QtCore.SIGNAL( 'clicked()' ), self.onDefault )
+        #self.connect( self.start_button, QtCore.SIGNAL( 'clicked()' ), self.onStart )
+        #self.connect( self.start, QtCore.SIGNAL( 'triggered()' ), self.onStart )
+        self.connect( self.actionInfo, QtCore.SIGNAL( 'triggered()' ), self.onDialog )
+        self.connect( self.start_button, QtCore.SIGNAL( 'clicked()' ), self.displayVtk )
+
+
+    def onDefault( self ):
+        
+        self.koerper_box.setProperty( 'value', 1 )
+        self.simduration_box.setProperty( 'value', 365 )
+        self.masskoerper_box.setProperty( 'value', 26 )
+        self.masscentral_box.setProperty( 'value', 30 )
+        
+        
+    def onStart( self ):
+        
+        print 'Server: %s' % self.server_box.currentText()
+        print 'Port: %s' % self.port_box.currentText()
+        print 'Anzahl der Körper: %s' % self.koerper_box.value()
+        print 'Simulationsdauer in Tagen: %s' % self.simduration_box.value()
+        print 'Massebereich der Körper: %s' % self.masskoerper_box.value()
+        print 'Massebereich des Zentralkörpers: %s' % self.masscentral_box.value()
+        
+        status = 0
+        ic = None
+        
+        try:
+            ic = Ice.initialize( sys.argv )
+            base = ic.stringToProxy( 'SimpleManagement: default -p 10003' )
+            management = MksIce.ManagementPrx.checkedCast( base )
+            if not management:
+                raise RuntimeError( 'Invalid proxy' )
+            management.initManagement( self.koerper_box.value(), self.simduration_box.value(), self.masskoerper_box.value() * 1.0, self.masscentral_box.value() * 1.0 )
+        except:
+            traceback.print_exc()
+            status = 1
+            
+        if ic:
+            # Clean up
+            try:
+                ic.destroy()
+            except:
+                traceback.print_exc()
+                status = 1
+                
+        sys.exit( status )
     
-        QtCore.QObject.connect( self.exit, QtCore.SIGNAL( 'triggered()' ), MainWindow.close )
-        QtCore.QMetaObject.connectSlotsByName( MainWindow )
-
-
+    
+    def displayVtk( self ):
+        
+        timeStep = 0.01
+        currentTime = 0
+        simulationTime = 30
+        
+        while currentTime < simulationTime:
+            time.sleep( timeStep )
+            currentTime += timeStep
+            pX, pZ = 20. * math.cos( currentTime ), 20. * math.sin( currentTime ) 
+            self.sphereActor.SetPosition( pX, 0, pZ )
+            self.renderWindow.Render()
+            self.qvtk_widget.update()
+        
+        
+    def onDialog( self ):
+        
+        d = InfoDialog()
+        d.exec_()
+        
+        
+    def onExit( self ):
+        
+        ret = QtGui.QMessageBox.question( None, "Ende?", "Wollen Sie wirklich schon gehen?", QtGui.QMessageBox.Yes, QtGui.QMessageBox.No )
+        
+        if ret == QtGui.QMessageBox.Yes:
+            self.close()
+        
+        
     def retranslateUi( self, MainWindow ):
 
         MainWindow.setWindowTitle( QtGui.QApplication.translate( 'MainWindow', 'Mehrkörpersimulation | HS Augsburg', None, QtGui.QApplication.UnicodeUTF8 ) )
@@ -425,3 +626,10 @@ class Ui_MainWindow( object ):
         self.actionInfo.setText( QtGui.QApplication.translate( 'MainWindow', 'Info', None, QtGui.QApplication.UnicodeUTF8 ) )
         self.actionInfo.setStatusTip( QtGui.QApplication.translate( 'MainWindow', 'Information anzeigen', None, QtGui.QApplication.UnicodeUTF8 ) )
         self.actionInfo.setShortcut( QtGui.QApplication.translate( 'MainWindow', 'Ctrl+I', None, QtGui.QApplication.UnicodeUTF8 ) )
+            
+
+if __name__ == '__main__':
+    
+    app = QtGui.QApplication( sys.argv )
+    start = MainWindow()
+    app.exec_()
